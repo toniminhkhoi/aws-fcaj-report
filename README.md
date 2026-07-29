@@ -16,7 +16,7 @@ The device polls for pending commands, executes each command once, and sends an 
 
 - **Report author:** Phạm Lê Minh Khôi
 - **Institution:** Ho Chi Minh City University of Technology (HCMUT) – Faculty of Computer Science and Engineering
-- **Workshop:** [View the online report](https://danielleit241.github.io/aws-fcj-report/)
+- **Workshop:** [View the online report](https://toniminhkhoi.github.io/aws-fcaj-report/)
 
 ---
 
