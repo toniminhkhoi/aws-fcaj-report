@@ -1,5 +1,7 @@
 # AWS IoT Monitoring and Control Dashboard 🚀
 
+🌐 **Language / Ngôn ngữ:** [English](README.md) | [Tiếng Việt](README.vi.md)
+
 An AWS-based system for remote environmental monitoring and IoT device control, built with FastAPI, React, PostgreSQL, YOLO UNO, and AWS services.
 
 > The current scope is a prototype for a single room, `room_01`. It is not a multi-branch Building Management System (BMS) or an enterprise-scale operational platform.

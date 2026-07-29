@@ -1,5 +1,7 @@
 # AWS IoT Monitoring and Control Dashboard 🚀
 
+🌐 **Language / Ngôn ngữ:** [English](README.md) | [Tiếng Việt](README.vi.md)
+
 Hệ thống giám sát môi trường và điều khiển thiết bị IoT từ xa, sử dụng FastAPI, React, PostgreSQL, YOLO UNO và các dịch vụ AWS.
 
 > Phạm vi hiện tại là một mô hình thử nghiệm cho phòng `room_01`. Dự án chưa phải hệ thống Building Management System (BMS) đa chi nhánh hoặc nền tảng vận hành ở quy mô doanh nghiệp.
