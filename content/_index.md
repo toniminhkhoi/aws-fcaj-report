@@ -9,11 +9,11 @@ chapter: false
 
 ### Student Information:
 
-&emsp; **Full Name:** Lê Bảo Khánh
+&emsp; **Full Name:** Phạm Lê Minh Khôi
 
-&emsp; **Phone Number:** 0908380983
+&emsp; **Phone Number:** 0938322647
 
-&emsp; **Email:** lekhanh1210lhp@gmail.com
+&emsp; **Email:** toniminhkhoi@gmail.com
 
 &emsp; **University:** Ho Chi Minh City University of Technology (HCMUT)
 
@@ -21,13 +21,13 @@ chapter: false
 
 &emsp; **Class:** CC23KTM1
 
-&emsp; **Internship Company:** Amazon Web Services Vietnam Co., Ltd.
+&emsp; **Internship Company:** Amazon Web Services Viet Nam Company Limited
 
-&emsp; **Internship Position:** FCAJ Cloud Intern
+&emsp; **Internship Position:** Workforce Bootcamp - First Cloud AI Journey
 
-&emsp; **Internship Duration:** From 15/06/2026 to 23/08/2026
+&emsp; **Internship Duration:** 2 months (from 01/06/2026 to 15/08/2026)
 
-<img src="/images/Ảnh CV_2.jpg" alt="Your profile picture" width="450"/>
+<img src="/images/Ảnh CV.jpg" alt="Your profile picture" width="450"/>
 
 ### Report Content
 

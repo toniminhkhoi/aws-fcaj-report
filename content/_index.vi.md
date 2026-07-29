@@ -9,11 +9,11 @@ chapter: false
 
 ### Thông tin sinh viên:
 
-&emsp; **Họ và tên:** Lê Bảo Khánh
+&emsp; **Họ và tên:** Phạm Lê Minh Khôi
 
-&emsp; **Số điện thoại:** 0908380983
+&emsp; **Số điện thoại:** 0938322647
 
-&emsp; **Email:** lekhanh1210lhp@gmail.com
+&emsp; **Email:** toniminhkhoi@gmail.com
 
 &emsp; **Trường:** Trường Đại học Bách Khoa (HCMUT)
 
@@ -21,11 +21,11 @@ chapter: false
 
 &emsp; **Lớp:** CC23KTM1
 
-&emsp; **Công ty thực tập:** Công ty TNHH Amazon Web Services Vietnam
+&emsp; **Công ty thực tập:** Công ty TNHH Amazon Web Services Viet Nam
 
-&emsp; **Vị trí thực tập:** FCAJ Cloud Intern
+&emsp; **Vị trí thực tập:** Workforce Bootcamp - First Cloud AI Journey
 
-&emsp; **Thời gian thực tập:** Từ ngày 15/06/2026 đến ngày 23/08/2026
+&emsp; **Thời gian thực tập:** 2 tháng (từ ngày 01/06/2026 đến ngày 15/08/2026)
 
 <img src="/images/Le_Bao_Khanh.png" alt="Ảnh đại diện của bạn" width="450"/>
 
