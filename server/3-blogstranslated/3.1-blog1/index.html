@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.134.3">
+    <meta
+  name="description"
+  content=""
+/>
+<meta name="author" content="thienlh@thienlu.com" />
+
+    <link rel="icon" href="../../images/favicon.png" type="image/png">
+
+    <title>Blog 1 :: Internship Report</title>
+
+    
+    <link href="../../css/nucleus.css?1785348040" rel="stylesheet">
+    <link href="../../css/fontawesome-all.min.css?1785348040" rel="stylesheet">
+    <link href="../../css/hybrid.css?1785348040" rel="stylesheet">
+    <link href="../../css/featherlight.min.css?1785348040" rel="stylesheet">
+    <link href="../../css/perfect-scrollbar.min.css?1785348040" rel="stylesheet">
+    <link href="../../css/auto-complete.css?1785348040" rel="stylesheet">
+    <link href="../../css/atom-one-dark-reasonable.css?1785348040" rel="stylesheet">
+    <link href="../../css/theme.css?1785348040" rel="stylesheet">
+    <link href="../../css/hugo-theme.css?1785348040" rel="stylesheet">
+    
+    <link href="../../css/theme-workshop.css?1785348040" rel="stylesheet">
+    
+    
+
+    <script src="../../js/jquery-3.3.1.min.js?1785348040"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+    </style>
+    
+
+  </head>
+  <body class="" data-url="../../3-blogstranslated/3.1-blog1/">
+    <nav
+  id="sidebar"
+  class="showVisitedLinks"
+>
+   
+  <div id="header-wrapper">
+    <div id="header"><a id="logo" href="../../">
+  <svg
+    id="Layer_1"
+    data-name="Layer 1"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 60 30"
+    width="30%"
+  >
+    <defs>
+      <style>
+        .cls-1 {
+          fill: #fff;
+        }
+        .cls-2 {
+          fill: #f90;
+          fill-rule: evenodd;
+        }
+      </style>
+    </defs>
+    <title>AWS-Logo_White-Color</title>
+    <path
+      class="cls-1"
+      d="M14.09,10.85a4.7,4.7,0,0,0,.19,1.48,7.73,7.73,0,0,0,.54,1.19.77.77,0,0,1,.12.38.64.64,0,0,1-.32.49l-1,.7a.83.83,0,0,1-.44.15.69.69,0,0,1-.49-.23,3.8,3.8,0,0,1-.6-.77q-.25-.42-.51-1a6.14,6.14,0,0,1-4.89,2.3,4.54,4.54,0,0,1-3.32-1.19,4.27,4.27,0,0,1-1.22-3.2A4.28,4.28,0,0,1,3.61,7.75,6.06,6.06,0,0,1,7.69,6.46a12.47,12.47,0,0,1,1.76.13q.92.13,1.91.36V5.73a3.65,3.65,0,0,0-.79-2.66A3.81,3.81,0,0,0,7.86,2.3a7.71,7.71,0,0,0-1.79.22,12.78,12.78,0,0,0-1.79.57,4.55,4.55,0,0,1-.58.22l-.26,0q-.35,0-.35-.52V2a1.09,1.09,0,0,1,.12-.58,1.2,1.2,0,0,1,.47-.35A10.88,10.88,0,0,1,5.77.32,10.19,10.19,0,0,1,8.36,0a6,6,0,0,1,4.35,1.35,5.49,5.49,0,0,1,1.38,4.09ZM7.34,13.38a5.36,5.36,0,0,0,1.72-.31A3.63,3.63,0,0,0,10.63,12,2.62,2.62,0,0,0,11.19,11a5.63,5.63,0,0,0,.16-1.44v-.7a14.35,14.35,0,0,0-1.53-.28,12.37,12.37,0,0,0-1.56-.1,3.84,3.84,0,0,0-2.47.67A2.34,2.34,0,0,0,5,11a2.35,2.35,0,0,0,.61,1.76A2.4,2.4,0,0,0,7.34,13.38Zm13.35,1.8a1,1,0,0,1-.64-.16,1.3,1.3,0,0,1-.35-.65L15.81,1.51a3,3,0,0,1-.15-.67.36.36,0,0,1,.41-.41H17.7a1,1,0,0,1,.65.16,1.4,1.4,0,0,1,.33.65l2.79,11,2.59-11A1.17,1.17,0,0,1,24.39.6a1.1,1.1,0,0,1,.67-.16H26.4a1.1,1.1,0,0,1,.67.16,1.17,1.17,0,0,1,.32.65L30,12.39,32.88,1.25A1.39,1.39,0,0,1,33.22.6a1,1,0,0,1,.65-.16h1.54a.36.36,0,0,1,.41.41,1.36,1.36,0,0,1,0,.26,3.64,3.64,0,0,1-.12.41l-4,12.86a1.3,1.3,0,0,1-.35.65,1,1,0,0,1-.64.16H29.25a1,1,0,0,1-.67-.17,1.26,1.26,0,0,1-.32-.67L25.67,3.64,23.11,14.34a1.26,1.26,0,0,1-.32.67,1,1,0,0,1-.67.17Zm21.36.44a11.28,11.28,0,0,1-2.56-.29,7.44,7.44,0,0,1-1.92-.67,1,1,0,0,1-.61-.93v-.84q0-.52.38-.52a.9.9,0,0,1,.31.06l.42.17a8.77,8.77,0,0,0,1.83.58,9.78,9.78,0,0,0,2,.2,4.48,4.48,0,0,0,2.43-.55,1.76,1.76,0,0,0,.86-1.57,1.61,1.61,0,0,0-.45-1.16A4.29,4.29,0,0,0,43,9.22l-2.41-.76A5.15,5.15,0,0,1,38,6.78a3.94,3.94,0,0,1-.83-2.41,3.7,3.7,0,0,1,.45-1.85,4.47,4.47,0,0,1,1.19-1.37A5.27,5.27,0,0,1,40.51.29,7.4,7.4,0,0,1,42.6,0a8.87,8.87,0,0,1,1.12.07q.57.07,1.08.19t.95.26a4.27,4.27,0,0,1,.7.29,1.59,1.59,0,0,1,.49.41.94.94,0,0,1,.15.55v.79q0,.52-.38.52a1.76,1.76,0,0,1-.64-.2,7.74,7.74,0,0,0-3.2-.64,4.37,4.37,0,0,0-2.21.47,1.6,1.6,0,0,0-.79,1.48,1.58,1.58,0,0,0,.49,1.18,4.94,4.94,0,0,0,1.83.92L44.55,7a5.08,5.08,0,0,1,2.57,1.6A3.76,3.76,0,0,1,47.9,11a4.21,4.21,0,0,1-.44,1.93,4.4,4.4,0,0,1-1.21,1.47,5.43,5.43,0,0,1-1.85.93A8.25,8.25,0,0,1,42.05,15.62Z"
+    ></path>
+    <path
+      class="cls-2"
+      d="M45.19,23.81C39.72,27.85,31.78,30,25,30A36.64,36.64,0,0,1,.22,20.57c-.51-.46-.06-1.09.56-.74A49.78,49.78,0,0,0,25.53,26.4,49.23,49.23,0,0,0,44.4,22.53C45.32,22.14,46.1,23.14,45.19,23.81Z"
+    ></path>
+    <path
+      class="cls-2"
+      d="M47.47,21.21c-.7-.9-4.63-.42-6.39-.21-.53.06-.62-.4-.14-.74,3.13-2.2,8.27-1.57,8.86-.83s-.16,5.89-3.09,8.35c-.45.38-.88.18-.68-.32C46.69,25.8,48.17,22.11,47.47,21.21Z"
+    ></path>
+  </svg>
+</a>
+</div>
+     <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="../../js/lunr.min.js?1785348040"></script>
+<script type="text/javascript" src="../../js/auto-complete.js?1785348040"></script>
+<script type="text/javascript">
+    
+    
+        var baseurl = "https:\/\/danielleit241.github.io\/aws-fcj-report\/";
+    
+</script>
+<script type="text/javascript" src="../../js/search.js?1785348040"></script>
+ 
+  </div>
+
+  <div class="highlightable">
+    <ul class="topics">
+               
+<li
+  data-nav-id="/1-worklog/"
+  title="Worklog"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../1-worklog/">
+     <b> 1. </b> Worklog 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+  <ul>
+          
+            
+<li
+  data-nav-id="/1-worklog/1.1-week1/"
+  title="Week 1 Worklog"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../1-worklog/1.1-week1/">
+     <b> 1.1. </b> Week 1 Worklog 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/1-worklog/1.2-week2/"
+  title="Week 2 Worklog"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../1-worklog/1.2-week2/">
+     <b> 1.2. </b> Week 2 Worklog 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/1-worklog/1.3-week3/"
+  title="Week 3 Worklog"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../1-worklog/1.3-week3/">
+     <b> 1.3. </b> Week 3 Worklog 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/1-worklog/1.4-week4/"
+  title="Week 4 Worklog"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../1-worklog/1.4-week4/">
+     <b> 1.4. </b> Week 4 Worklog 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/1-worklog/1.5-week5/"
+  title="Week 5 Worklog"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../1-worklog/1.5-week5/">
+     <b> 1.5. </b> Week 5 Worklog 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/1-worklog/1.6-week6/"
+  title="Week 6 Worklog"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../1-worklog/1.6-week6/">
+     <b> 1.6. </b> Week 6 Worklog 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/1-worklog/1.7-week7/"
+  title="Week 7 Worklog"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../1-worklog/1.7-week7/">
+     <b> 1.7. </b> Week 7 Worklog 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/1-worklog/1.8-week8/"
+  title="Week 8 Worklog"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../1-worklog/1.8-week8/">
+     <b> 1.8. </b> Week 8 Worklog 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/1-worklog/1.9-week9/"
+  title="[Expected] Week 9 Worklog"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../1-worklog/1.9-week9/">
+     <b> 1.9. </b> [Expected] Week 9 Worklog 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/1-worklog/1.10-week10/"
+  title="[Expected] Week 10 Worklog"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../1-worklog/1.10-week10/">
+     <b> 1.10. </b> [Expected] Week 10 Worklog 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+     
+  </ul>
+  
+</li>
+           
+<li
+  data-nav-id="/2-proposal/"
+  title="Proposal"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../2-proposal/">
+     <b> 2. </b> Proposal 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+           
+<li
+  data-nav-id="/3-blogstranslated/"
+  title="Translated Blogs"
+  class="dd-item 
+        parent
+        
+        
+        "
+>
+  <a href="../../3-blogstranslated/">
+     <b> 3. </b> Translated Blogs 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+  <ul>
+          
+            
+<li
+  data-nav-id="/3-blogstranslated/3.1-blog1/"
+  title="Blog 1"
+  class="dd-item 
+        
+        active
+        
+        "
+>
+  <a href="../../3-blogstranslated/3.1-blog1/">
+     <b> 3.1. </b> Blog 1 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/3-blogstranslated/3.2-blog2/"
+  title="Blog 2"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../3-blogstranslated/3.2-blog2/">
+     <b> 3.2. </b> Blog 2 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/3-blogstranslated/3.3-blog3/"
+  title="Blog 3"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../3-blogstranslated/3.3-blog3/">
+     <b> 3.3. </b> Blog 3 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+     
+  </ul>
+  
+</li>
+           
+<li
+  data-nav-id="/4-eventparticipated/"
+  title="Events Participated"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../4-eventparticipated/">
+     <b> 4. </b> Events Participated 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+  <ul>
+          
+            
+<li
+  data-nav-id="/4-eventparticipated/4.1-event1/"
+  title="Event 1"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../4-eventparticipated/4.1-event1/">
+     <b> 4.1. </b> Event 1 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/4-eventparticipated/4.2-event2/"
+  title="Event 2"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../4-eventparticipated/4.2-event2/">
+     <b> 4.2. </b> Event 2 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/4-eventparticipated/4.3-event3/"
+  title="Event 3"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../4-eventparticipated/4.3-event3/">
+     <b> 4.3. </b> Event 3 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+     
+  </ul>
+  
+</li>
+           
+<li
+  data-nav-id="/5-workshop/"
+  title="Workshop"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/">
+     <b> 5. </b> Workshop 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+  <ul>
+          
+            
+<li
+  data-nav-id="/5-workshop/5.1-workshop-overview/"
+  title="Workshop Overview"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.1-workshop-overview/">
+     <b> 5.1. </b> Workshop Overview 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/5-workshop/5.2-prerequisites/"
+  title="Prerequisites"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.2-prerequisites/">
+     <b> 5.2. </b> Prerequisites 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/5-workshop/5.3-architecture-and-service-design/"
+  title="Architecture and Service Design"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.3-architecture-and-service-design/">
+     <b> 5.3. </b> Architecture and Service Design 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/5-workshop/5.4-aws-infrastructure-setup/"
+  title="AWS Infrastructure Setup"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.4-aws-infrastructure-setup/">
+     <b> 5.4. </b> AWS Infrastructure Setup 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/5-workshop/5.5-backend-and-database/"
+  title="Backend Deployment and Database Integration"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.5-backend-and-database/">
+     <b> 5.5. </b> Backend Deployment and Database Integration 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/5-workshop/5.6-hardware-integration/"
+  title="Hardware Integration"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.6-hardware-integration/">
+     <b> 5.6. </b> Hardware Integration 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/5-workshop/5.7-frontend-integration/"
+  title="Frontend Integration"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.7-frontend-integration/">
+     <b> 5.7. </b> Frontend Integration 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/5-workshop/5.8-end-to-end-testing/"
+  title="End-to-End Testing and Validation"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.8-end-to-end-testing/">
+     <b> 5.8. </b> End-to-End Testing and Validation 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/5-workshop/5.9-cloudwatch-monitoring/"
+  title="Monitoring with CloudWatch"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.9-cloudwatch-monitoring/">
+     <b> 5.9. </b> Monitoring with CloudWatch 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/5-workshop/5.10-cost-security-cleanup/"
+  title="Cost, Security and Clean-up"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.10-cost-security-cleanup/">
+     <b> 5.10. </b> Cost, Security and Clean-up 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/5-workshop/5.11-results-challenges-future/"
+  title="Results, Challenges and Future Improvements"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.11-results-challenges-future/">
+     <b> 5.11. </b> Results, Challenges and Future Improvements 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/5-workshop/5.12-project-handover/"
+  title="Project Handover"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.12-project-handover/">
+     <b> 5.12. </b> Project Handover 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+     
+  </ul>
+  
+</li>
+           
+<li
+  data-nav-id="/6-self-evaluation/"
+  title="Self-Assessment"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../6-self-evaluation/">
+     <b> 6. </b> Self-Assessment 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+           
+<li
+  data-nav-id="/7-feedback/"
+  title="Sharing and Feedback"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../7-feedback/">
+     <b> 7. </b> Sharing and Feedback 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+    </ul>
+
+     
+    <section id="shortcuts">
+      <h3>
+        More
+      </h3>
+      <ul>
+        
+        <li>
+          <a class="padding" href="https://www.facebook.com/groups/awsstudygroupfcj/"
+            ><i class='fab fa-facebook'></i> AWS Study Group</a
+          >
+        </li>
+        
+      </ul>
+    </section>
+      
+    <section id="prefooter">
+      <hr />
+      <ul>
+        
+        <li>
+          <a class="padding">
+            <i class="fas fa-language fa-fw"></i>
+            <div class="select-style">
+              <select id="select-language" onchange="location = this.value;">
+                       
+                <option
+                  id="en"
+                  value="https://danielleit241.github.io/aws-fcj-report/3-blogstranslated/3.1-blog1/"
+                  selected
+                >
+                  English
+                </option>
+                            
+                <option
+                  id="vi"
+                  value="https://danielleit241.github.io/aws-fcj-report/vi/3-blogstranslated/3.1-blog1/"
+                >
+                  Tiếng Việt
+                </option>
+                   
+              </select>
+              <svg
+                version="1.1"
+                id="Capa_1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                x="0px"
+                y="0px"
+                width="255px"
+                height="255px"
+                viewBox="0 0 255 255"
+                style="enable-background: new 0 0 255 255"
+                xml:space="preserve"
+              >
+                <g>
+                  <g id="arrow-drop-down">
+                    <polygon points="0,63.75 127.5,191.25 255,63.75     " />
+                  </g>
+                </g>
+              </svg>
+            </div>
+          </a>
+        </li>
+         
+        <li>
+          <a class="padding" href="#" data-clear-history-toggle=""
+            ><i class="fas fa-history fa-fw"></i> Clear History</a
+          >
+        </li>
+        
+      </ul>
+    </section>
+    
+    <section id="footer"><left>
+    
+    <b> Workshop</b> <br>
+    <img src="https://hitwebcounter.com/counter/counter.php?page=7920860&style=0038&nbdigits=9&type=page&initCount=0"
+        title="Migrate" Alt="web counter" border="0" /></a> <br>
+    <b> <a href="https://cloudjourney.awsstudygroup.com/">Cloud Journey</a></b> <br>
+    <img src="https://hitwebcounter.com/counter/counter.php?page=7830807&style=0038&nbdigits=9&type=page&initCount=0"
+        title="Total CLoud Journey" Alt="web counter" border="0" />
+
+</left>
+<left>
+    <br>
+    <br>
+    <b>Last Updated</b><br>
+    <i>
+        <span id="lastUpdated" style="color:orange;"></span>
+    </i>
+
+    <script>
+        
+        const today = new Date();
+        
+        const formattedDate = today.toLocaleDateString('en-GB');
+        
+        document.getElementById('lastUpdated').textContent = formattedDate;
+    </script>
+</left>
+<left>
+    <br>
+    <br>
+    <b> Team </b> <br>
+
+    <i> <a href="https://www.facebook.com/groups/660548818043427" style="color:orange">First Cloud Journey</a> <br>
+
+    </i>
+</left>
+
+<script async defer src="https://buttons.github.io/buttons.js"></script></section>
+  </div>
+</nav>
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='../../'>Internship Report</a> > <a href='../../3-blogstranslated/'>Translated Blogs</a> > Blog 1
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+  <div class="wrapper"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#apache-flink-and-managed-service-for-apache-flink"><strong>Apache Flink and Managed Service for Apache Flink</strong></a></li>
+    <li><a href="#the-challenge-of-real-time-iot-data-at-scale"><strong>The challenge of real-time IoT data at scale</strong></a></li>
+    <li><a href="#images3-blogstranslated31-blog1image_1jpg"><img src="../../images/3-BlogsTranslated/3.1-Blog1/image_1.jpg" alt=""></a></li>
+    <li><a href="#images3-blogstranslated31-blog1image_2jpg"><img src="../../images/3-BlogsTranslated/3.1-Blog1/image_2.jpg" alt=""></a></li>
+    <li><a href="#the-decision-to-migrate-the-aggregation-application-to-managed-service-for-apache-flink"><strong>The decision to migrate the aggregation application to Managed Service for Apache Flink</strong></a></li>
+    <li><a href="#the-journey-of-choosing-the-right-apache-flink-api"><strong>The journey of choosing the right Apache Flink API</strong></a></li>
+    <li><a href="#the-journey-to-production-readiness"><strong>The journey to production readiness</strong></a></li>
+    <li><a href="#images3-blogstranslated31-blog1image_3jpg"><img src="../../images/3-BlogsTranslated/3.1-Blog1/image_3.jpg" alt=""></a></li>
+    <li><a href="#key-takeaways"><strong>Key takeaways</strong></a></li>
+    <li><a href="#conclusion"><strong>Conclusion</strong></a></li>
+    <li><a href="#about-the-authors"><strong>About the authors</strong></a></li>
+  </ul>
+</nav></div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              Blog 1
+            </h1>
+          
+
+        
+
+
+
+	<h1 id="how-postnl-processes-billions-of-iot-events-with-amazon-managed-service-for-apache-flink"><strong>How PostNL processes billions of IoT events with Amazon Managed Service for Apache Flink</strong></h1>
+<p><em>by Çağrı Çakır, Ozge Kavalci, Amit Singh, and Lorenzo Nicora on 15 JUL 2024 in <a href="https://aws.amazon.com/vi/blogs/big-data/category/analytics/amazon-managed-service-for-apache-flink/">Amazon Managed Service for Apache Flink</a>, <a href="https://aws.amazon.com/vi/blogs/big-data/category/analytics/">Analytics</a>, <a href="https://aws.amazon.com/vi/blogs/big-data/category/post-types/customer-solutions/">Customer Solutions</a>, <a href="https://aws.amazon.com/vi/blogs/big-data/category/internet-of-things/">Internet of Things</a>, <a href="https://aws.amazon.com/vi/blogs/big-data/category/analytics/amazon-kinesis/kinesis-data-analytics/">Kinesis Data Analytics</a></em></p>
+<p><strong>This post is co-written with Çağrı Çakır and Özge Kavalcı from PostNL.</strong></p>
+<p><a href="https://www.postnl.nl/en/"><strong>PostNL</strong></a> is the designated universal postal service provider for the Netherlands and has three main business units offering postal delivery, parcel delivery, and logistics solutions for ecommerce and cross-border solutions. With 5,800 retail points, 11,000 mailboxes, and over 900 automated parcel lockers, the company plays an important role in the logistics value chain. It aims to be the delivery organization of choice by making it as easy as possible to send and receive parcels and mail. With almost 34,000 employees, PostNL is at the heart of society. On a typical weekday, the company delivers an average of 1.1 million parcels and 6.9 million letters across Belgium, Netherlands, and Luxemburg.</p>
+<p>In this post, we describe the legacy PostNL stream processing solution, its challenges, and why PostNL chose <a href="https://aws.amazon.com/managed-service-apache-flink/"><strong>Amazon Managed Service for Apache Flink</strong></a> to help modernize their Internet of Things (IoT) data stream processing platform. We provide a reference architecture, describe the steps we took to migrate to <a href="https://flink.apache.org/"><strong>Apache Flink</strong></a>, and the lessons learned along the way.</p>
+<p>With this migration, PostNL has been able to build a scalable, robust, and extendable stream processing solution for their IoT platform. Apache Flink is a perfect fit for IoT. Scaling horizontally, it allows processing the sheer volume of data generated by IoT devices. With event time semantics, you can correctly handle events in the order they were generated, even from occasionally disconnected devices.</p>
+<p>PostNL is excited about the potential of Apache Flink, and now plans to use Managed Service for Apache Flink with other streaming use cases and shift more business logic upstream into Apache Flink.</p>
+<h2 id="apache-flink-and-managed-service-for-apache-flink"><strong>Apache Flink and Managed Service for Apache Flink</strong></h2>
+<p>Apache Flink is a distributed computation framework that allows for stateful real-time data processing. It provides a single set of APIs for building batch and streaming jobs, making it straightforward for developers to work with bounded and unbounded data. Managed Service for Apache Flink is an AWS service that provides a serverless, fully managed infrastructure for running Apache Flink applications. Developers can build highly available, fault-tolerant, and scalable Apache Flink applications with ease and without needing to become an expert in building, configuring, and maintaining Apache Flink clusters on AWS.</p>
+<h2 id="the-challenge-of-real-time-iot-data-at-scale"><strong>The challenge of real-time IoT data at scale</strong></h2>
+<p>Today, PostNL’s IoT platform, <a href="https://www.youtube.com/watch?v=oOtXz08OUec"><strong>Roller Cages solution</strong></a>, tracks more than 380,000 assets with Bluetooth Low Energy (BLE) technology in near real time. The IoT platform was designed to provide availability, geofencing, and bottom state events of each asset by using telemetry sensor data such as GPS points and accelerometers that are coming from Bluetooth devices. Those events are used by different internal consumers to make logistical operations straightforward to plan, more efficient, and sustainable.</p>
+<h2 id="images3-blogstranslated31-blog1image_1jpg"><img src="../../images/3-BlogsTranslated/3.1-Blog1/image_1.jpg"></h2>
+<p>Tracking this high volume of assets emitting different sensor readings inevitably creates billions of raw IoT events for the IoT platform as well as for the downstream systems. Handling this load repeatedly both within the IoT platform and throughout the downstream systems was neither cost-efficient nor easy to maintain. To reduce the cardinality of events, the IoT platform uses stream processing to aggregate data over fixed time windows. These aggregations must be based on the moment when the device emitted the event. This type of aggregation based on event time becomes complex when messages may be delayed and arrive out of order, which may frequently happen with IoT devices that can get disconnected temporarily.</p>
+<p>The following diagram illustrates the overall flow from edge to the downstream systems.</p>
+<h2 id="images3-blogstranslated31-blog1image_2jpg"><img src="../../images/3-BlogsTranslated/3.1-Blog1/image_2.jpg"></h2>
+<p>The workflow consists of the following components:</p>
+<ol>
+<li>
+<p>The edge architecture includes IoT BLE devices that serve as sources of telemetry data, and gateway devices that connect these IoT devices to the IoT platform.</p>
+</li>
+<li>
+<p>Inlets contain a set of AWS services such as <a href="https://aws.amazon.com/iot-core/"><strong>AWS IoT Core</strong></a> and <a href="https://aws.amazon.com/api-gateway/"><strong>Amazon API Gateway</strong></a> to collect IoT detections using MQTTS or HTTPS and deliver them to the source data stream using <a href="https://aws.amazon.com/kinesis/data-streams"><strong>Amazon Kinesis Data Streams</strong></a>.</p>
+</li>
+<li>
+<p>The aggregation application filters IoT detections, aggregates them for a fixed time window, and sinks aggregations to the destination data stream.</p>
+</li>
+<li>
+<p>Event producers are the combination of different stateful services that generate IoT events such as geofencing, availability, bottom state, and in-transit.</p>
+</li>
+<li>
+<p>Outlets, including services such as <a href="https://aws.amazon.com/eventbridge/"><strong>Amazon EventBridge</strong></a>, <a href="https://aws.amazon.com/firehose/"><strong>Amazon Data Firehose</strong></a>, and Kinesis Data Streams, deliver produced events to consumers.</p>
+</li>
+<li>
+<p>Consumers, which are internal teams, interpret IoT events and build business logic based on them.</p>
+</li>
+</ol>
+<p>The core component of this architecture is the aggregation application. This component was originally implemented using a legacy stream processing technology. For several reasons, as we discuss shortly, PostNL decided to evolve this critical component. The journey of replacing the legacy stream processing with Managed Service for Apache Flink is the focus of the rest of this post.</p>
+<h2 id="the-decision-to-migrate-the-aggregation-application-to-managed-service-for-apache-flink"><strong>The decision to migrate the aggregation application to Managed Service for Apache Flink</strong></h2>
+<p>As the number of connected devices grows, so does the necessity for a robust and scalable platform capable of handling and aggregating massive volumes of IoT data. After thorough analysis, PostNL opted to migrate to Managed Service for Apache Flink, driven by several strategic considerations that align with evolving business needs:</p>
+<ul>
+<li>
+<p><strong>Enhanced data aggregation</strong> – Using Apache Flink’s strong capabilities in real-time data processing enables PostNL to efficiently aggregate raw IoT data from various sources. The ability to extend the aggregation logic beyond what was provided by the current solution can unlock more sophisticated analytics and more informed decision-making processes.</p>
+</li>
+<li>
+<p><strong>Scalability</strong> – The managed service provides the ability to scale your application horizontally. This allows PostNL to handle increasing data volumes effortlessly as the number of IoT devices grows. This scalability means that data processing capabilities can expand in tandem with the business.</p>
+</li>
+<li>
+<p><strong>Focus on core business</strong> – By adopting a managed service, the IoT platform team can focus on implementing business logic and develop new use cases. The learning curve and overhead of operating Apache Flink at scale would have diverted valuable energies and resources of the relatively small team, slowing down the adoption process.</p>
+</li>
+<li>
+<p><strong>Cost-effectiveness</strong> – Managed Service for Apache Flink employs a pay-as-you-go model that aligns with operational budgets. This flexibility is particularly beneficial for managing costs in line with fluctuating data processing needs.</p>
+</li>
+</ul>
+<p><strong>Challenges of handling late events</strong></p>
+<p>Common stream processing use cases require aggregating events based on when they were generated. This is called event time semantics. When implementing this type of logic, you may encounter the problem of delayed events, in which events reach your processing system late, long after other events generated around the same time.</p>
+<p>Late events are common in IoT due to reasons inherent to the environment, such as network delays, device failures, temporarily disconnected devices, or downtime. IoT devices often communicate over wireless networks, which can introduce delays in transmitting data packets. And sometimes they may experience intermittent connectivity issues, resulting in data being buffered and sent in batches after connectivity is restored. This may result in events being processed out of order—some events may be processed several minutes after other events that were generated around the same time.</p>
+<p>Imagine you want to aggregate events generated by devices within a specific 10-second window. If events can be several minutes late, how can you be sure you have received all events that were generated in those 10 seconds?</p>
+<p>A simple implementation may just wait for several minutes, allowing late events to arrive. But this method means that you can’t calculate the result of your aggregation until several minutes later, increasing the output latency. Another solution would be waiting a few seconds, and then dropping any events arriving later.</p>
+<p>Increasing latency or dropping events that may contain critical information are not palatable options for the business. The solution must be a good compromise, a trade-off between latency and completeness.</p>
+<p>Apache Flink offers event time semantics out of the box. In contrast to other stream processing frameworks, Flink offers multiple options for dealing with late events. We dive into how Apache Flink deal with late events next.</p>
+<p><strong>A powerful stream processing API</strong></p>
+<p>Apache Flink provides a rich set of operators and libraries for common data processing tasks, including windowing, joins, filters, and transformations. It also includes over 40 connectors for various data sources and sinks, including streaming systems like <a href="https://kafka.apache.org/"><strong>Apache Kafka</strong></a> and <a href="https://aws.amazon.com/msk/"><strong>Amazon Managed Streaming for Apache Kafka</strong></a>, or Kinesis Data Streams, databases, and also file system and object stores like <a href="https://aws.amazon.com/s3/"><strong>Amazon Simple Storage Service</strong></a> (Amazon S3).</p>
+<p>But the most important characteristic for PostNL is that Apache Flink offers different <a href="https://nightlies.apache.org/flink/flink-docs-master/docs/concepts/overview/#flinks-apis"><strong>APIs with different level of abstractions</strong></a>. You can start with a higher level of abstraction, <a href="https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/table/sql/overview/"><strong>SQL</strong></a>, or <a href="https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/table/overview/"><strong>Table API</strong></a>. These APIs abstract streaming data as more familiar tables, making them easier to learn for simpler use cases. If your logic becomes more complex, you can switch to the lower level of abstraction of the <a href="https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/datastream/overview/"><strong>DataStream API</strong></a>, where streams are represented natively, closer to the processing happening inside Apache Flink. If you need the finest-grained level of control on how each single event is handled, you can switch to the <a href="https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/datastream/operators/process_function/"><strong>Process Function</strong></a>.</p>
+<p>A key learning has been that choosing one level of abstraction for your application is not an irreversible architectural decision. In the same application, you can mix different APIs, depending on the level of control you need at that specific step.</p>
+<p><strong>Scaling horizontally</strong></p>
+<p>To process billions of raw events and grow with the business, the ability to scale was an essential requirement for PostNL. Apache Flink is designed to scale horizontally, distributing processing and application state across multiple processing nodes, with the ability to scale out further when the workload grows.</p>
+<p>For this particular use case, PostNL had to aggregate the sheer volume of raw events with similar characteristics and over time, to reduce their cardinality and make the data flow manageable for the other systems downstream. These aggregations go beyond simple transformations that handle one event at a time. They require a framework capable of stateful stream processing. This is exactly the type of use case Apache Flink was designed for.</p>
+<p><strong>Advanced event time semantics</strong></p>
+<p>Apache Flink emphasizes event time processing, which enables accurate and consistent handling of data with respect to the time it occurred. By providing built-in support for event time semantics, Flink can handle out-of-order events and late data gracefully. This capability was fundamental for PostNL. As mentioned, IoT generated events may arrive late and out of order. However, the aggregation logic must be based on the moment the measurement was actually taken by the device—the event time—and not when it’s processed.</p>
+<p><strong>Resiliency and guarantees</strong></p>
+<p>PostNL had to make sure no data sent from the device is lost, even in case of failure or restart of the application. Apache Flink offers strong fault tolerance guarantees through its distributed snapshot-based checkpointing mechanism. In the event of failures, Flink can recover the state of the computations and achieve exactly-once semantics of the result. For example, each event from a device is never missed nor counted twice, even in the event of an application failure.</p>
+<h2 id="the-journey-of-choosing-the-right-apache-flink-api"><strong>The journey of choosing the right Apache Flink API</strong></h2>
+<p>A key requirement of the migration was reproducing exactly the behavior of the legacy aggregation application, as expected by the downstream systems that can’t be modified. This introduced several additional challenges, in particular around windowing semantics and late event handling.</p>
+<p>As we have seen, in IoT, events may be out of order by several minutes. Apache Flink offers two high-level concepts for implementing event time semantics with out-of-order events: <a href="https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/concepts/time/#event-time-and-watermarks"><strong>watermarks</strong></a> and <a href="https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/datastream/operators/windows/#allowed-lateness"><strong>allowed lateness</strong></a>.</p>
+<p>Apache Flink provides a range of flexible APIs with different levels of abstraction. After some initial research, <a href="https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/table/overview/"><strong>Flink-SQL and the Table API</strong></a> were discarded. These higher levels of abstraction provide advanced windowing and event time semantics, but couldn’t provide the fine-grained control PostNL needed to reproduce exactly the behavior of the legacy application.</p>
+<p>The lower level of abstraction of the <a href="https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/datastream/overview/"><strong>DataStream API</strong></a> also offers windowing aggregation capabilities, and allows you to customize the behaviors with custom <a href="https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/datastream/operators/windows/#triggers"><strong>triggers</strong></a>, <a href="https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/datastream/operators/windows/#evictors"><strong>evictors</strong></a>, and handling late events by setting an <a href="https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/datastream/operators/windows/#allowed-lateness"><strong>allowed lateness</strong></a>.</p>
+<p>Unfortunately, the legacy application was designed to handle late events in a peculiar way. The result was a hybrid event time and processing time logic that couldn’t be easily reproduced using high-level Apache Flink primitives.</p>
+<p>Fortunately, Apache Flink offers a further lower level of abstraction, the <a href="https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/datastream/operators/process_function/#the-processfunction"><strong>ProcessFunction API</strong></a>. With this API, you have the finest-grained control on application state, and you can use <a href="https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/datastream/operators/process_function/#timers"><strong>timers</strong></a> to implement virtually any custom time-based logic.</p>
+<p>PostNL decided to go in this direction. The aggregation was implemented using a <a href="https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/datastream/operators/process_function/#the-keyedprocessfunction"><strong>KeyedProcessFunction</strong></a> that provides a way to perform arbitrary stateful processing on keyed streams—logically partitioned streams. Raw events from each IoT device are aggregated based on their event time (the timestamp written on the event by the source device) and the results of each window is emitted based on processing time (the current system time).</p>
+<p>This fine-grained control finally allowed PostNL to reproduce exactly the behavior expected by the downstream applications.</p>
+<h2 id="the-journey-to-production-readiness"><strong>The journey to production readiness</strong></h2>
+<p>Let’s explore the journey of migrating to Managed Service for Apache Flink, from the start of the project to the rollout to production.</p>
+<p><strong>Identifying requirements</strong></p>
+<p>The first step of the migration process focused on thoroughly understanding the existing system’s architecture and performance metrics. The goal was to provide a seamless transition to Managed Service for Apache Flink with minimal disruption to ongoing operations.</p>
+<p><strong>Understanding Apache Flink</strong></p>
+<p>PostNL needed to familiarize themselves with the Managed Service for Apache Flink application and its streaming processing capabilities, including built-in <a href="https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/datastream/operators/windows/"><strong>windowing strategies</strong></a>, aggregation functions, <a href="https://nightlies.apache.org/flink/flink-docs-release-1.18/docs/concepts/time/#notions-of-time-event-time-and-processing-time"><strong>event time vs. processing time</strong></a> differences, and finally <a href="https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/datastream/operators/process_function/#the-keyedprocessfunction"><strong>KeyProcessFunction</strong></a> and mechanisms for handling late events.</p>
+<p>Different options were considered, using primitives provided by Apache Flink out of the box, for event time logic and late events. The biggest requirement was to reproduce exactly the behavior of the legacy application. The ability to switch to using a lower level of abstraction helped. Using the finest-grained control allowed by the ProcessFunction API, PostNL was able to handle late events exactly as the legacy application.</p>
+<p><strong>Designing and implementing ProcessFunction</strong></p>
+<p>The business logic is designed using ProcessFunction to emulate the peculiar behavior of the legacy application in handling late events without excessively delaying the initial results. PostNL decided to use Java for the implementation, because Java is the primary language for Apache Flink. Apache Flink allows you to develop and test your application locally, in your preferred integrated development environment (IDE), using all the available debug tools, before deploying it to Managed Service for Apache Flink. Java 11 with Maven compiler was used for implementation. For more information about IDE requirements, refer to <a href="https://docs.aws.amazon.com/managed-flink/latest/java/getting-started.html"><strong>Getting started with Amazon Managed Service for Apache Flink (DataStream API)</strong></a>.</p>
+<p><strong>Testing and validation</strong></p>
+<p>The following diagram shows the architecture used to validate the new application.</p>
+<h2 id="images3-blogstranslated31-blog1image_3jpg"><img src="../../images/3-BlogsTranslated/3.1-Blog1/image_3.jpg"></h2>
+<p>To validate the behavior of the ProcessFunction and late event handling mechanisms, integration tests were designed to run both the legacy application and the Managed Service for Flink application in parallel (Steps 3 and 4). This parallel execution allowed PostNL to directly compare the results generated by each application under identical conditions. Multiple integration test cases push data to the source stream (2) in parallel (7) and wait until their aggregation window is complete, then they pull the aggregated results from the destination stream to compare (8). Integration tests are automatically triggered by the CI/CD pipeline after deployment of the infrastructure is complete. During the integration tests, the primary focus was on achieving data consistency and processing accuracy between the legacy application and the Managed Service for Flink application. The output streams, aggregated data, and processing latencies were compared to validate that the migration didn’t introduce any unexpected discrepancies. For writing and running the integration tests, <a href="https://robotframework.org/"><strong>Robot Framework</strong></a>, an open source automation framework, was utilized.</p>
+<p>After the integration tests are passed, there is one more validation layer: end-to-end tests. Similar to the integration tests, end-to-end tests are automatically invoked by the CI/CD pipeline after the deployment of the platform infrastructure is complete. This time, multiple end-to-end test cases send data to AWS IoT Core (1) in parallel (9) and check the aggregated results from the destination S3 bucket (5, 6) dumped from the output stream to compare (10).</p>
+<p><strong>Deployment</strong></p>
+<p>PostNL decided to run the new Flink application on shadow mode. The new application ran for some time in parallel with the legacy application, consuming exactly the same inputs, and sending output from both applications to a data lake on Amazon S3. This allowed them to compare the results of the two applications using real production data, and also to test the stability and performance of the new one.</p>
+<p><strong>Performance optimization</strong></p>
+<p>During migration, the PostNL IoT platform team learned how the Flink application can be fine-tuned for optimal performance, considering factors such as data volume, processing speed, and efficient late event handling. A particularly interesting aspect was to verify that the state size wasn’t increasing unbounded over the long term. A risk of using the finest-grained control of ProcessFunction is state leak. This happens when your implementation, directly controlling the state in the ProcessFunction, misses some corner cases where a state is never deleted. This causes the state to grow unbounded. Because streaming applications are designed to run continuously, an expanding state can degrade performance and eventually exhaust memory or local disk space.</p>
+<p>With this phase of testing, PostNL found the right balance of application parallelism and resources—including compute, memory, and storage—to process the normal daily workload profile without lag, and handle occasional peaks without over-provisioning, optimizing both performance and cost-effectiveness.</p>
+<p><strong>Final switch</strong></p>
+<p>After running the new application in shadow mode for some time, the team decided the application was stable and emitting the expected output. The PostNL IoT platform finally switched over to production and shut down the legacy application.</p>
+<h2 id="key-takeaways"><strong>Key takeaways</strong></h2>
+<p>Among the several learnings gathered in the journey of adopting Managed Service for Apache Flink, some are particularly important, and proving key when expanding to new and diverse use cases:</p>
+<ul>
+<li>
+<p><strong>Understand event time semantics</strong> – A deep understanding of event time semantics is crucial in Apache Flink for accurately implementing time-dependent data operations. This knowledge makes sure events are processed correctly relative to when they actually occurred.</p>
+</li>
+<li>
+<p><strong>Use the powerful Apache Flink API</strong> – Apache Flink’s API allows for the creation of complex, stateful streaming applications beyond basic windowing and aggregations. It’s important to fully grasp the extensive capabilities offered by the API to tackle sophisticated data processing challenges.</p>
+</li>
+<li>
+<p><strong>With power comes more responsibility</strong> – The advanced functionality of Apache Flink’s API brings significant responsibility. Developers must make sure applications are efficient, maintainable, and stable, requiring careful resource management and adherence to best practices in coding and system design.</p>
+</li>
+<li>
+<p><strong>Don’t mix event time and processing time logic</strong> – Combining event time and processing time for data aggregation presents unique challenges. It prevents you from using higher-level functionalities provided out of the box by Apache Flink. The lowest level of abstractions among Apache Flink APIs allow for implementing custom time-based logic, but require a careful design to achieve accuracy and timely results, alongside extensive testing to validate good performance.</p>
+</li>
+</ul>
+<h2 id="conclusion"><strong>Conclusion</strong></h2>
+<p>In the journey of adopting Apache Flink, the PostNL team learned how the powerful Apache Flink APIs allow you to implement complex business logic. The team came to appreciate how Apache Flink can be utilized to solve several and diverse problems, and they are now planning to extend it to more stream processing use cases.</p>
+<p>With Managed Service for Apache Flink, the team was able to focus on the business value and implementing the required business logic, without worrying about the heavy lifting of setting up and managing an Apache Flink cluster.</p>
+<p>To learn more about Managed Service for Apache Flink and choosing the right managed service option and API for your use case, see <a href="https://docs.aws.amazon.com/managed-flink/latest/java/what-is.html"><strong>What is Amazon Managed Service for Apache Flink</strong></a>. To experience hands-on how to develop, deploy, and operate Apache Flink applications on AWS, see the <a href="https://catalog.workshops.aws/managed-flink/en-US"><strong>Amazon Managed Service for Apache Flink Workshop</strong></a>.</p>
+<h2 id="about-the-authors"><strong>About the authors</strong></h2>
+<div style="display:flex; flex-direction:column; gap:1rem;">
+  <div style="display:flex; align-items:flex-start; gap:1rem;">
+    <img src="../../images/3-BlogsTranslated/3.1-Blog1/image_4.jpg" alt="Çağrı Çakır" style="width:120px; height:120px; object-fit:cover; border-radius:8px;" />
+    <div>
+      <strong>Çağrı Çakır</strong><br/>
+      Çağrı Çakır is a is the Lead Software Engineer for the PostNL IoT platform, where he manages the architecture that processes billions of events each day. As an AWS Certified Solutions Architect Professional, he specializes in designing and implementing event-driven architectures and stream processing solutions at scale. He is passionate about harnessing the power of real-time data, and dedicated to optimizing operational efficiency and innovating scalable systems.
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:1rem;">
+    <img src="../../images/3-BlogsTranslated/3.1-Blog1/image_5.jpg" alt="Özge Kavalcı" style="width:120px; height:120px; object-fit:cover; border-radius:8px;" />
+    <div>
+      <strong>Özge Kavalcı</strong><br/>
+      Özge Kavalcı works as Senior Solution Engineer for the PostNL IoT platform and loves to build cutting-edge solutions that integrate with the IoT landscape. As an AWS Certified Solutions Architect, she specializes in designing and implementing highly scalable serverless architectures and real-time stream processing solutions that can handle unpredictable workloads. To unlock the full potential of real-time data, she is dedicated to shaping the future of IoT integration.
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:1rem;">
+    <img src="../../images/3-BlogsTranslated/3.1-Blog1/image_6.jpg" alt="Amit Singh" style="width:120px; height:120px; object-fit:cover; border-radius:8px;" />
+    <div>
+      <strong>Amit Singh</strong><br/>
+      Amit Singh works as a Senior Solutions Architect at AWS with enterprise customers on the value proposition of AWS, and participates in deep architectural discussions to make sure solutions are designed for successful deployment in the cloud. This includes building deep relationships with senior technical individuals to enable them to be cloud advocates. In his free time, he likes to spend time with his family and learn more about everything cloud.
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:1rem;">
+    <img src="../../images/3-BlogsTranslated/3.1-Blog1/image_7.jpg" alt="Lorenzo Nicora" style="width:120px; height:120px; object-fit:cover; border-radius:8px;" />
+    <div>
+      <strong>Lorenzo Nicora</strong><br/>
+      Lorenzo Nicora works as Senior Streaming Solutions Architect at AWS helping customers across EMEA. He has been building cloud-centered, data-intensive systems for several years, working in the finance industry both through consultancies and for fintech product companies. He has used open-source technologies extensively and contributed to several projects, including Apache Flink.
+    </div>
+  </div>
+</div>
+
+
+
+
+<footer class=" footline" >
+	
+</footer>
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="../../3-blogstranslated/" title="Translated Blogs"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="../../3-blogstranslated/3.2-blog2/" title="Blog 2" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="../../js/clipboard.min.js?1785348040"></script>
+    <script src="../../js/perfect-scrollbar.min.js?1785348040"></script>
+    <script src="../../js/perfect-scrollbar.jquery.min.js?1785348040"></script>
+    <script src="../../js/jquery.sticky.js?1785348040"></script>
+    <script src="../../js/featherlight.min.js?1785348040"></script>
+    <script src="../../js/highlight.pack.js?1785348040"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="../../js/modernizr.custom-3.6.0.js?1785348040"></script>
+    <script src="../../js/learn.js?1785348040"></script>
+    <script src="../../js/hugo-learn.js?1785348040"></script>
+
+    <link href="../../mermaid/mermaid.css?1785348040" rel="stylesheet" />
+    <script src="../../mermaid/mermaid.js?1785348040"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    <script>
+  (function (i, s, o, g, r, a, m) {
+    i["GoogleAnalyticsObject"] = r;
+    ((i[r] =
+      i[r] ||
+      function () {
+        (i[r].q = i[r].q || []).push(arguments);
+      }),
+      (i[r].l = 1 * new Date()));
+    ((a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]));
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m);
+  })(
+    window,
+    document,
+    "script",
+    "https://www.google-analytics.com/analytics.js",
+    "ga",
+  );
+
+  ga("create", "UA-158079754-2", "auto");
+  ga("send", "pageview");
+</script>
+
+  </body>
+</html>

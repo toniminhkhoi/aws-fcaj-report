@@ -1,0 +1,395 @@
+{
+  "id": "73690965-a02f-40a6-ad9e-d82107dd49a7",
+  "name": "vicobi",
+  "createdAt": "November 8, 2025 at 19:53 (UTC+7:00)",
+  "expiresAt": "December 8, 2026 at 19:53 (UTC+7:00)",
+  "rateType": "BEFORE_DISCOUNTS",
+  "rateTimestamp": "November 8, 2025 at 19:53 (UTC+7:00)",
+  "status": "VALID",
+  "totalCostHistorical": 0,
+  "totalCostEstimated": 60.350896,
+  "currency": "USD",
+  "exportCreatedAt": "November 9, 2025 at 00:28 (UTC+7:00)",
+  "items": [
+    {
+      "serviceCode": "awswaf",
+      "usageType": "APS1-WebACLV2",
+      "operation": "",
+      "location": "ap-southeast-1",
+      "usageId": "17c13034-46c9-4aee-a246-e32d74c0c2d4",
+      "usageAccountId": 989061864235,
+      "accountName": "",
+      "group": "waf",
+      "quantity": {
+        "unit": "Month",
+        "amount": 1
+      },
+      "costSummary": {
+        "cost": 5,
+        "currency": "USD",
+        "status": "new"
+      }
+    },
+    {
+      "serviceCode": "AmazonECS",
+      "usageType": "APS1-Fargate-vCPU-Hours:perCPU",
+      "operation": "",
+      "location": "ap-southeast-1",
+      "usageId": "19332402-9a46-4705-9ea1-4ab185e38f93",
+      "usageAccountId": 989061864235,
+      "accountName": "",
+      "group": "ECS",
+      "quantity": {
+        "unit": "hours",
+        "amount": 182.52
+      },
+      "costSummary": {
+        "cost": 9.2282112,
+        "currency": "USD",
+        "status": "new"
+      }
+    },
+    {
+      "serviceCode": "AmazonCloudFront",
+      "usageType": "US-DataTransfer-Out-OBytes",
+      "operation": "",
+      "location": "",
+      "usageId": "22aa2dec-8a8b-4041-86da-c3f11156abd3",
+      "usageAccountId": 989061864235,
+      "accountName": "",
+      "group": "cloudfront",
+      "quantity": {
+        "unit": "GB",
+        "amount": 50
+      },
+      "costSummary": {
+        "cost": 1,
+        "currency": "USD",
+        "status": "new"
+      }
+    },
+    {
+      "serviceCode": "AmazonVPC",
+      "usageType": "APS1-VpcEndpoint-Bytes",
+      "operation": "VpcEndpoint",
+      "location": "ap-southeast-1",
+      "usageId": "28e6b27a-ff0e-495f-a66f-245f46f52745",
+      "usageAccountId": 989061864235,
+      "accountName": "",
+      "group": "VPC",
+      "quantity": {
+        "unit": "GB",
+        "amount": 100
+      },
+      "costSummary": {
+        "cost": 1,
+        "currency": "USD",
+        "status": "new"
+      }
+    },
+    {
+      "serviceCode": "AmazonRoute53",
+      "usageType": "HostedZone",
+      "operation": "",
+      "location": "",
+      "usageId": "2a93286a-ee48-49d3-906e-43c377a54b50",
+      "usageAccountId": 989061864235,
+      "accountName": "",
+      "group": "route53",
+      "quantity": {
+        "unit": "HostedZone",
+        "amount": 1
+      },
+      "costSummary": {
+        "cost": 0.5,
+        "currency": "USD",
+        "status": "new"
+      }
+    },
+    {
+      "serviceCode": "AmazonCloudFront",
+      "usageType": "US-Requests-HTTPS-Proxy",
+      "operation": "",
+      "location": "",
+      "usageId": "2c0481b0-ac9d-46ca-bd0c-f6c977128865",
+      "usageAccountId": 989061864235,
+      "accountName": "",
+      "group": "cloudfront",
+      "quantity": {
+        "unit": "Requests",
+        "amount": 1000000
+      },
+      "costSummary": {
+        "cost": 1,
+        "currency": "USD",
+        "status": "new"
+      }
+    },
+    {
+      "serviceCode": "AmazonECS",
+      "usageType": "APS1-Fargate-GB-Hours",
+      "operation": "",
+      "location": "ap-southeast-1",
+      "usageId": "38ba963d-1fbd-4235-8c1b-843f6d2d4794",
+      "usageAccountId": 989061864235,
+      "accountName": "",
+      "group": "ECS",
+      "quantity": {
+        "unit": "hours",
+        "amount": 1460.16
+      },
+      "costSummary": {
+        "cost": 8.0746848,
+        "currency": "USD",
+        "status": "new"
+      }
+    },
+    {
+      "serviceCode": "AmazonVPC",
+      "usageType": "APS1-VpcEndpoint-Hours",
+      "operation": "VpcEndpoint",
+      "location": "ap-southeast-1",
+      "usageId": "3d6edeb8-de00-425d-846d-3616098aa4c7",
+      "usageAccountId": 989061864235,
+      "accountName": "",
+      "group": "VPC",
+      "quantity": {
+        "unit": "Hrs",
+        "amount": 730
+      },
+      "costSummary": {
+        "cost": 9.49,
+        "currency": "USD",
+        "status": "new"
+      }
+    },
+    {
+      "serviceCode": "AmazonS3",
+      "usageType": "APS1-Select-Scanned-Bytes",
+      "operation": "",
+      "location": "ap-southeast-1",
+      "usageId": "5ebabee0-6274-442d-8d1f-774ee755c3fd",
+      "usageAccountId": 989061864235,
+      "accountName": "",
+      "group": "s3",
+      "quantity": {
+        "unit": "GB",
+        "amount": 10
+      },
+      "costSummary": {
+        "cost": 0.025,
+        "currency": "USD",
+        "status": "new"
+      }
+    },
+    {
+      "serviceCode": "awswaf",
+      "usageType": "APS1-RuleV2",
+      "operation": "",
+      "location": "ap-southeast-1",
+      "usageId": "81bb7943-bcc3-49fa-a9de-5f2c18064a66",
+      "usageAccountId": 989061864235,
+      "accountName": "",
+      "group": "waf",
+      "quantity": {
+        "unit": "Month",
+        "amount": 1
+      },
+      "costSummary": {
+        "cost": 1,
+        "currency": "USD",
+        "status": "new"
+      }
+    },
+    {
+      "serviceCode": "AmazonECR",
+      "usageType": "APS1-TimedStorage-ByteHrs",
+      "operation": "",
+      "location": "ap-southeast-1",
+      "usageId": "82349321-e25b-4538-a35d-8fc48fd50a7c",
+      "usageAccountId": 989061864235,
+      "accountName": "",
+      "group": "ECR",
+      "quantity": {
+        "unit": "GB-Mo",
+        "amount": 10
+      },
+      "costSummary": {
+        "cost": 1,
+        "currency": "USD",
+        "status": "new"
+      }
+    },
+    {
+      "serviceCode": "AWSELB",
+      "usageType": "APS1-LCUUsage",
+      "operation": "LoadBalancing:Application",
+      "location": "ap-southeast-1",
+      "usageId": "897ce3b7-87e2-4738-8c80-cf9cc4ac0d96",
+      "usageAccountId": 989061864235,
+      "accountName": "",
+      "group": "ELB",
+      "quantity": {
+        "unit": "LCU-Hrs",
+        "amount": 73
+      },
+      "costSummary": {
+        "cost": 0.584,
+        "currency": "USD",
+        "status": "new"
+      }
+    },
+    {
+      "serviceCode": "AmazonS3",
+      "usageType": "APS1-Requests-Tier2",
+      "operation": "",
+      "location": "ap-southeast-1",
+      "usageId": "8c74a177-dd77-4418-a8c0-e2e2a8a377e9",
+      "usageAccountId": 989061864235,
+      "accountName": "",
+      "group": "s3",
+      "quantity": {
+        "unit": "Requests",
+        "amount": 10000
+      },
+      "costSummary": {
+        "cost": 0.004,
+        "currency": "USD",
+        "status": "new"
+      }
+    },
+    {
+      "serviceCode": "awswaf",
+      "usageType": "APS1-RequestV2-Tier1",
+      "operation": "",
+      "location": "ap-southeast-1",
+      "usageId": "9e986e75-68bc-4705-ad2e-add0e367a82c",
+      "usageAccountId": 989061864235,
+      "accountName": "",
+      "group": "waf",
+      "quantity": {
+        "unit": "Request",
+        "amount": 2000000
+      },
+      "costSummary": {
+        "cost": 1.2,
+        "currency": "USD",
+        "status": "new"
+      }
+    },
+    {
+      "serviceCode": "AmazonS3",
+      "usageType": "APS1-TimedStorage-ByteHrs",
+      "operation": "",
+      "location": "ap-southeast-1",
+      "usageId": "b07391bc-126f-435d-9b6e-f69039971fd0",
+      "usageAccountId": 989061864235,
+      "accountName": "",
+      "group": "s3",
+      "quantity": {
+        "unit": "GB-Mo",
+        "amount": 10
+      },
+      "costSummary": {
+        "cost": 0.25,
+        "currency": "USD",
+        "status": "new"
+      }
+    },
+    {
+      "serviceCode": "AmazonS3",
+      "usageType": "APS1-Select-Returned-Bytes",
+      "operation": "",
+      "location": "ap-southeast-1",
+      "usageId": "cb65326d-bcbe-463f-9822-7ae5921439b8",
+      "usageAccountId": 989061864235,
+      "accountName": "",
+      "group": "s3",
+      "quantity": {
+        "unit": "GB",
+        "amount": 10
+      },
+      "costSummary": {
+        "cost": 0.009,
+        "currency": "USD",
+        "status": "new"
+      }
+    },
+    {
+      "serviceCode": "AmazonApiGateway",
+      "usageType": "APS1-ApiGatewayHttpRequest",
+      "operation": "ApiGatewayHttpApi",
+      "location": "ap-southeast-1",
+      "usageId": "e19e0bd1-1bb6-4341-b1a6-bd05d40191cd",
+      "usageAccountId": 989061864235,
+      "accountName": "",
+      "group": "APIGateway",
+      "quantity": {
+        "unit": "Requests",
+        "amount": 2000000
+      },
+      "costSummary": {
+        "cost": 2.5,
+        "currency": "USD",
+        "status": "new"
+      }
+    },
+    {
+      "serviceCode": "AWSELB",
+      "usageType": "APS1-LoadBalancerUsage",
+      "operation": "LoadBalancing:Application",
+      "location": "ap-southeast-1",
+      "usageId": "f35c54f4-302a-49c1-a5ce-8b0b1f15b273",
+      "usageAccountId": 989061864235,
+      "accountName": "",
+      "group": "ELB",
+      "quantity": {
+        "unit": "Hrs",
+        "amount": 730
+      },
+      "costSummary": {
+        "cost": 18.396,
+        "currency": "USD",
+        "status": "new"
+      }
+    },
+    {
+      "serviceCode": "AmazonRoute53",
+      "usageType": "DNS-Queries",
+      "operation": "",
+      "location": "NoRegion",
+      "usageId": "f801cb27-b503-44dc-bfd8-22334af799c5",
+      "usageAccountId": 989061864235,
+      "accountName": "",
+      "group": "route53",
+      "quantity": {
+        "unit": "Queries",
+        "amount": 100000
+      },
+      "costSummary": {
+        "cost": 0.04,
+        "currency": "USD",
+        "status": "new"
+      }
+    },
+    {
+      "serviceCode": "AmazonS3",
+      "usageType": "APS1-Requests-Tier1",
+      "operation": "",
+      "location": "ap-southeast-1",
+      "usageId": "fcf33695-3e9c-48d4-bfe7-3efb29483dd4",
+      "usageAccountId": 989061864235,
+      "accountName": "",
+      "group": "s3",
+      "quantity": {
+        "unit": "Requests",
+        "amount": 10000
+      },
+      "costSummary": {
+        "cost": 0.05,
+        "currency": "USD",
+        "status": "new"
+      }
+    }
+  ]
+}

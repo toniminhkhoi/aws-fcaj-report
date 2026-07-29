@@ -1,0 +1,1776 @@
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.134.3">
+    <meta
+  name="description"
+  content=""
+/>
+<meta name="author" content="thienlh@thienlu.com" />
+
+    <link rel="icon" href="../../images/favicon.png" type="image/png">
+
+    <title>Blog 3 :: Internship Report</title>
+
+    
+    <link href="../../css/nucleus.css?1785348040" rel="stylesheet">
+    <link href="../../css/fontawesome-all.min.css?1785348040" rel="stylesheet">
+    <link href="../../css/hybrid.css?1785348040" rel="stylesheet">
+    <link href="../../css/featherlight.min.css?1785348040" rel="stylesheet">
+    <link href="../../css/perfect-scrollbar.min.css?1785348040" rel="stylesheet">
+    <link href="../../css/auto-complete.css?1785348040" rel="stylesheet">
+    <link href="../../css/atom-one-dark-reasonable.css?1785348040" rel="stylesheet">
+    <link href="../../css/theme.css?1785348040" rel="stylesheet">
+    <link href="../../css/hugo-theme.css?1785348040" rel="stylesheet">
+    
+    <link href="../../css/theme-workshop.css?1785348040" rel="stylesheet">
+    
+    
+
+    <script src="../../js/jquery-3.3.1.min.js?1785348040"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+    </style>
+    
+
+  </head>
+  <body class="" data-url="../../3-blogstranslated/3.3-blog3/">
+    <nav
+  id="sidebar"
+  class="showVisitedLinks"
+>
+   
+  <div id="header-wrapper">
+    <div id="header"><a id="logo" href="../../">
+  <svg
+    id="Layer_1"
+    data-name="Layer 1"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 60 30"
+    width="30%"
+  >
+    <defs>
+      <style>
+        .cls-1 {
+          fill: #fff;
+        }
+        .cls-2 {
+          fill: #f90;
+          fill-rule: evenodd;
+        }
+      </style>
+    </defs>
+    <title>AWS-Logo_White-Color</title>
+    <path
+      class="cls-1"
+      d="M14.09,10.85a4.7,4.7,0,0,0,.19,1.48,7.73,7.73,0,0,0,.54,1.19.77.77,0,0,1,.12.38.64.64,0,0,1-.32.49l-1,.7a.83.83,0,0,1-.44.15.69.69,0,0,1-.49-.23,3.8,3.8,0,0,1-.6-.77q-.25-.42-.51-1a6.14,6.14,0,0,1-4.89,2.3,4.54,4.54,0,0,1-3.32-1.19,4.27,4.27,0,0,1-1.22-3.2A4.28,4.28,0,0,1,3.61,7.75,6.06,6.06,0,0,1,7.69,6.46a12.47,12.47,0,0,1,1.76.13q.92.13,1.91.36V5.73a3.65,3.65,0,0,0-.79-2.66A3.81,3.81,0,0,0,7.86,2.3a7.71,7.71,0,0,0-1.79.22,12.78,12.78,0,0,0-1.79.57,4.55,4.55,0,0,1-.58.22l-.26,0q-.35,0-.35-.52V2a1.09,1.09,0,0,1,.12-.58,1.2,1.2,0,0,1,.47-.35A10.88,10.88,0,0,1,5.77.32,10.19,10.19,0,0,1,8.36,0a6,6,0,0,1,4.35,1.35,5.49,5.49,0,0,1,1.38,4.09ZM7.34,13.38a5.36,5.36,0,0,0,1.72-.31A3.63,3.63,0,0,0,10.63,12,2.62,2.62,0,0,0,11.19,11a5.63,5.63,0,0,0,.16-1.44v-.7a14.35,14.35,0,0,0-1.53-.28,12.37,12.37,0,0,0-1.56-.1,3.84,3.84,0,0,0-2.47.67A2.34,2.34,0,0,0,5,11a2.35,2.35,0,0,0,.61,1.76A2.4,2.4,0,0,0,7.34,13.38Zm13.35,1.8a1,1,0,0,1-.64-.16,1.3,1.3,0,0,1-.35-.65L15.81,1.51a3,3,0,0,1-.15-.67.36.36,0,0,1,.41-.41H17.7a1,1,0,0,1,.65.16,1.4,1.4,0,0,1,.33.65l2.79,11,2.59-11A1.17,1.17,0,0,1,24.39.6a1.1,1.1,0,0,1,.67-.16H26.4a1.1,1.1,0,0,1,.67.16,1.17,1.17,0,0,1,.32.65L30,12.39,32.88,1.25A1.39,1.39,0,0,1,33.22.6a1,1,0,0,1,.65-.16h1.54a.36.36,0,0,1,.41.41,1.36,1.36,0,0,1,0,.26,3.64,3.64,0,0,1-.12.41l-4,12.86a1.3,1.3,0,0,1-.35.65,1,1,0,0,1-.64.16H29.25a1,1,0,0,1-.67-.17,1.26,1.26,0,0,1-.32-.67L25.67,3.64,23.11,14.34a1.26,1.26,0,0,1-.32.67,1,1,0,0,1-.67.17Zm21.36.44a11.28,11.28,0,0,1-2.56-.29,7.44,7.44,0,0,1-1.92-.67,1,1,0,0,1-.61-.93v-.84q0-.52.38-.52a.9.9,0,0,1,.31.06l.42.17a8.77,8.77,0,0,0,1.83.58,9.78,9.78,0,0,0,2,.2,4.48,4.48,0,0,0,2.43-.55,1.76,1.76,0,0,0,.86-1.57,1.61,1.61,0,0,0-.45-1.16A4.29,4.29,0,0,0,43,9.22l-2.41-.76A5.15,5.15,0,0,1,38,6.78a3.94,3.94,0,0,1-.83-2.41,3.7,3.7,0,0,1,.45-1.85,4.47,4.47,0,0,1,1.19-1.37A5.27,5.27,0,0,1,40.51.29,7.4,7.4,0,0,1,42.6,0a8.87,8.87,0,0,1,1.12.07q.57.07,1.08.19t.95.26a4.27,4.27,0,0,1,.7.29,1.59,1.59,0,0,1,.49.41.94.94,0,0,1,.15.55v.79q0,.52-.38.52a1.76,1.76,0,0,1-.64-.2,7.74,7.74,0,0,0-3.2-.64,4.37,4.37,0,0,0-2.21.47,1.6,1.6,0,0,0-.79,1.48,1.58,1.58,0,0,0,.49,1.18,4.94,4.94,0,0,0,1.83.92L44.55,7a5.08,5.08,0,0,1,2.57,1.6A3.76,3.76,0,0,1,47.9,11a4.21,4.21,0,0,1-.44,1.93,4.4,4.4,0,0,1-1.21,1.47,5.43,5.43,0,0,1-1.85.93A8.25,8.25,0,0,1,42.05,15.62Z"
+    ></path>
+    <path
+      class="cls-2"
+      d="M45.19,23.81C39.72,27.85,31.78,30,25,30A36.64,36.64,0,0,1,.22,20.57c-.51-.46-.06-1.09.56-.74A49.78,49.78,0,0,0,25.53,26.4,49.23,49.23,0,0,0,44.4,22.53C45.32,22.14,46.1,23.14,45.19,23.81Z"
+    ></path>
+    <path
+      class="cls-2"
+      d="M47.47,21.21c-.7-.9-4.63-.42-6.39-.21-.53.06-.62-.4-.14-.74,3.13-2.2,8.27-1.57,8.86-.83s-.16,5.89-3.09,8.35c-.45.38-.88.18-.68-.32C46.69,25.8,48.17,22.11,47.47,21.21Z"
+    ></path>
+  </svg>
+</a>
+</div>
+     <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="../../js/lunr.min.js?1785348040"></script>
+<script type="text/javascript" src="../../js/auto-complete.js?1785348040"></script>
+<script type="text/javascript">
+    
+    
+        var baseurl = "https:\/\/danielleit241.github.io\/aws-fcj-report\/";
+    
+</script>
+<script type="text/javascript" src="../../js/search.js?1785348040"></script>
+ 
+  </div>
+
+  <div class="highlightable">
+    <ul class="topics">
+               
+<li
+  data-nav-id="/1-worklog/"
+  title="Worklog"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../1-worklog/">
+     <b> 1. </b> Worklog 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+  <ul>
+          
+            
+<li
+  data-nav-id="/1-worklog/1.1-week1/"
+  title="Week 1 Worklog"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../1-worklog/1.1-week1/">
+     <b> 1.1. </b> Week 1 Worklog 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/1-worklog/1.2-week2/"
+  title="Week 2 Worklog"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../1-worklog/1.2-week2/">
+     <b> 1.2. </b> Week 2 Worklog 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/1-worklog/1.3-week3/"
+  title="Week 3 Worklog"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../1-worklog/1.3-week3/">
+     <b> 1.3. </b> Week 3 Worklog 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/1-worklog/1.4-week4/"
+  title="Week 4 Worklog"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../1-worklog/1.4-week4/">
+     <b> 1.4. </b> Week 4 Worklog 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/1-worklog/1.5-week5/"
+  title="Week 5 Worklog"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../1-worklog/1.5-week5/">
+     <b> 1.5. </b> Week 5 Worklog 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/1-worklog/1.6-week6/"
+  title="Week 6 Worklog"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../1-worklog/1.6-week6/">
+     <b> 1.6. </b> Week 6 Worklog 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/1-worklog/1.7-week7/"
+  title="Week 7 Worklog"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../1-worklog/1.7-week7/">
+     <b> 1.7. </b> Week 7 Worklog 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/1-worklog/1.8-week8/"
+  title="Week 8 Worklog"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../1-worklog/1.8-week8/">
+     <b> 1.8. </b> Week 8 Worklog 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/1-worklog/1.9-week9/"
+  title="[Expected] Week 9 Worklog"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../1-worklog/1.9-week9/">
+     <b> 1.9. </b> [Expected] Week 9 Worklog 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/1-worklog/1.10-week10/"
+  title="[Expected] Week 10 Worklog"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../1-worklog/1.10-week10/">
+     <b> 1.10. </b> [Expected] Week 10 Worklog 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+     
+  </ul>
+  
+</li>
+           
+<li
+  data-nav-id="/2-proposal/"
+  title="Proposal"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../2-proposal/">
+     <b> 2. </b> Proposal 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+           
+<li
+  data-nav-id="/3-blogstranslated/"
+  title="Translated Blogs"
+  class="dd-item 
+        parent
+        
+        
+        "
+>
+  <a href="../../3-blogstranslated/">
+     <b> 3. </b> Translated Blogs 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+  <ul>
+          
+            
+<li
+  data-nav-id="/3-blogstranslated/3.1-blog1/"
+  title="Blog 1"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../3-blogstranslated/3.1-blog1/">
+     <b> 3.1. </b> Blog 1 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/3-blogstranslated/3.2-blog2/"
+  title="Blog 2"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../3-blogstranslated/3.2-blog2/">
+     <b> 3.2. </b> Blog 2 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/3-blogstranslated/3.3-blog3/"
+  title="Blog 3"
+  class="dd-item 
+        
+        active
+        
+        "
+>
+  <a href="../../3-blogstranslated/3.3-blog3/">
+     <b> 3.3. </b> Blog 3 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+     
+  </ul>
+  
+</li>
+           
+<li
+  data-nav-id="/4-eventparticipated/"
+  title="Events Participated"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../4-eventparticipated/">
+     <b> 4. </b> Events Participated 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+  <ul>
+          
+            
+<li
+  data-nav-id="/4-eventparticipated/4.1-event1/"
+  title="Event 1"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../4-eventparticipated/4.1-event1/">
+     <b> 4.1. </b> Event 1 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/4-eventparticipated/4.2-event2/"
+  title="Event 2"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../4-eventparticipated/4.2-event2/">
+     <b> 4.2. </b> Event 2 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/4-eventparticipated/4.3-event3/"
+  title="Event 3"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../4-eventparticipated/4.3-event3/">
+     <b> 4.3. </b> Event 3 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+     
+  </ul>
+  
+</li>
+           
+<li
+  data-nav-id="/5-workshop/"
+  title="Workshop"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/">
+     <b> 5. </b> Workshop 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+  <ul>
+          
+            
+<li
+  data-nav-id="/5-workshop/5.1-workshop-overview/"
+  title="Workshop Overview"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.1-workshop-overview/">
+     <b> 5.1. </b> Workshop Overview 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/5-workshop/5.2-prerequisites/"
+  title="Prerequisites"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.2-prerequisites/">
+     <b> 5.2. </b> Prerequisites 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/5-workshop/5.3-architecture-and-service-design/"
+  title="Architecture and Service Design"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.3-architecture-and-service-design/">
+     <b> 5.3. </b> Architecture and Service Design 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/5-workshop/5.4-aws-infrastructure-setup/"
+  title="AWS Infrastructure Setup"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.4-aws-infrastructure-setup/">
+     <b> 5.4. </b> AWS Infrastructure Setup 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/5-workshop/5.5-backend-and-database/"
+  title="Backend Deployment and Database Integration"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.5-backend-and-database/">
+     <b> 5.5. </b> Backend Deployment and Database Integration 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/5-workshop/5.6-hardware-integration/"
+  title="Hardware Integration"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.6-hardware-integration/">
+     <b> 5.6. </b> Hardware Integration 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/5-workshop/5.7-frontend-integration/"
+  title="Frontend Integration"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.7-frontend-integration/">
+     <b> 5.7. </b> Frontend Integration 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/5-workshop/5.8-end-to-end-testing/"
+  title="End-to-End Testing and Validation"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.8-end-to-end-testing/">
+     <b> 5.8. </b> End-to-End Testing and Validation 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/5-workshop/5.9-cloudwatch-monitoring/"
+  title="Monitoring with CloudWatch"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.9-cloudwatch-monitoring/">
+     <b> 5.9. </b> Monitoring with CloudWatch 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/5-workshop/5.10-cost-security-cleanup/"
+  title="Cost, Security and Clean-up"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.10-cost-security-cleanup/">
+     <b> 5.10. </b> Cost, Security and Clean-up 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/5-workshop/5.11-results-challenges-future/"
+  title="Results, Challenges and Future Improvements"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.11-results-challenges-future/">
+     <b> 5.11. </b> Results, Challenges and Future Improvements 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/5-workshop/5.12-project-handover/"
+  title="Project Handover"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../5-workshop/5.12-project-handover/">
+     <b> 5.12. </b> Project Handover 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+     
+  </ul>
+  
+</li>
+           
+<li
+  data-nav-id="/6-self-evaluation/"
+  title="Self-Assessment"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../6-self-evaluation/">
+     <b> 6. </b> Self-Assessment 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+           
+<li
+  data-nav-id="/7-feedback/"
+  title="Sharing and Feedback"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../7-feedback/">
+     <b> 7. </b> Sharing and Feedback 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+    </ul>
+
+     
+    <section id="shortcuts">
+      <h3>
+        More
+      </h3>
+      <ul>
+        
+        <li>
+          <a class="padding" href="https://www.facebook.com/groups/awsstudygroupfcj/"
+            ><i class='fab fa-facebook'></i> AWS Study Group</a
+          >
+        </li>
+        
+      </ul>
+    </section>
+      
+    <section id="prefooter">
+      <hr />
+      <ul>
+        
+        <li>
+          <a class="padding">
+            <i class="fas fa-language fa-fw"></i>
+            <div class="select-style">
+              <select id="select-language" onchange="location = this.value;">
+                       
+                <option
+                  id="en"
+                  value="https://danielleit241.github.io/aws-fcj-report/3-blogstranslated/3.3-blog3/"
+                  selected
+                >
+                  English
+                </option>
+                            
+                <option
+                  id="vi"
+                  value="https://danielleit241.github.io/aws-fcj-report/vi/3-blogstranslated/3.3-blog3/"
+                >
+                  Tiếng Việt
+                </option>
+                   
+              </select>
+              <svg
+                version="1.1"
+                id="Capa_1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                x="0px"
+                y="0px"
+                width="255px"
+                height="255px"
+                viewBox="0 0 255 255"
+                style="enable-background: new 0 0 255 255"
+                xml:space="preserve"
+              >
+                <g>
+                  <g id="arrow-drop-down">
+                    <polygon points="0,63.75 127.5,191.25 255,63.75     " />
+                  </g>
+                </g>
+              </svg>
+            </div>
+          </a>
+        </li>
+         
+        <li>
+          <a class="padding" href="#" data-clear-history-toggle=""
+            ><i class="fas fa-history fa-fw"></i> Clear History</a
+          >
+        </li>
+        
+      </ul>
+    </section>
+    
+    <section id="footer"><left>
+    
+    <b> Workshop</b> <br>
+    <img src="https://hitwebcounter.com/counter/counter.php?page=7920860&style=0038&nbdigits=9&type=page&initCount=0"
+        title="Migrate" Alt="web counter" border="0" /></a> <br>
+    <b> <a href="https://cloudjourney.awsstudygroup.com/">Cloud Journey</a></b> <br>
+    <img src="https://hitwebcounter.com/counter/counter.php?page=7830807&style=0038&nbdigits=9&type=page&initCount=0"
+        title="Total CLoud Journey" Alt="web counter" border="0" />
+
+</left>
+<left>
+    <br>
+    <br>
+    <b>Last Updated</b><br>
+    <i>
+        <span id="lastUpdated" style="color:orange;"></span>
+    </i>
+
+    <script>
+        
+        const today = new Date();
+        
+        const formattedDate = today.toLocaleDateString('en-GB');
+        
+        document.getElementById('lastUpdated').textContent = formattedDate;
+    </script>
+</left>
+<left>
+    <br>
+    <br>
+    <b> Team </b> <br>
+
+    <i> <a href="https://www.facebook.com/groups/660548818043427" style="color:orange">First Cloud Journey</a> <br>
+
+    </i>
+</left>
+
+<script async defer src="https://buttons.github.io/buttons.js"></script></section>
+  </div>
+</nav>
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='../../'>Internship Report</a> > <a href='../../3-blogstranslated/'>Translated Blogs</a> > Blog 3
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+  <div class="wrapper"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#observability-beyond-compute"><strong>Observability beyond compute</strong></a></li>
+    <li><a href="#metrics-and-time-series"><strong>Metrics and time series</strong></a></li>
+    <li><a href="#prometheus-as-a-specialized-time-series-database"><strong>Prometheus as a specialized time series database</strong></a></li>
+    <li><a href="#effectively-processing-observability-events-at-scale"><strong>Effectively processing observability events, at scale</strong></a></li>
+    <li><a href="#storing-and-analyzing-raw-events"><strong>Storing and analyzing raw events</strong></a></li>
+    <li><a href="#images3-blogstranslated33-blog3image_1jpg"><img src="../../images/3-BlogsTranslated/3.3-Blog3/image_1.jpg" alt=""></a></li>
+    <li><a href="#preprocessing-raw-observability-events"><strong>Preprocessing raw observability events</strong></a></li>
+    <li><a href="#images3-blogstranslated33-blog3image_2jpg"><img src="../../images/3-BlogsTranslated/3.3-Blog3/image_2.jpg" alt=""></a></li>
+    <li><a href="#apache-flink-for-preprocessing-observability-events"><strong>Apache Flink for preprocessing observability events</strong></a></li>
+    <li><a href="#images3-blogstranslated33-blog3image_3jpg"><img src="../../images/3-BlogsTranslated/3.3-Blog3/image_3.jpg" alt=""></a></li>
+    <li><a href="#integrating-apache-flink-and-prometheus"><strong>Integrating Apache Flink and Prometheus</strong></a></li>
+    <li><a href="#example-use-case"><strong>Example use case</strong></a></li>
+    <li><a href="#images3-blogstranslated33-blog3image_4jpg"><img src="../../images/3-BlogsTranslated/3.3-Blog3/image_4.jpg" alt=""></a></li>
+    <li><a href="#solution-overview"><strong>Solution overview</strong></a></li>
+    <li><a href="#images3-blogstranslated33-blog3image_5jpg"><img src="../../images/3-BlogsTranslated/3.3-Blog3/image_5.jpg" alt=""></a></li>
+    <li><a href="#images3-blogstranslated33-blog3image_6jpg"><img src="../../images/3-BlogsTranslated/3.3-Blog3/image_6.jpg" alt=""></a></li>
+    <li><a href="#raw-vehicle-events"><strong>Raw vehicle events</strong></a></li>
+    <li><a href="#preprocessor-application"><strong>Preprocessor application</strong></a></li>
+    <li><a href="#images3-blogstranslated33-blog3image_7jpg"><img src="../../images/3-BlogsTranslated/3.3-Blog3/image_7.jpg" alt=""></a></li>
+    <li><a href="#flink-prometheus-connector-key-features"><strong>Flink Prometheus connector key features</strong></a></li>
+    <li><a href="#responsibilities-of-the-user"><strong>Responsibilities of the user</strong></a></li>
+    <li><a href="#ordering"><strong>Ordering</strong></a></li>
+    <li><a href="#conclusion"><strong>Conclusion</strong></a></li>
+    <li><a href="#about-the-authors"><strong>About the authors</strong></a></li>
+  </ul>
+</nav></div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              Blog 3
+            </h1>
+          
+
+        
+
+
+
+	<h1 id="process-millions-of-observability-events-with-apache-flink-and-write-directly-to-prometheus"><strong>Process millions of observability events with Apache Flink and write directly to Prometheus</strong></h1>
+<p><em>by Lorenzo Nicora and Francisco Morillo on 09 APR 2025 in Amazon Managed Grafana, Amazon Managed Service for Apache Flink, Amazon Managed Service for Prometheus, Analytics, Internet of Things, Open Source</em></p>
+<p>AWS recently announced support for a new Apache Flink connector for Prometheus. The new connector, contributed by AWS to the Flink open source project, adds Prometheus and Amazon Managed Service for Prometheus as a new destination for Flink.</p>
+<p>In this post, we explain how the new connector works. We also show how you can manage your Prometheus metrics data cardinality by preprocessing raw data with Flink to build real-time observability with Amazon Managed Service for Prometheus and Amazon Managed Grafana.</p>
+<p>Amazon Managed Service for Prometheus is a secure, serverless, scaleable, Prometheus-compatible monitoring service. You can use the same open source Prometheus data model and query language that you use today to monitor the performance of your workloads without having to manage the underlying infrastructure. Flink connectors are software components that move data into and out of an Amazon Managed Service for Apache Flink application. You can use the new connector to send processed data to an Amazon Managed Service for Prometheus destination starting with Flink version 1.19. With Amazon Managed Service for Apache Flink, you can transform and analyze data in real time. There are no servers and clusters to manage, and there is no compute and storage infrastructure to set up.</p>
+<h2 id="observability-beyond-compute"><strong>Observability beyond compute</strong></h2>
+<p>In an increasingly connected world, the boundary of systems extends beyond compute assets, IT infrastructure, and applications. Distributed assets such as Internet of Things (IoT) devices, connected cars, and end-user media streaming devices are an integral part of business operations in many sectors. The ability to observe every asset of your business is key to detecting potential issues early, improving the experience of your customers, and protecting the profitability of the business.</p>
+<h2 id="metrics-and-time-series"><strong>Metrics and time series</strong></h2>
+<p>It is helpful to think of observability as three pillars: metrics, logs, and traces. The most relevant pillar for distributed devices, like IoT, is metrics. This is because metrics can capture measurements from sensors or counting of specific events emitted by the device.</p>
+<p>Metrics are series of samples of a given measurement at specific times. For example, in the case of a connected vehicle, they can be the readings from the electric motor RPM sensor. Metrics are normally represented as time series, or sequences of discrete data points in chronological order. Metrics’ time series are normally associated with dimensions, also called labels or tags, to help with classifying and analyzing the data. In the case of a connected vehicle, labels might be something like the following:</p>
+<ul>
+<li><strong>Metric name</strong> – For example, “Electric Motor RPM”</li>
+<li><strong>Vehicle ID</strong> – A unique identifier of the vehicle, like the Vehicle Identification Number (VIN)</li>
+</ul>
+<h2 id="prometheus-as-a-specialized-time-series-database"><strong>Prometheus as a specialized time series database</strong></h2>
+<p>Prometheus is a popular solution for storing and analyzing metrics. Prometheus defines a standard interface for storing and querying time series. Commonly used in combination with visualization tools like Grafana, Prometheus is optimized for real-time dashboards and real-time alerting.</p>
+<p>Often considered mainly for observing compute resources, like containers or applications, Prometheus is actually a specialized time series database that can effectively be used to observe different types of distributed assets, including IoT devices.</p>
+<p>Amazon Managed Service for Prometheus is a serverless, Prometheus-compatible monitoring service. See What is Amazon Managed Service for Prometheus? to learn more about Amazon Managed Service for Prometheus.</p>
+<h2 id="effectively-processing-observability-events-at-scale"><strong>Effectively processing observability events, at scale</strong></h2>
+<p>Handling observability data at scale becomes more challenging, due to the number of assets and unique metrics, especially when observing massively distributed devices, for the following reasons:</p>
+<ul>
+<li><strong>High cardinality</strong> – Each device emits multiple metrics or types of events, each to be tracked independently.</li>
+<li><strong>High frequency</strong> – Devices might emit events very frequently, multiple times per second. This might result in a large volume of raw data. This aspect in particular represents the main difference from observing compute resources, which are usually scraped at longer intervals.</li>
+<li><strong>Events arrive at irregular intervals and out of order</strong> – Unlike compute assets that are usually scraped at regular intervals, we often see delays of transmission or temporarily disconnected devices, which cause events to arrive at irregular intervals. Concurrent events from different devices might follow different paths and arrive at different times.</li>
+<li><strong>Lack of contextual information</strong> – Devices often transmit over channels with limited bandwidth, such as GPRS or Bluetooth. To optimize communication, events seldom contain contextual information, such as device model or user detail. However, this information is required for an effective observability.</li>
+<li><strong>Derive metrics from events</strong> – Devices often emit specific events when specific facts happen. For example, when the vehicle ignition is turned on or off, or when a warning is emitted by the onboard computer. These are not direct metrics. However, counting and measuring the rates of these events are valuable metrics that can be inferred from these events.</li>
+</ul>
+<p>Effectively extracting value from raw events requires processing. Processing might happen on read, when you query the data, or upfront, before storing.</p>
+<h2 id="storing-and-analyzing-raw-events"><strong>Storing and analyzing raw events</strong></h2>
+<p>The common approach with observability events, and with metrics in particular, is “storing first.” You can simply write the raw metrics into Prometheus. Processing, such as grouping, aggregating, and calculating derived metrics, happens “on query,” when data is extracted from Prometheus.</p>
+<p>This approach might become particularly inefficient when you’re building real-time dashboards or alerting, and your data has very high cardinality or high frequency. As a time series database is continuously queried, a large volume of data is repeatedly extracted from the storage and processed. The following diagram illustrates this workflow.</p>
+<h2 id="images3-blogstranslated33-blog3image_1jpg"><img src="../../images/3-BlogsTranslated/3.3-Blog3/image_1.jpg"></h2>
+<h2 id="preprocessing-raw-observability-events"><strong>Preprocessing raw observability events</strong></h2>
+<p>Preprocessing raw events before storing shifts the work left, as illustrated in the following diagram. This increases the efficiency of real-time dashboards and alerts, allowing the solution to scale.</p>
+<h2 id="images3-blogstranslated33-blog3image_2jpg"><img src="../../images/3-BlogsTranslated/3.3-Blog3/image_2.jpg"></h2>
+<h2 id="apache-flink-for-preprocessing-observability-events"><strong>Apache Flink for preprocessing observability events</strong></h2>
+<p>Preprocessing raw observability events requires a processing engine that allows you to do the following:</p>
+<ul>
+<li><strong>Enrich events efficiently</strong>, looking up reference data and adding new dimensions to the raw events. For example, adding the vehicle model based on the vehicle ID. Enrichment allows adding new dimensions to the time series, enabling analysis otherwise impossible.</li>
+<li><strong>Aggregate raw events over time windows</strong>, to reduce frequency. For example, if a vehicle emits an engine temperature measurement every second, you can emit a single sample with the average over 5 seconds. Prometheus can efficiently aggregate frequent samples on read. However, ingesting data with a frequency much higher than what is useful for dashboarding and real-time alerting is not an efficient use of Prometheus ingestion throughout and storage.</li>
+<li><strong>Aggregate raw events over dimensions</strong>, to reduce cardinality. For example, aggregating some measurement per vehicle model.</li>
+<li><strong>Calculate derived metrics applying arbitrary logic.</strong> For example, counting the number of warning events emitted by each vehicle. This also enables analysis otherwise impossible using only Prometheus and Grafana.</li>
+<li><strong>Support event-time semantics</strong>, to aggregate over time events from different sources.</li>
+</ul>
+<p>Such a preprocessing engine must also be able to scale and process the large volume of input raw events, and to process data with low latency—normally subsecond or single-digit seconds—to enable real-time dashboards and altering. To address these requirements, we see many customers using Flink.</p>
+<p>Apache Flink meets the aforementioned requirements. Flink is a framework and distributed stream processing engine, designed to perform computations at in-memory speed and at scale. Amazon Managed Service for Apache Flink offers a fully managed, serverless experience, allowing you to run your Flink applications without managing infrastructure or clusters.</p>
+<p>Amazon Managed Service for Apache Flink can process the ingested raw events. The resulting metrics, with lower cardinality and frequency, and additional dimensions, can be written to Prometheus for a more effective visualization and analysis. The following diagram illustrates this workflow.</p>
+<h2 id="images3-blogstranslated33-blog3image_3jpg"><img src="../../images/3-BlogsTranslated/3.3-Blog3/image_3.jpg"></h2>
+<h2 id="integrating-apache-flink-and-prometheus"><strong>Integrating Apache Flink and Prometheus</strong></h2>
+<p>The new Flink Prometheus connector allows Flink applications to seamlessly write preprocessed time series data to Prometheus. No intermediate component is needed, and there is no requirement to implement a custom integration. The connector is designed to scale, using the ability of Flink to scale horizontally, and optimizing the writes to a Prometheus backend using a Remote-Write interface.</p>
+<h2 id="example-use-case"><strong>Example use case</strong></h2>
+<p>AnyCompany is a car rental company managing a fleet of hundreds of thousands hybrid connected vehicles, in multiple regions. Each vehicle continuously transmits measurements from several sensors. Each sensor emits a sample every second or more frequently. Vehicles also communicate warning events when something wrong is detected by the onboard computer. The following diagram illustrates the workflow.</p>
+<h2 id="images3-blogstranslated33-blog3image_4jpg"><img src="../../images/3-BlogsTranslated/3.3-Blog3/image_4.jpg"></h2>
+<p>AnyCompany is planning to use Amazon Managed Service for Prometheus and Amazon Managed Grafana to visualize vehicle metrics and set up custom alerts.</p>
+<p>However, building a real-time dashboard based on raw data, as transmitted by the vehicles, might be complicated and inefficient. Each vehicle might have hundreds of sensors, each of them resulting in a separate time series to display. Additionally, AnyCompany wants to monitor the behavior of different vehicle models. Unfortunately, the events transmitted by the vehicles only contain the VIN. The model can be inferred by looking up (joining) some reference data.</p>
+<p>To overcome these challenges, AnyCompany has built a preprocessing stage based on Amazon Managed Service for Apache Flink. This stage has the following capabilities:</p>
+<ul>
+<li>Enrich the raw data by adding the vehicle model, and looking up reference data based on the vehicle identification.</li>
+<li>Reduce the cardinality, aggregating the results per vehicle model, available after the enrichment step.</li>
+<li>Reduce the frequency of the raw metrics to reduce write bandwidth, aggregating over time windows of a few seconds.</li>
+<li>Calculate derived metrics based on multiple raw metrics. For example, determine whether a vehicle is in motion when either the internal combustion engine or the electrical motor are rotating.</li>
+</ul>
+<p>The result of preprocessing are more actionable metrics. A dashboard built on these metrics can, for example, help determine whether the last software update released over-the-air to all vehicles of a specific model in specific regions, is causing issues.</p>
+<p>Using the Flink Prometheus connector, the preprocessor application can write directly to Amazon Managed Service for Prometheus, without intermediate components.</p>
+<p>Nothing prevents you from choosing to write raw metrics with full cardinality and frequency to Prometheus, allowing you to drill down to the single vehicle. The Flink Prometheus connector is designed to scale by batching and parallelizing writes.</p>
+<h2 id="solution-overview"><strong>Solution overview</strong></h2>
+<p>The following GitHub repository contains a fictional end-to-end example covering this use case. The following diagram illustrates the architecture of this example.</p>
+<h2 id="images3-blogstranslated33-blog3image_5jpg"><img src="../../images/3-BlogsTranslated/3.3-Blog3/image_5.jpg"></h2>
+<p>The workflow consists of the following steps:</p>
+<ol>
+<li>Vehicles, radio transmission, and ingestion of IoT events have been abstracted away, and replaced by a data generator that produces raw events for a hundred thousand fictional vehicles. For simplicity, the data generator is itself an Amazon Managed Service for Apache Flink application.</li>
+<li>Raw vehicle events are sent to a stream storage service. In this example, we use Amazon Managed Streaming for Apache Kafka (Amazon MSK).</li>
+<li>The core of the system is the preprocessor application, running in Amazon Managed Service for Apache Flink. We will dive deeper into the details of the processor in the following sections.</li>
+<li>Processed metrics are directly written to the Prometheus backend, in Amazon Managed Service for Prometheus.</li>
+<li>Metrics are used to generate real-time dashboards on Amazon Managed Grafana.</li>
+</ol>
+<p>The following screenshot shows a sample dashboard.</p>
+<h2 id="images3-blogstranslated33-blog3image_6jpg"><img src="../../images/3-BlogsTranslated/3.3-Blog3/image_6.jpg"></h2>
+<h2 id="raw-vehicle-events"><strong>Raw vehicle events</strong></h2>
+<p>Each vehicle transmits three metrics almost every second:</p>
+<ul>
+<li>Internal combustion (IC) engine RPM</li>
+<li>Electric motor RPM</li>
+<li>Number of reported warnings</li>
+</ul>
+<p>The raw events are identified by the vehicle ID and the region where the vehicle is located.</p>
+<h2 id="preprocessor-application"><strong>Preprocessor application</strong></h2>
+<p>The following diagram illustrates the logical flow of the preprocessing application running in Amazon Managed Service for Apache Flink.</p>
+<h2 id="images3-blogstranslated33-blog3image_7jpg"><img src="../../images/3-BlogsTranslated/3.3-Blog3/image_7.jpg"></h2>
+<p>The workflow consists of the following steps:</p>
+<ol>
+<li>Raw events are ingested from Amazon MSK from Flink Kafka source.</li>
+<li>An enrichment operator adds the vehicle model, which is not contained in the raw events. This additional dimension is then used to aggregate the raw events. The resulting metrics have only two dimensions: vehicle model and region.</li>
+<li>Raw events are then aggregated over time windows (5 seconds) to reduce frequency. In this example, the aggregation logic also generates a derived metric: the number of vehicles in motion. A new metric can be derived from raw metrics with arbitrary logic. For the sake of the example, a vehicle is considered “in motion” if either the IC engine or electric motor RPM metric are not zero.</li>
+<li>The processed metrics are mapped into the input data structure of the Flink Prometheus connector, which maps directly to the time series records expected by the Prometheus Remote-Write interface. Refer to the connector documentation for more details.</li>
+<li>Finally, the metrics are sent to Prometheus using the Flink Prometheus connector. Write authentication, required by Amazon Managed Service for Prometheus, is seamlessly enabled using the Amazon Managed Service for Prometheus request signer provided with the connector. Credentials are automatically derived from the AWS Identity and Access Management (IAM) role of the Amazon Managed Service for Apache Flink application. No additional secret or credential is required.</li>
+</ol>
+<p>In the GitHub repository, you can find the step-by-step instructions to set up the working example and create the Grafana dashboard.</p>
+<h2 id="flink-prometheus-connector-key-features"><strong>Flink Prometheus connector key features</strong></h2>
+<p>The Flink Prometheus connector allows Flink applications to write processed metrics to Prometheus, using the Remote-Write interface.</p>
+<p>The connector is designed to scale write throughput by:</p>
+<ul>
+<li>Parallelizing writes, using the Flink parallelism capability</li>
+<li>Batching multiple samples in a single write request to the Prometheus endpoint</li>
+</ul>
+<p>Error handling complies with Prometheus Remote-Write 1.0 specifications. The specifications are particularly strict about malformed or out-of-order data rejected by Prometheus.</p>
+<p>When a malformed or out-of-order write is rejected, the connector discards the offending write request and continues, preferring data freshness over completeness. However, the connector makes data loss observable, emitting WARN log entries and exposing metrics that measure the volume of discarded data. In Amazon Managed Service for Apache Flink, these connector metrics can be automatically exported to Amazon CloudWatch.</p>
+<h2 id="responsibilities-of-the-user"><strong>Responsibilities of the user</strong></h2>
+<p>The connector is optimized for efficiency, write throughput, and latency. Validation of incoming data would be particularly expensive in terms of CPU utilization. Additionally, different Prometheus backend implementations enforce constraints differently. For these reasons, the connector doesn’t validate incoming data before writing to Prometheus.</p>
+<p>The user is responsible of making sure that the data sent to the Flink Prometheus connector follows the constraints enforced by the particular Prometheus implementations they are using.</p>
+<h2 id="ordering"><strong>Ordering</strong></h2>
+<p>Ordering is particularly relevant. Prometheus expects that samples belonging to the same time series—samples with the same metric name and labels—are written in time order. The connector makes sure ordering is not lost when data is partitioned to parallelize writes.</p>
+<p>However, the user is responsible for retaining the ordering upstream in the pipeline. To achieve this, the user must carefully design data partitioning within the Flink application and the stream storage. Only partitioning by key must be used, and partitioning keys must compound the metric name and all labels that will be used in Prometheus.</p>
+<h2 id="conclusion"><strong>Conclusion</strong></h2>
+<p>Prometheus is a specialized time series database, designed for building real-time dashboards and altering. Amazon Managed Service for Prometheus is a fully managed, serverless backend compatible with the Prometheus open source standard. Amazon Managed Grafana allows you to build real-time dashboards, seamlessly interfacing with Amazon Managed Service for Prometheus.</p>
+<p>You can use Prometheus for observability use cases beyond compute resource, to observe IoT devices, connected cars, media streaming devices, and other highly distributed assets providing telemetry data.</p>
+<p>Directly visualizing and analyzing high-cardinality and high-frequency data can be inefficient. Preprocessing raw observability events with Amazon Managed Service for Apache Flink shifts the work left, greatly simplifying the dashboards or alerting you can build on top of Amazon Managed Service for Prometheus.</p>
+<p>For more information about running Flink, Prometheus, and Grafana on AWS, see the resources of these services:</p>
+<ul>
+<li>Amazon Managed Service for Apache Flink</li>
+<li>Amazon Managed Service for Prometheus</li>
+<li>Amazon Managed Grafana</li>
+</ul>
+<p>For more information about the Flink Prometheus integration, see the Apache Flink documentation.</p>
+<h2 id="about-the-authors"><strong>About the authors</strong></h2>
+<div style="display:flex; flex-direction:column; gap:1rem;">
+  <div style="display:flex; align-items:flex-start; gap:1rem;">
+    <img src="../../images/3-BlogsTranslated/3.3-Blog3/image_8.jpg" alt="Lorenzo Nicora" style="width:120px; height:120px; object-fit:cover; border-radius:8px;" />
+    <div>
+      <strong>Lorenzo Nicora</strong><br/>
+      Lorenzo Nicora works as Senior Streaming Solution Architect at AWS, helping customers across EMEA. He has been building cloud-centered, data-intensive systems for over 25 years, working across industries both through consultancies and product companies. He has used open-source technologies extensively and contributed to several projects, including Apache Flink, and is the maintainer of the Flink Prometheus connector.
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:1rem;">
+    <img src="../../images/3-BlogsTranslated/3.3-Blog3/image_9.jpg" alt="Francisco Morillo" style="width:120px; height:120px; object-fit:cover; border-radius:8px;" />
+    <div>
+      <strong>Francisco Morillo</strong><br/>
+      Francisco Morillo is a Senior Streaming Solutions Architect at AWS. Francisco works with AWS customers, helping them design real-time analytics architectures using AWS services, supporting Amazon MSK and Amazon Managed Service for Apache Flink. He is also a main contributor to the Flink Prometheus connector.
+    </div>
+  </div>
+</div>
+
+
+
+
+<footer class=" footline" >
+	
+</footer>
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="../../3-blogstranslated/3.2-blog2/" title="Blog 2"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="../../4-eventparticipated/" title="Events Participated" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="../../js/clipboard.min.js?1785348040"></script>
+    <script src="../../js/perfect-scrollbar.min.js?1785348040"></script>
+    <script src="../../js/perfect-scrollbar.jquery.min.js?1785348040"></script>
+    <script src="../../js/jquery.sticky.js?1785348040"></script>
+    <script src="../../js/featherlight.min.js?1785348040"></script>
+    <script src="../../js/highlight.pack.js?1785348040"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="../../js/modernizr.custom-3.6.0.js?1785348040"></script>
+    <script src="../../js/learn.js?1785348040"></script>
+    <script src="../../js/hugo-learn.js?1785348040"></script>
+
+    <link href="../../mermaid/mermaid.css?1785348040" rel="stylesheet" />
+    <script src="../../mermaid/mermaid.js?1785348040"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    <script>
+  (function (i, s, o, g, r, a, m) {
+    i["GoogleAnalyticsObject"] = r;
+    ((i[r] =
+      i[r] ||
+      function () {
+        (i[r].q = i[r].q || []).push(arguments);
+      }),
+      (i[r].l = 1 * new Date()));
+    ((a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]));
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m);
+  })(
+    window,
+    document,
+    "script",
+    "https://www.google-analytics.com/analytics.js",
+    "ga",
+  );
+
+  ga("create", "UA-158079754-2", "auto");
+  ga("send", "pageview");
+</script>
+
+  </body>
+</html>

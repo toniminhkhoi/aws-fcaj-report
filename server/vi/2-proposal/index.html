@@ -1,0 +1,2163 @@
+<!DOCTYPE html>
+<html lang="vi" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.134.3">
+    <meta
+  name="description"
+  content=""
+/>
+<meta name="author" content="thienlh@thienlu.com" />
+
+    <link rel="icon" href="../../images/favicon.png" type="image/png">
+
+    <title>Bản đề xuất :: Báo cáo thực tập</title>
+
+    
+    <link href="../../css/nucleus.css?1785348040" rel="stylesheet">
+    <link href="../../css/fontawesome-all.min.css?1785348040" rel="stylesheet">
+    <link href="../../css/hybrid.css?1785348040" rel="stylesheet">
+    <link href="../../css/featherlight.min.css?1785348040" rel="stylesheet">
+    <link href="../../css/perfect-scrollbar.min.css?1785348040" rel="stylesheet">
+    <link href="../../css/auto-complete.css?1785348040" rel="stylesheet">
+    <link href="../../css/atom-one-dark-reasonable.css?1785348040" rel="stylesheet">
+    <link href="../../css/theme.css?1785348040" rel="stylesheet">
+    <link href="../../css/hugo-theme.css?1785348040" rel="stylesheet">
+    
+    <link href="../../css/theme-workshop.css?1785348040" rel="stylesheet">
+    
+    
+
+    <script src="../../js/jquery-3.3.1.min.js?1785348040"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+    </style>
+    
+
+  </head>
+  <body class="" data-url="../../vi/2-proposal/">
+    <nav
+  id="sidebar"
+  class="showVisitedLinks"
+>
+   
+  <div id="header-wrapper">
+    <div id="header"><a id="logo" href="../../">
+  <svg
+    id="Layer_1"
+    data-name="Layer 1"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 60 30"
+    width="30%"
+  >
+    <defs>
+      <style>
+        .cls-1 {
+          fill: #fff;
+        }
+        .cls-2 {
+          fill: #f90;
+          fill-rule: evenodd;
+        }
+      </style>
+    </defs>
+    <title>AWS-Logo_White-Color</title>
+    <path
+      class="cls-1"
+      d="M14.09,10.85a4.7,4.7,0,0,0,.19,1.48,7.73,7.73,0,0,0,.54,1.19.77.77,0,0,1,.12.38.64.64,0,0,1-.32.49l-1,.7a.83.83,0,0,1-.44.15.69.69,0,0,1-.49-.23,3.8,3.8,0,0,1-.6-.77q-.25-.42-.51-1a6.14,6.14,0,0,1-4.89,2.3,4.54,4.54,0,0,1-3.32-1.19,4.27,4.27,0,0,1-1.22-3.2A4.28,4.28,0,0,1,3.61,7.75,6.06,6.06,0,0,1,7.69,6.46a12.47,12.47,0,0,1,1.76.13q.92.13,1.91.36V5.73a3.65,3.65,0,0,0-.79-2.66A3.81,3.81,0,0,0,7.86,2.3a7.71,7.71,0,0,0-1.79.22,12.78,12.78,0,0,0-1.79.57,4.55,4.55,0,0,1-.58.22l-.26,0q-.35,0-.35-.52V2a1.09,1.09,0,0,1,.12-.58,1.2,1.2,0,0,1,.47-.35A10.88,10.88,0,0,1,5.77.32,10.19,10.19,0,0,1,8.36,0a6,6,0,0,1,4.35,1.35,5.49,5.49,0,0,1,1.38,4.09ZM7.34,13.38a5.36,5.36,0,0,0,1.72-.31A3.63,3.63,0,0,0,10.63,12,2.62,2.62,0,0,0,11.19,11a5.63,5.63,0,0,0,.16-1.44v-.7a14.35,14.35,0,0,0-1.53-.28,12.37,12.37,0,0,0-1.56-.1,3.84,3.84,0,0,0-2.47.67A2.34,2.34,0,0,0,5,11a2.35,2.35,0,0,0,.61,1.76A2.4,2.4,0,0,0,7.34,13.38Zm13.35,1.8a1,1,0,0,1-.64-.16,1.3,1.3,0,0,1-.35-.65L15.81,1.51a3,3,0,0,1-.15-.67.36.36,0,0,1,.41-.41H17.7a1,1,0,0,1,.65.16,1.4,1.4,0,0,1,.33.65l2.79,11,2.59-11A1.17,1.17,0,0,1,24.39.6a1.1,1.1,0,0,1,.67-.16H26.4a1.1,1.1,0,0,1,.67.16,1.17,1.17,0,0,1,.32.65L30,12.39,32.88,1.25A1.39,1.39,0,0,1,33.22.6a1,1,0,0,1,.65-.16h1.54a.36.36,0,0,1,.41.41,1.36,1.36,0,0,1,0,.26,3.64,3.64,0,0,1-.12.41l-4,12.86a1.3,1.3,0,0,1-.35.65,1,1,0,0,1-.64.16H29.25a1,1,0,0,1-.67-.17,1.26,1.26,0,0,1-.32-.67L25.67,3.64,23.11,14.34a1.26,1.26,0,0,1-.32.67,1,1,0,0,1-.67.17Zm21.36.44a11.28,11.28,0,0,1-2.56-.29,7.44,7.44,0,0,1-1.92-.67,1,1,0,0,1-.61-.93v-.84q0-.52.38-.52a.9.9,0,0,1,.31.06l.42.17a8.77,8.77,0,0,0,1.83.58,9.78,9.78,0,0,0,2,.2,4.48,4.48,0,0,0,2.43-.55,1.76,1.76,0,0,0,.86-1.57,1.61,1.61,0,0,0-.45-1.16A4.29,4.29,0,0,0,43,9.22l-2.41-.76A5.15,5.15,0,0,1,38,6.78a3.94,3.94,0,0,1-.83-2.41,3.7,3.7,0,0,1,.45-1.85,4.47,4.47,0,0,1,1.19-1.37A5.27,5.27,0,0,1,40.51.29,7.4,7.4,0,0,1,42.6,0a8.87,8.87,0,0,1,1.12.07q.57.07,1.08.19t.95.26a4.27,4.27,0,0,1,.7.29,1.59,1.59,0,0,1,.49.41.94.94,0,0,1,.15.55v.79q0,.52-.38.52a1.76,1.76,0,0,1-.64-.2,7.74,7.74,0,0,0-3.2-.64,4.37,4.37,0,0,0-2.21.47,1.6,1.6,0,0,0-.79,1.48,1.58,1.58,0,0,0,.49,1.18,4.94,4.94,0,0,0,1.83.92L44.55,7a5.08,5.08,0,0,1,2.57,1.6A3.76,3.76,0,0,1,47.9,11a4.21,4.21,0,0,1-.44,1.93,4.4,4.4,0,0,1-1.21,1.47,5.43,5.43,0,0,1-1.85.93A8.25,8.25,0,0,1,42.05,15.62Z"
+    ></path>
+    <path
+      class="cls-2"
+      d="M45.19,23.81C39.72,27.85,31.78,30,25,30A36.64,36.64,0,0,1,.22,20.57c-.51-.46-.06-1.09.56-.74A49.78,49.78,0,0,0,25.53,26.4,49.23,49.23,0,0,0,44.4,22.53C45.32,22.14,46.1,23.14,45.19,23.81Z"
+    ></path>
+    <path
+      class="cls-2"
+      d="M47.47,21.21c-.7-.9-4.63-.42-6.39-.21-.53.06-.62-.4-.14-.74,3.13-2.2,8.27-1.57,8.86-.83s-.16,5.89-3.09,8.35c-.45.38-.88.18-.68-.32C46.69,25.8,48.17,22.11,47.47,21.21Z"
+    ></path>
+  </svg>
+</a>
+</div>
+     <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="../../js/lunr.min.js?1785348040"></script>
+<script type="text/javascript" src="../../js/auto-complete.js?1785348040"></script>
+<script type="text/javascript">
+    
+    
+        var baseurl = "https:\/\/danielleit241.github.io\/aws-fcj-report\/\/vi";
+    
+</script>
+<script type="text/javascript" src="../../js/search.js?1785348040"></script>
+ 
+  </div>
+
+  <div class="highlightable">
+    <ul class="topics">
+               
+<li
+  data-nav-id="/vi/1-worklog/"
+  title="Nhật ký công việc"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/1-worklog/">
+     <b> 1. </b> Nhật ký công việc 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+  <ul>
+          
+            
+<li
+  data-nav-id="/vi/1-worklog/1.1-week1/"
+  title="Worklog Tuần 1"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/1-worklog/1.1-week1/">
+     <b> 1.1. </b> Worklog Tuần 1 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.2-week2/"
+  title="Worklog Tuần 2"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/1-worklog/1.2-week2/">
+     <b> 1.2. </b> Worklog Tuần 2 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.3-week3/"
+  title="Worklog Tuần 3"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/1-worklog/1.3-week3/">
+     <b> 1.3. </b> Worklog Tuần 3 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.4-week4/"
+  title="Worklog Tuần 4"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/1-worklog/1.4-week4/">
+     <b> 1.4. </b> Worklog Tuần 4 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.5-week5/"
+  title="Worklog Tuần 5"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/1-worklog/1.5-week5/">
+     <b> 1.5. </b> Worklog Tuần 5 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.6-week6/"
+  title="Worklog Tuần 6"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/1-worklog/1.6-week6/">
+     <b> 1.6. </b> Worklog Tuần 6 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.7-week7/"
+  title="Worklog Tuần 7"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/1-worklog/1.7-week7/">
+     <b> 1.7. </b> Worklog Tuần 7 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.8-week8/"
+  title="Worklog Tuần 8"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/1-worklog/1.8-week8/">
+     <b> 1.8. </b> Worklog Tuần 8 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.9-week9/"
+  title="[Dự kiến] Worklog Tuần 9"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/1-worklog/1.9-week9/">
+     <b> 1.9. </b> [Dự kiến] Worklog Tuần 9 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.10-week10/"
+  title="[Dự kiến] Worklog Tuần 10"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/1-worklog/1.10-week10/">
+     <b> 1.10. </b> [Dự kiến] Worklog Tuần 10 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+     
+  </ul>
+  
+</li>
+           
+<li
+  data-nav-id="/vi/2-proposal/"
+  title="Bản đề xuất"
+  class="dd-item 
+        
+        active
+        
+        "
+>
+  <a href="../../vi/2-proposal/">
+     <b> 2. </b> Bản đề xuất 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+           
+<li
+  data-nav-id="/vi/3-blogstranslated/"
+  title="Các Blog Đã Dịch"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/3-blogstranslated/">
+     <b> 3. </b> Các Blog Đã Dịch 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+  <ul>
+          
+            
+<li
+  data-nav-id="/vi/3-blogstranslated/3.1-blog1/"
+  title="Blog 1"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/3-blogstranslated/3.1-blog1/">
+     <b> 3.1. </b> Blog 1 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/3-blogstranslated/3.2-blog2/"
+  title="Blog 2"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/3-blogstranslated/3.2-blog2/">
+     <b> 3.2. </b> Blog 2 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/3-blogstranslated/3.3-blog3/"
+  title="Blog 3"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/3-blogstranslated/3.3-blog3/">
+     <b> 3.3. </b> Blog 3 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+     
+  </ul>
+  
+</li>
+           
+<li
+  data-nav-id="/vi/4-eventparticipated/"
+  title="Các Sự kiện Đã Tham gia"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/4-eventparticipated/">
+     <b> 4. </b> Các Sự kiện Đã Tham gia 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+  <ul>
+          
+            
+<li
+  data-nav-id="/vi/4-eventparticipated/4.1-event1/"
+  title="Sự kiện 1"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/4-eventparticipated/4.1-event1/">
+     <b> 4.1. </b> Sự kiện 1 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/4-eventparticipated/4.2-event2/"
+  title="Sự kiện 2"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/4-eventparticipated/4.2-event2/">
+     <b> 4.2. </b> Sự kiện 2 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/4-eventparticipated/4.3-event3/"
+  title="Sự kiện 3"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/4-eventparticipated/4.3-event3/">
+     <b> 4.3. </b> Sự kiện 3 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+     
+  </ul>
+  
+</li>
+           
+<li
+  data-nav-id="/vi/5-workshop/"
+  title="Workshop"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/5-workshop/">
+     <b> 5. </b> Workshop 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+  <ul>
+          
+            
+<li
+  data-nav-id="/vi/5-workshop/5.1-workshop-overview/"
+  title="Tổng quan Workshop"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/5-workshop/5.1-workshop-overview/">
+     <b> 5.1. </b> Tổng quan Workshop 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.2-prerequisites/"
+  title="Điều kiện tiên quyết"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/5-workshop/5.2-prerequisites/">
+     <b> 5.2. </b> Điều kiện tiên quyết 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.3-architecture-and-service-design/"
+  title="Kiến trúc và thiết kế dịch vụ"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/5-workshop/5.3-architecture-and-service-design/">
+     <b> 5.3. </b> Kiến trúc và thiết kế dịch vụ 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.4-aws-infrastructure-setup/"
+  title="Thiết lập hạ tầng AWS"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/5-workshop/5.4-aws-infrastructure-setup/">
+     <b> 5.4. </b> Thiết lập hạ tầng AWS 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.5-backend-and-database/"
+  title="Triển khai backend và tích hợp cơ sở dữ liệu"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/5-workshop/5.5-backend-and-database/">
+     <b> 5.5. </b> Triển khai backend và tích hợp cơ sở dữ liệu 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.6-hardware-integration/"
+  title="Tích hợp phần cứng"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/5-workshop/5.6-hardware-integration/">
+     <b> 5.6. </b> Tích hợp phần cứng 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.7-frontend-integration/"
+  title="Tích hợp frontend"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/5-workshop/5.7-frontend-integration/">
+     <b> 5.7. </b> Tích hợp frontend 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.8-end-to-end-testing/"
+  title="Kiểm thử và xác minh đầu cuối"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/5-workshop/5.8-end-to-end-testing/">
+     <b> 5.8. </b> Kiểm thử và xác minh đầu cuối 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.9-cloudwatch-monitoring/"
+  title="Giám sát bằng CloudWatch"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/5-workshop/5.9-cloudwatch-monitoring/">
+     <b> 5.9. </b> Giám sát bằng CloudWatch 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.10-cost-security-cleanup/"
+  title="Chi phí, bảo mật và dọn dẹp"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/5-workshop/5.10-cost-security-cleanup/">
+     <b> 5.10. </b> Chi phí, bảo mật và dọn dẹp 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.11-results-challenges-future/"
+  title="Kết quả, thách thức và hướng cải tiến"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/5-workshop/5.11-results-challenges-future/">
+     <b> 5.11. </b> Kết quả, thách thức và hướng cải tiến 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.12-project-handover/"
+  title="Bàn giao dự án"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/5-workshop/5.12-project-handover/">
+     <b> 5.12. </b> Bàn giao dự án 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+     
+  </ul>
+  
+</li>
+           
+<li
+  data-nav-id="/vi/6-self-evaluation/"
+  title="Tự đánh giá"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/6-self-evaluation/">
+     <b> 6. </b> Tự đánh giá 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+           
+<li
+  data-nav-id="/vi/7-feedback/"
+  title="Chia sẻ, đóng góp ý kiến"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../vi/7-feedback/">
+     <b> 7. </b> Chia sẻ, đóng góp ý kiến 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+    </ul>
+
+     
+    <section id="shortcuts">
+      <h3>
+        More
+      </h3>
+      <ul>
+        
+        <li>
+          <a class="padding" href="https://www.facebook.com/groups/awsstudygroupfcj/"
+            ><i class='fab fa-facebook'></i> AWS Study Group</a
+          >
+        </li>
+        
+      </ul>
+    </section>
+      
+    <section id="prefooter">
+      <hr />
+      <ul>
+        
+        <li>
+          <a class="padding">
+            <i class="fas fa-language fa-fw"></i>
+            <div class="select-style">
+              <select id="select-language" onchange="location = this.value;">
+                       
+                <option
+                  id="en"
+                  value="https://danielleit241.github.io/aws-fcj-report/2-proposal/"
+                >
+                  English
+                </option>
+                            
+                <option
+                  id="vi"
+                  value="https://danielleit241.github.io/aws-fcj-report/vi/2-proposal/"
+                  selected
+                >
+                  Tiếng Việt
+                </option>
+                   
+              </select>
+              <svg
+                version="1.1"
+                id="Capa_1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                x="0px"
+                y="0px"
+                width="255px"
+                height="255px"
+                viewBox="0 0 255 255"
+                style="enable-background: new 0 0 255 255"
+                xml:space="preserve"
+              >
+                <g>
+                  <g id="arrow-drop-down">
+                    <polygon points="0,63.75 127.5,191.25 255,63.75     " />
+                  </g>
+                </g>
+              </svg>
+            </div>
+          </a>
+        </li>
+         
+        <li>
+          <a class="padding" href="#" data-clear-history-toggle=""
+            ><i class="fas fa-history fa-fw"></i> Clear History</a
+          >
+        </li>
+        
+      </ul>
+    </section>
+    
+    <section id="footer"><left>
+    
+    <b> Workshop</b> <br>
+    <img src="https://hitwebcounter.com/counter/counter.php?page=7920860&style=0038&nbdigits=9&type=page&initCount=0"
+        title="Migrate" Alt="web counter" border="0" /></a> <br>
+    <b> <a href="https://cloudjourney.awsstudygroup.com/">Cloud Journey</a></b> <br>
+    <img src="https://hitwebcounter.com/counter/counter.php?page=7830807&style=0038&nbdigits=9&type=page&initCount=0"
+        title="Total CLoud Journey" Alt="web counter" border="0" />
+
+</left>
+<left>
+    <br>
+    <br>
+    <b>Last Updated</b><br>
+    <i>
+        <span id="lastUpdated" style="color:orange;"></span>
+    </i>
+
+    <script>
+        
+        const today = new Date();
+        
+        const formattedDate = today.toLocaleDateString('en-GB');
+        
+        document.getElementById('lastUpdated').textContent = formattedDate;
+    </script>
+</left>
+<left>
+    <br>
+    <br>
+    <b> Team </b> <br>
+
+    <i> <a href="https://www.facebook.com/groups/660548818043427" style="color:orange">First Cloud Journey</a> <br>
+
+    </i>
+</left>
+
+<script async defer src="https://buttons.github.io/buttons.js"></script></section>
+  </div>
+</nav>
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            <a href='../../vi/'>Báo cáo thực tập</a> > Bản đề xuất
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+  <div class="wrapper"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#bạn-có-thể-tải-bản-proposal-tại-đây-a-hreffiles2-proposaliot_dashboard_proposal_vipdf-downloadiot-dashboard-proposala">Bạn có thể tải bản Proposal tại đây: <a href="../../files/2-Proposal/IoT_Dashboard_Proposal_vi.pdf" download>IoT Dashboard Proposal</a></a></li>
+      </ul>
+    </li>
+    <li><a href="#1-tóm-tắt-dự-án">1. Tóm tắt dự án</a></li>
+    <li><a href="#2-bài-toán-cần-giải-quyết">2. Bài toán cần giải quyết</a>
+      <ul>
+        <li><a href="#21-vấn-đề-hiện-tại">2.1 Vấn đề hiện tại</a></li>
+        <li><a href="#22-giải-pháp-đề-xuất">2.2 Giải pháp đề xuất</a></li>
+        <li><a href="#23-lợi-ích">2.3 Lợi ích</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-mục-tiêu-và-phạm-vi-dự-án">3. Mục tiêu và phạm vi dự án</a>
+      <ul>
+        <li><a href="#31-mục-tiêu">3.1 Mục tiêu</a></li>
+        <li><a href="#32-phạm-vi-hiện-tại">3.2 Phạm vi hiện tại</a></li>
+        <li><a href="#33-ngoài-phạm-vi">3.3 Ngoài phạm vi</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-kiến-trúc-giải-pháp">4. Kiến trúc giải pháp</a>
+      <ul>
+        <li><a href="#41-các-thành-phần-kiến-trúc">4.1 Các thành phần kiến trúc</a></li>
+        <li><a href="#42-luồng-dữ-liệu">4.2 Luồng dữ liệu</a></li>
+        <li><a href="#43-lý-do-lựa-chọn-dịch-vụ">4.3 Lý do lựa chọn dịch vụ</a></li>
+        <li><a href="#44-thiết-kế-bảo-mật">4.4 Thiết kế bảo mật</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-kế-hoạch-triển-khai-kỹ-thuật">5. Kế hoạch triển khai kỹ thuật</a>
+      <ul>
+        <li><a href="#giai-đoạn-1--nền-tảng-aws">Giai đoạn 1 — Nền tảng AWS</a></li>
+        <li><a href="#giai-đoạn-2--backend-và-database">Giai đoạn 2 — Backend và Database</a></li>
+        <li><a href="#giai-đoạn-3--hardware">Giai đoạn 3 — Hardware</a></li>
+        <li><a href="#giai-đoạn-4--frontend-và-tích-hợp">Giai đoạn 4 — Frontend và Tích hợp</a></li>
+        <li><a href="#giai-đoạn-5--monitoring-và-tài-liệu">Giai đoạn 5 — Monitoring và Tài liệu</a></li>
+      </ul>
+    </li>
+    <li><a href="#6-timeline-và-các-mốc-triển-khai">6. Timeline và các mốc triển khai</a></li>
+    <li><a href="#7-ước-tính-ngân-sách">7. Ước tính ngân sách</a></li>
+    <li><a href="#8-đánh-giá-rủi-ro">8. Đánh giá rủi ro</a></li>
+    <li><a href="#9-kết-quả-kỳ-vọng">9. Kết quả kỳ vọng</a>
+      <ul>
+        <li><a href="#tiêu-chí-thành-công">Tiêu chí thành công</a></li>
+      </ul>
+    </li>
+    <li><a href="#10-phân-công-thành-viên">10. Phân công thành viên</a></li>
+    <li><a href="#11-sản-phẩm-bàn-giao">11. Sản phẩm bàn giao</a></li>
+  </ul>
+</nav></div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              Bản đề xuất
+            </h1>
+          
+
+        
+
+
+
+	<h1 id="aws-iot-monitoring-and-control-dashboard">AWS IoT Monitoring and Control Dashboard</h1>
+<h3 id="bạn-có-thể-tải-bản-proposal-tại-đây-a-hreffiles2-proposaliot_dashboard_proposal_vipdf-downloadiot-dashboard-proposala">Bạn có thể tải bản Proposal tại đây: <a href="../../files/2-Proposal/IoT_Dashboard_Proposal_vi.pdf" download>IoT Dashboard Proposal</a></h3>
+<blockquote>
+<p>Cần cập nhật lại file PDF để nội dung khớp với trang này trước khi nộp báo cáo cuối cùng.</p>
+</blockquote>
+<hr>
+<h2 id="1-tóm-tắt-dự-án">1. Tóm tắt dự án</h2>
+<p><strong>AWS IoT Monitoring and Control Dashboard</strong> là một nền tảng IoT kết nối với cloud, được xây dựng để giám sát dữ liệu môi trường và điều khiển thiết bị từ xa trong một phòng.</p>
+<p>Hệ thống sử dụng thiết bị <strong>YOLO UNO ESP32-S3</strong> để thu thập nhiệt độ, độ ẩm và cường độ ánh sáng. Phần cứng gửi telemetry thông qua HTTP REST API đến <strong>FastAPI backend chạy trên Amazon EC2</strong>. Backend lưu telemetry và command điều khiển vào <strong>Amazon RDS for PostgreSQL</strong>.</p>
+<p>Dashboard được xây dựng bằng <strong>React + Vite</strong>, có chức năng hiển thị dữ liệu mới nhất, lịch sử cảm biến, trạng thái thiết bị và kết quả command. Người dùng có thể điều khiển quạt, đèn và rèm trên dashboard. Thiết bị định kỳ lấy command đang chờ từ backend, thực thi và gửi ACK để trạng thái command chuyển từ <code>Pending</code> sang <code>Executed</code>.</p>
+<p><strong>Amazon CloudWatch</strong> được sử dụng để thu thập log backend và metric hạ tầng. CloudWatch Alarms được cấu hình để theo dõi trạng thái vận hành của EC2 và RDS.</p>
+<hr>
+<h2 id="2-bài-toán-cần-giải-quyết">2. Bài toán cần giải quyết</h2>
+<h3 id="21-vấn-đề-hiện-tại">2.1 Vấn đề hiện tại</h3>
+<p>Trong các phòng nhỏ, phòng thí nghiệm hoặc môi trường học tập, cảm biến và thiết bị điện thường hoạt động riêng lẻ. Điều này tạo ra một số hạn chế:</p>
+<ul>
+<li>Dữ liệu môi trường không được lưu tập trung.</li>
+<li>Người dùng không thể xem lại lịch sử nhiệt độ, độ ẩm và ánh sáng.</li>
+<li>Các thiết bị không thể được điều khiển từ xa trên một dashboard duy nhất.</li>
+<li>Một request điều khiển thành công chưa chứng minh thiết bị vật lý đã thực sự thực thi.</li>
+<li>Log ứng dụng và metric hạ tầng khó được theo dõi tập trung.</li>
+</ul>
+<h3 id="22-giải-pháp-đề-xuất">2.2 Giải pháp đề xuất</h3>
+<p>Project xây dựng một nền tảng giám sát và điều khiển trên cloud với luồng dữ liệu hai chiều hoàn chỉnh:</p>
+<p>Hệ thống hỗ trợ:</p>
+<ul>
+<li>Nhận telemetry từ phần cứng thật.</li>
+<li>Hiển thị dữ liệu cảm biến mới nhất và dữ liệu lịch sử.</li>
+<li>Điều khiển quạt, đèn và rèm từ xa.</li>
+<li>Theo dõi command bằng trạng thái <code>Pending</code> và <code>Executed</code>.</li>
+<li>Nhận ACK từ thiết bị sau khi thực thi command.</li>
+<li>Phân tích dữ liệu và đưa ra đề xuất dựa trên rule.</li>
+<li>Giám sát bằng CloudWatch Logs, Metrics và Alarms.</li>
+</ul>
+<h3 id="23-lợi-ích">2.3 Lợi ích</h3>
+<ul>
+<li>Giám sát tập trung dữ liệu cảm biến và thiết bị chấp hành.</li>
+<li>Giao tiếp hai chiều giữa dashboard và phần cứng vật lý.</li>
+<li>Lưu bền vững telemetry và lịch sử command trong PostgreSQL.</li>
+<li>Hỗ trợ debug thông qua log, metric và trạng thái command.</li>
+<li>Thiết kế module hóa, có thể mở rộng cho nhiều phòng và thiết bị.</li>
+</ul>
+<hr>
+<h2 id="3-mục-tiêu-và-phạm-vi-dự-án">3. Mục tiêu và phạm vi dự án</h2>
+<h3 id="31-mục-tiêu">3.1 Mục tiêu</h3>
+<p>Dự án hướng đến các mục tiêu sau:</p>
+<ol>
+<li>Xây dựng thiết bị IoT vật lý bằng YOLO UNO ESP32-S3.</li>
+<li>Thu thập nhiệt độ, độ ẩm và dữ liệu cảm biến ánh sáng.</li>
+<li>Gửi telemetry đến FastAPI REST API trên Amazon EC2.</li>
+<li>Lưu telemetry và command trong Amazon RDS for PostgreSQL.</li>
+<li>Hiển thị dữ liệu mới nhất và lịch sử trên dashboard React.</li>
+<li>Điều khiển quạt, đèn và rèm từ xa.</li>
+<li>Triển khai vòng đời command <code>Pending</code> → <code>Executed</code>.</li>
+<li>Gửi ACK từ thiết bị sau khi thực thi command.</li>
+<li>Giám sát EC2, RDS và log backend bằng Amazon CloudWatch.</li>
+<li>Hoàn thiện Workshop và báo cáo song ngữ.</li>
+</ol>
+<h3 id="32-phạm-vi-hiện-tại">3.2 Phạm vi hiện tại</h3>
+<p>Phiên bản hiện tại tập trung vào một thiết bị mẫu:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>DEVICE_ID = room_01
+</span></span></code></pre></div><p>Thiết bị gồm:</p>
+<ul>
+<li>Cảm biến nhiệt độ và độ ẩm DHT20.</li>
+<li>Cảm biến ánh sáng analog.</li>
+<li>Module quạt.</li>
+<li>Module đèn hoặc relay.</li>
+<li>Servo motor điều khiển rèm.</li>
+</ul>
+<p>Các command được hỗ trợ:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>FAN_ON
+</span></span><span style="display:flex;"><span>FAN_OFF
+</span></span><span style="display:flex;"><span>LIGHT_ON
+</span></span><span style="display:flex;"><span>LIGHT_OFF
+</span></span><span style="display:flex;"><span>CURTAIN_OPEN
+</span></span><span style="display:flex;"><span>CURTAIN_CLOSE
+</span></span></code></pre></div><h3 id="33-ngoài-phạm-vi">3.3 Ngoài phạm vi</h3>
+<p>Phiên bản hiện tại không sử dụng:</p>
+<ul>
+<li>AWS IoT Core.</li>
+<li>AWS Lambda.</li>
+<li>Amazon API Gateway.</li>
+<li>Amazon S3.</li>
+<li>Amazon SNS.</li>
+<li>Amazon ECS hoặc ECR.</li>
+<li>Amazon Cognito.</li>
+<li>Amazon CloudFront.</li>
+<li>Amazon DynamoDB.</li>
+</ul>
+<p>Các dịch vụ này có thể được cân nhắc trong tương lai nếu project thay đổi mô hình triển khai.</p>
+<hr>
+<h2 id="4-kiến-trúc-giải-pháp">4. Kiến trúc giải pháp</h2>
+<p><img alt="Kiến trúc AWS IoT Monitoring and Control Dashboard" src="../../images/2-Proposal/IoT_Dashboard_Architecture.png"></p>
+<h3 id="41-các-thành-phần-kiến-trúc">4.1 Các thành phần kiến trúc</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Thành phần</th>
+          <th style="text-align: left">Công nghệ</th>
+          <th style="text-align: left">Mục đích</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>Frontend</strong></td>
+          <td style="text-align: left">React, Vite, TypeScript, Tailwind CSS</td>
+          <td style="text-align: left">Hiển thị telemetry, lịch sử, phân tích và các nút điều khiển</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Backend</strong></td>
+          <td style="text-align: left">Python, FastAPI, Uvicorn, SQLAlchemy, Pydantic</td>
+          <td style="text-align: left">Cung cấp REST API và xử lý telemetry, command và ACK</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Database</strong></td>
+          <td style="text-align: left">Amazon RDS for PostgreSQL</td>
+          <td style="text-align: left">Lưu telemetry và trạng thái command</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Compute</strong></td>
+          <td style="text-align: left">Amazon EC2 với Amazon EBS</td>
+          <td style="text-align: left">Chạy FastAPI backend bằng <code>systemd</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>IoT Hardware</strong></td>
+          <td style="text-align: left">YOLO UNO ESP32-S3, PlatformIO, Arduino</td>
+          <td style="text-align: left">Đọc cảm biến, điều khiển actuator, lấy command và gửi ACK</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Networking</strong></td>
+          <td style="text-align: left">Amazon VPC, subnet, Security Groups</td>
+          <td style="text-align: left">Kiểm soát kết nối giữa người dùng, EC2 và RDS</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Identity</strong></td>
+          <td style="text-align: left">AWS IAM Role</td>
+          <td style="text-align: left">Cấp quyền để EC2 gửi dữ liệu lên CloudWatch</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Monitoring</strong></td>
+          <td style="text-align: left">Amazon CloudWatch và CloudWatch Alarms</td>
+          <td style="text-align: left">Thu thập log, metric và đánh giá các ngưỡng cảnh báo</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="42-luồng-dữ-liệu">4.2 Luồng dữ liệu</h3>
+<h4 id="luồng-telemetry">Luồng telemetry</h4>
+<ol>
+<li>YOLO UNO đọc nhiệt độ, độ ẩm, ánh sáng và trạng thái thiết bị.</li>
+<li>Thiết bị gửi telemetry đến:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>POST /api/telemetry
+</span></span></code></pre></div><ol start="3">
+<li>FastAPI kiểm tra tính hợp lệ của payload.</li>
+<li>Backend lưu dữ liệu vào Amazon RDS for PostgreSQL.</li>
+<li>Frontend gọi backend để lấy dữ liệu mới nhất hoặc lịch sử.</li>
+</ol>
+<h4 id="luồng-command">Luồng command</h4>
+<ol>
+<li>Người dùng nhấn nút điều khiển trên dashboard.</li>
+<li>Frontend gửi command đến:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>POST /api/devices/{device_id}/commands
+</span></span></code></pre></div><ol start="3">
+<li>Backend lưu command với trạng thái <code>Pending</code>.</li>
+<li>YOLO UNO định kỳ gọi:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>GET /api/devices/{device_id}/commands/latest
+</span></span></code></pre></div><ol start="5">
+<li>Thiết bị thực thi command.</li>
+<li>Thiết bị gửi ACK đến:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>POST /api/devices/{device_id}/commands/{command_id}/ack
+</span></span></code></pre></div><ol start="7">
+<li>Backend cập nhật command thành <code>Executed</code>.</li>
+</ol>
+<h3 id="43-lý-do-lựa-chọn-dịch-vụ">4.3 Lý do lựa chọn dịch vụ</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Dịch vụ AWS</th>
+          <th style="text-align: left">Lý do lựa chọn</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>Amazon EC2</strong></td>
+          <td style="text-align: left">Cho phép chủ động cấu hình FastAPI, Python environment, systemd và log file</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Amazon EBS</strong></td>
+          <td style="text-align: left">Cung cấp root volume bền vững cho EC2</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Amazon RDS for PostgreSQL</strong></td>
+          <td style="text-align: left">Database quan hệ được quản lý, phù hợp với telemetry và command</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Amazon VPC</strong></td>
+          <td style="text-align: left">Cung cấp khả năng cô lập mạng và kiểm soát bằng Security Group</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>AWS IAM Role</strong></td>
+          <td style="text-align: left">Tránh hard-code AWS access key trên EC2</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Amazon CloudWatch</strong></td>
+          <td style="text-align: left">Tập trung log, metric và alarm phục vụ vận hành và debug</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="44-thiết-kế-bảo-mật">4.4 Thiết kế bảo mật</h3>
+<ul>
+<li>SSH chỉ cho phép từ IP quản trị.</li>
+<li>Port backend chỉ được mở theo nhu cầu của project demo.</li>
+<li>RDS chỉ nhận PostgreSQL traffic từ EC2 Security Group.</li>
+<li>Không hard-code AWS access key trong ứng dụng.</li>
+<li>EC2 sử dụng IAM Role để CloudWatch Agent hoạt động.</li>
+<li><code>.env</code>, <code>.pem</code>, private key và <code>hardware/include/secrets.h</code> được loại khỏi Git.</li>
+<li>Tài liệu public sử dụng placeholder thay cho credential thật.</li>
+</ul>
+<hr>
+<h2 id="5-kế-hoạch-triển-khai-kỹ-thuật">5. Kế hoạch triển khai kỹ thuật</h2>
+<h3 id="giai-đoạn-1--nền-tảng-aws">Giai đoạn 1 — Nền tảng AWS</h3>
+<ul>
+<li>Thiết kế kiến trúc AWS.</li>
+<li>Cấu hình VPC, subnet, Security Groups và IAM Role.</li>
+<li>Khởi tạo EC2.</li>
+<li>Tạo Amazon RDS for PostgreSQL.</li>
+<li>Kiểm tra kết nối từ EC2 đến RDS.</li>
+</ul>
+<h3 id="giai-đoạn-2--backend-và-database">Giai đoạn 2 — Backend và Database</h3>
+<ul>
+<li>Khởi tạo FastAPI backend.</li>
+<li>Định nghĩa Pydantic schema và SQLAlchemy model.</li>
+<li>Xây dựng API nhận telemetry.</li>
+<li>Xây dựng API latest và history.</li>
+<li>Xây dựng API tạo command, lấy command và gửi ACK.</li>
+<li>Chạy backend bằng <code>aws-iot-backend</code> systemd service.</li>
+</ul>
+<h3 id="giai-đoạn-3--hardware">Giai đoạn 3 — Hardware</h3>
+<ul>
+<li>Cấu hình YOLO UNO trong PlatformIO.</li>
+<li>Kết nối DHT20, cảm biến ánh sáng, quạt, đèn và servo.</li>
+<li>Kết nối board với Wi-Fi.</li>
+<li>Gửi telemetry đến backend EC2.</li>
+<li>Lấy command đang chờ.</li>
+<li>Thực thi command.</li>
+<li>Gửi ACK và chống thực thi lặp command.</li>
+</ul>
+<h3 id="giai-đoạn-4--frontend-và-tích-hợp">Giai đoạn 4 — Frontend và Tích hợp</h3>
+<ul>
+<li>Xây dựng dashboard bằng React + Vite.</li>
+<li>Hiển thị telemetry mới nhất và dữ liệu lịch sử.</li>
+<li>Thêm điều khiển quạt, đèn và rèm.</li>
+<li>Thêm chế độ thủ công và chế độ tự động hoặc đề xuất dựa trên rule.</li>
+<li>Tích hợp frontend với backend trên EC2.</li>
+<li>Debug toàn bộ luồng hệ thống.</li>
+</ul>
+<h3 id="giai-đoạn-5--monitoring-và-tài-liệu">Giai đoạn 5 — Monitoring và Tài liệu</h3>
+<ul>
+<li>Cài đặt và cấu hình CloudWatch Agent.</li>
+<li>Thu thập backend log, EC2 memory và disk.</li>
+<li>Theo dõi EC2 CPU và metric RDS.</li>
+<li>Tạo CloudWatch Alarms.</li>
+<li>Kiểm thử end-to-end.</li>
+<li>Quay video demo.</li>
+<li>Hoàn thiện báo cáo và Workshop song ngữ.</li>
+</ul>
+<hr>
+<h2 id="6-timeline-và-các-mốc-triển-khai">6. Timeline và các mốc triển khai</h2>
+<p>Dự án được thực hiện trong <strong>10 tuần</strong>.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">Tuần</th>
+          <th style="text-align: left">Mốc triển khai</th>
+          <th style="text-align: left">Kết quả mong đợi</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center"><strong>Tuần 1</strong></td>
+          <td style="text-align: left">Phân tích yêu cầu và lập kế hoạch</td>
+          <td style="text-align: left">Bài toán, phạm vi, phân công và kiến trúc ban đầu</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>Tuần 2</strong></td>
+          <td style="text-align: left">Thiết kế kiến trúc AWS và nền tảng mạng</td>
+          <td style="text-align: left">VPC, subnet, Security Groups và kế hoạch IAM</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>Tuần 3</strong></td>
+          <td style="text-align: left">Triển khai EC2 và RDS</td>
+          <td style="text-align: left">EC2 hoạt động và PostgreSQL database sẵn sàng</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>Tuần 4</strong></td>
+          <td style="text-align: left">Xây dựng nền tảng backend và database</td>
+          <td style="text-align: left">Cấu trúc FastAPI, schema và kết nối database</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>Tuần 5</strong></td>
+          <td style="text-align: left">Xây dựng API telemetry và command</td>
+          <td style="text-align: left">Telemetry, latest, history, command và ACK endpoint</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>Tuần 6</strong></td>
+          <td style="text-align: left">Tích hợp phần cứng YOLO UNO</td>
+          <td style="text-align: left">Đọc cảm biến, điều khiển actuator, Wi-Fi và REST API</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>Tuần 7</strong></td>
+          <td style="text-align: left">Phát triển frontend dashboard</td>
+          <td style="text-align: left">Telemetry card, biểu đồ, bảng điều khiển và phân tích</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>Tuần 8</strong></td>
+          <td style="text-align: left">Tích hợp end-to-end và debug</td>
+          <td style="text-align: left">Hoàn thiện luồng telemetry và command với phần cứng thật</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>Tuần 9</strong></td>
+          <td style="text-align: left">CloudWatch và kiểm thử hệ thống</td>
+          <td style="text-align: left">Logs, metrics, alarms, failure test và security review</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>Tuần 10</strong></td>
+          <td style="text-align: left">Hoàn thiện tài liệu, demo và bàn giao</td>
+          <td style="text-align: left">Báo cáo song ngữ, Workshop, video demo và repository cuối</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="7-ước-tính-ngân-sách">7. Ước tính ngân sách</h2>
+<p>Project sử dụng các tài nguyên AWS nhỏ, phù hợp với mục đích học tập và demo.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Tài nguyên</th>
+          <th style="text-align: left">Yếu tố tính phí</th>
+          <th style="text-align: left">Cách tối ưu</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>Amazon EC2</strong></td>
+          <td style="text-align: left">Thời gian instance hoạt động</td>
+          <td style="text-align: left">Dùng instance nhỏ và dừng khi không cần thiết</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Amazon EBS</strong></td>
+          <td style="text-align: left">Dung lượng được cấp phát</td>
+          <td style="text-align: left">Chỉ cấp root volume đủ dùng</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Amazon RDS for PostgreSQL</strong></td>
+          <td style="text-align: left">Instance class, storage và thời gian chạy</td>
+          <td style="text-align: left">Dùng database instance nhỏ cho môi trường Workshop</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Amazon CloudWatch</strong></td>
+          <td style="text-align: left">Log ingestion, retention và custom metrics</td>
+          <td style="text-align: left">Giới hạn thời gian lưu log và tránh metric không cần thiết</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Data Transfer</strong></td>
+          <td style="text-align: left">Request giữa người dùng, hardware và EC2</td>
+          <td style="text-align: left">Sử dụng chu kỳ telemetry và polling hợp lý</td>
+      </tr>
+  </tbody>
+</table>
+<p>Chi phí thực tế phụ thuộc vào region, kích thước tài nguyên và thời gian sử dụng. Nhóm cần kiểm tra và clean-up tài nguyên sau Workshop để tránh phát sinh chi phí ngoài dự kiến.</p>
+<hr>
+<h2 id="8-đánh-giá-rủi-ro">8. Đánh giá rủi ro</h2>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Rủi ro</th>
+          <th style="text-align: left">Ảnh hưởng</th>
+          <th style="text-align: left">Phương án xử lý</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>YOLO UNO mất Wi-Fi</strong></td>
+          <td style="text-align: left">Telemetry và command tạm thời ngừng hoạt động</td>
+          <td style="text-align: left">Tự kết nối lại Wi-Fi và retry HTTP request</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Public IP của EC2 thay đổi</strong></td>
+          <td style="text-align: left">Frontend và hardware không gọi được backend</td>
+          <td style="text-align: left">Cập nhật cấu hình hoặc dùng Elastic IP trong phiên bản tương lai</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Backend bị dừng</strong></td>
+          <td style="text-align: left">API không hoạt động</td>
+          <td style="text-align: left">Chạy Uvicorn bằng <code>systemd</code> và tự động restart</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Không kết nối được RDS</strong></td>
+          <td style="text-align: left">Không lưu được telemetry và command</td>
+          <td style="text-align: left">Kiểm tra endpoint, credential, Security Groups và <code>DATABASE_URL</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Command bị thực thi lặp</strong></td>
+          <td style="text-align: left">Actuator thực hiện lại hành động</td>
+          <td style="text-align: left">Lưu command ID mới nhất và chỉ thực thi mỗi command một lần</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Gửi ACK thất bại</strong></td>
+          <td style="text-align: left">Command vẫn ở trạng thái <code>Pending</code></td>
+          <td style="text-align: left">Retry ACK nhưng không thực thi lại actuator</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Lộ credential</strong></td>
+          <td style="text-align: left">Rủi ro bảo mật</td>
+          <td style="text-align: left">Ignore <code>.env</code>, <code>.pem</code>, private key và <code>secrets.h</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Phát sinh chi phí AWS</strong></td>
+          <td style="text-align: left">Chi phí project tăng</td>
+          <td style="text-align: left">Dừng hoặc xóa tài nguyên sau khi kiểm thử và kiểm tra CloudWatch</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Giá trị cảm biến không chính xác</strong></td>
+          <td style="text-align: left">Đề xuất điều khiển không phù hợp</td>
+          <td style="text-align: left">Kiểm tra dữ liệu và hiệu chỉnh threshold</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Không đồng nhất khi tích hợp</strong></td>
+          <td style="text-align: left">Frontend, backend và hardware dùng payload hoặc endpoint khác nhau</td>
+          <td style="text-align: left">Duy trì một API contract chung và kiểm thử end-to-end</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="9-kết-quả-kỳ-vọng">9. Kết quả kỳ vọng</h2>
+<p>Project dự kiến tạo ra:</p>
+<ul>
+<li>Một thiết bị IoT vật lý YOLO UNO hoạt động ổn định.</li>
+<li>Telemetry nhiệt độ, độ ẩm và ánh sáng được gửi định kỳ.</li>
+<li>FastAPI backend chạy trên Amazon EC2.</li>
+<li>Telemetry và command được lưu bền vững trong Amazon RDS for PostgreSQL.</li>
+<li>Dashboard React hiển thị dữ liệu mới nhất, lịch sử, điều khiển và đề xuất.</li>
+<li>Điều khiển quạt, đèn và rèm từ xa.</li>
+<li>Theo dõi command từ <code>Pending</code> sang <code>Executed</code>.</li>
+<li>ACK từ thiết bị sau khi hoàn thành command.</li>
+<li>CloudWatch logs, metrics và alarms.</li>
+<li>Workshop và báo cáo FCAJ song ngữ.</li>
+<li>Video demo thể hiện dashboard, database, CloudWatch và phần cứng thật.</li>
+</ul>
+<h3 id="tiêu-chí-thành-công">Tiêu chí thành công</h3>
+<p>Project được xem là hoàn thành khi:</p>
+<ol>
+<li>YOLO UNO gửi được telemetry hợp lệ đến backend.</li>
+<li>Telemetry được lưu và đọc lại từ PostgreSQL.</li>
+<li>Dashboard hiển thị được dữ liệu mới nhất và lịch sử.</li>
+<li>Dashboard tạo được command cho <code>room_01</code>.</li>
+<li>Hardware nhận và thực thi các command được hỗ trợ.</li>
+<li>ACK cập nhật command thành <code>Executed</code>.</li>
+<li>CloudWatch nhận được log và metric đã cấu hình.</li>
+<li>Người đọc khác có thể làm theo Workshop để tái hiện các bước triển khai chính.</li>
+</ol>
+<hr>
+<h2 id="10-phân-công-thành-viên">10. Phân công thành viên</h2>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Thành viên</th>
+          <th style="text-align: left">Vai trò</th>
+          <th style="text-align: left">Trách nhiệm chính</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>Phạm Lê Minh Khôi</strong></td>
+          <td style="text-align: left">AWS và Hardware Lead</td>
+          <td style="text-align: left">Kiến trúc AWS, VPC, Security Groups, IAM Role, EC2, RDS, CloudWatch, DevOps, firmware YOLO UNO, cảm biến, actuator, telemetry, polling command và ACK</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Ngô Minh Thuận</strong></td>
+          <td style="text-align: left">Backend Developer</td>
+          <td style="text-align: left">FastAPI backend, API endpoint, Pydantic schema, SQLAlchemy model, tích hợp PostgreSQL, xử lý telemetry, vòng đời command và ACK</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Thượng Đình Hưng</strong></td>
+          <td style="text-align: left">Frontend và Integration Developer</td>
+          <td style="text-align: left">React + Vite dashboard, giao diện, trực quan hóa telemetry, điều khiển thiết bị, tích hợp tổng thể, debug và quay video demo</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Lê Bảo Khánh</strong></td>
+          <td style="text-align: left">Documentation và QA</td>
+          <td style="text-align: left">Proposal, blog, worklog theo tuần, báo cáo event, tài liệu Workshop, kiểm tra song ngữ, navigation, screenshot và đảm bảo chất lượng</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="11-sản-phẩm-bàn-giao">11. Sản phẩm bàn giao</h2>
+<p>Các sản phẩm cuối cùng gồm:</p>
+<ul>
+<li>Source code repository.</li>
+<li>FastAPI backend.</li>
+<li>React + Vite frontend.</li>
+<li>Firmware PlatformIO cho YOLO UNO.</li>
+<li>Sơ đồ kiến trúc AWS.</li>
+<li>Database schema trên Amazon RDS.</li>
+<li>CloudWatch logs, metrics và alarms.</li>
+<li>Tài liệu API.</li>
+<li>Proposal và Workshop song ngữ.</li>
+<li>Worklog, blog và báo cáo event.</li>
+<li>Video demo end-to-end.</li>
+<li>Hướng dẫn clean-up và bàn giao project.</li>
+</ul>
+
+
+
+
+
+<footer class=" footline" >
+	
+</footer>
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="../../vi/1-worklog/1.10-week10/" title="[Dự kiến] Worklog Tuần 10"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="../../vi/3-blogstranslated/" title="Các Blog Đã Dịch" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="../../js/clipboard.min.js?1785348040"></script>
+    <script src="../../js/perfect-scrollbar.min.js?1785348040"></script>
+    <script src="../../js/perfect-scrollbar.jquery.min.js?1785348040"></script>
+    <script src="../../js/jquery.sticky.js?1785348040"></script>
+    <script src="../../js/featherlight.min.js?1785348040"></script>
+    <script src="../../js/highlight.pack.js?1785348040"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="../../js/modernizr.custom-3.6.0.js?1785348040"></script>
+    <script src="../../js/learn.js?1785348040"></script>
+    <script src="../../js/hugo-learn.js?1785348040"></script>
+
+    <link href="../../mermaid/mermaid.css?1785348040" rel="stylesheet" />
+    <script src="../../mermaid/mermaid.js?1785348040"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    <script>
+  (function (i, s, o, g, r, a, m) {
+    i["GoogleAnalyticsObject"] = r;
+    ((i[r] =
+      i[r] ||
+      function () {
+        (i[r].q = i[r].q || []).push(arguments);
+      }),
+      (i[r].l = 1 * new Date()));
+    ((a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]));
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m);
+  })(
+    window,
+    document,
+    "script",
+    "https://www.google-analytics.com/analytics.js",
+    "ga",
+  );
+
+  ga("create", "UA-158079754-2", "auto");
+  ga("send", "pageview");
+</script>
+
+  </body>
+</html>

@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+<html lang="vi" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.134.3">
+    <meta
+  name="description"
+  content=""
+/>
+<meta name="author" content="thienlh@thienlu.com" />
+
+    <link rel="icon" href="../../../images/favicon.png" type="image/png">
+
+    <title>Triển khai backend và tích hợp cơ sở dữ liệu :: Báo cáo thực tập</title>
+
+    
+    <link href="../../../css/nucleus.css?1785348040" rel="stylesheet">
+    <link href="../../../css/fontawesome-all.min.css?1785348040" rel="stylesheet">
+    <link href="../../../css/hybrid.css?1785348040" rel="stylesheet">
+    <link href="../../../css/featherlight.min.css?1785348040" rel="stylesheet">
+    <link href="../../../css/perfect-scrollbar.min.css?1785348040" rel="stylesheet">
+    <link href="../../../css/auto-complete.css?1785348040" rel="stylesheet">
+    <link href="../../../css/atom-one-dark-reasonable.css?1785348040" rel="stylesheet">
+    <link href="../../../css/theme.css?1785348040" rel="stylesheet">
+    <link href="../../../css/hugo-theme.css?1785348040" rel="stylesheet">
+    
+    <link href="../../../css/theme-workshop.css?1785348040" rel="stylesheet">
+    
+    
+
+    <script src="../../../js/jquery-3.3.1.min.js?1785348040"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+    </style>
+    
+
+  </head>
+  <body class="" data-url="../../../vi/5-workshop/5.5-backend-and-database/">
+    <nav
+  id="sidebar"
+  class="showVisitedLinks"
+>
+   
+  <div id="header-wrapper">
+    <div id="header"><a id="logo" href="../../../">
+  <svg
+    id="Layer_1"
+    data-name="Layer 1"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 60 30"
+    width="30%"
+  >
+    <defs>
+      <style>
+        .cls-1 {
+          fill: #fff;
+        }
+        .cls-2 {
+          fill: #f90;
+          fill-rule: evenodd;
+        }
+      </style>
+    </defs>
+    <title>AWS-Logo_White-Color</title>
+    <path
+      class="cls-1"
+      d="M14.09,10.85a4.7,4.7,0,0,0,.19,1.48,7.73,7.73,0,0,0,.54,1.19.77.77,0,0,1,.12.38.64.64,0,0,1-.32.49l-1,.7a.83.83,0,0,1-.44.15.69.69,0,0,1-.49-.23,3.8,3.8,0,0,1-.6-.77q-.25-.42-.51-1a6.14,6.14,0,0,1-4.89,2.3,4.54,4.54,0,0,1-3.32-1.19,4.27,4.27,0,0,1-1.22-3.2A4.28,4.28,0,0,1,3.61,7.75,6.06,6.06,0,0,1,7.69,6.46a12.47,12.47,0,0,1,1.76.13q.92.13,1.91.36V5.73a3.65,3.65,0,0,0-.79-2.66A3.81,3.81,0,0,0,7.86,2.3a7.71,7.71,0,0,0-1.79.22,12.78,12.78,0,0,0-1.79.57,4.55,4.55,0,0,1-.58.22l-.26,0q-.35,0-.35-.52V2a1.09,1.09,0,0,1,.12-.58,1.2,1.2,0,0,1,.47-.35A10.88,10.88,0,0,1,5.77.32,10.19,10.19,0,0,1,8.36,0a6,6,0,0,1,4.35,1.35,5.49,5.49,0,0,1,1.38,4.09ZM7.34,13.38a5.36,5.36,0,0,0,1.72-.31A3.63,3.63,0,0,0,10.63,12,2.62,2.62,0,0,0,11.19,11a5.63,5.63,0,0,0,.16-1.44v-.7a14.35,14.35,0,0,0-1.53-.28,12.37,12.37,0,0,0-1.56-.1,3.84,3.84,0,0,0-2.47.67A2.34,2.34,0,0,0,5,11a2.35,2.35,0,0,0,.61,1.76A2.4,2.4,0,0,0,7.34,13.38Zm13.35,1.8a1,1,0,0,1-.64-.16,1.3,1.3,0,0,1-.35-.65L15.81,1.51a3,3,0,0,1-.15-.67.36.36,0,0,1,.41-.41H17.7a1,1,0,0,1,.65.16,1.4,1.4,0,0,1,.33.65l2.79,11,2.59-11A1.17,1.17,0,0,1,24.39.6a1.1,1.1,0,0,1,.67-.16H26.4a1.1,1.1,0,0,1,.67.16,1.17,1.17,0,0,1,.32.65L30,12.39,32.88,1.25A1.39,1.39,0,0,1,33.22.6a1,1,0,0,1,.65-.16h1.54a.36.36,0,0,1,.41.41,1.36,1.36,0,0,1,0,.26,3.64,3.64,0,0,1-.12.41l-4,12.86a1.3,1.3,0,0,1-.35.65,1,1,0,0,1-.64.16H29.25a1,1,0,0,1-.67-.17,1.26,1.26,0,0,1-.32-.67L25.67,3.64,23.11,14.34a1.26,1.26,0,0,1-.32.67,1,1,0,0,1-.67.17Zm21.36.44a11.28,11.28,0,0,1-2.56-.29,7.44,7.44,0,0,1-1.92-.67,1,1,0,0,1-.61-.93v-.84q0-.52.38-.52a.9.9,0,0,1,.31.06l.42.17a8.77,8.77,0,0,0,1.83.58,9.78,9.78,0,0,0,2,.2,4.48,4.48,0,0,0,2.43-.55,1.76,1.76,0,0,0,.86-1.57,1.61,1.61,0,0,0-.45-1.16A4.29,4.29,0,0,0,43,9.22l-2.41-.76A5.15,5.15,0,0,1,38,6.78a3.94,3.94,0,0,1-.83-2.41,3.7,3.7,0,0,1,.45-1.85,4.47,4.47,0,0,1,1.19-1.37A5.27,5.27,0,0,1,40.51.29,7.4,7.4,0,0,1,42.6,0a8.87,8.87,0,0,1,1.12.07q.57.07,1.08.19t.95.26a4.27,4.27,0,0,1,.7.29,1.59,1.59,0,0,1,.49.41.94.94,0,0,1,.15.55v.79q0,.52-.38.52a1.76,1.76,0,0,1-.64-.2,7.74,7.74,0,0,0-3.2-.64,4.37,4.37,0,0,0-2.21.47,1.6,1.6,0,0,0-.79,1.48,1.58,1.58,0,0,0,.49,1.18,4.94,4.94,0,0,0,1.83.92L44.55,7a5.08,5.08,0,0,1,2.57,1.6A3.76,3.76,0,0,1,47.9,11a4.21,4.21,0,0,1-.44,1.93,4.4,4.4,0,0,1-1.21,1.47,5.43,5.43,0,0,1-1.85.93A8.25,8.25,0,0,1,42.05,15.62Z"
+    ></path>
+    <path
+      class="cls-2"
+      d="M45.19,23.81C39.72,27.85,31.78,30,25,30A36.64,36.64,0,0,1,.22,20.57c-.51-.46-.06-1.09.56-.74A49.78,49.78,0,0,0,25.53,26.4,49.23,49.23,0,0,0,44.4,22.53C45.32,22.14,46.1,23.14,45.19,23.81Z"
+    ></path>
+    <path
+      class="cls-2"
+      d="M47.47,21.21c-.7-.9-4.63-.42-6.39-.21-.53.06-.62-.4-.14-.74,3.13-2.2,8.27-1.57,8.86-.83s-.16,5.89-3.09,8.35c-.45.38-.88.18-.68-.32C46.69,25.8,48.17,22.11,47.47,21.21Z"
+    ></path>
+  </svg>
+</a>
+</div>
+     <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="../../../js/lunr.min.js?1785348040"></script>
+<script type="text/javascript" src="../../../js/auto-complete.js?1785348040"></script>
+<script type="text/javascript">
+    
+    
+        var baseurl = "https:\/\/danielleit241.github.io\/aws-fcj-report\/\/vi";
+    
+</script>
+<script type="text/javascript" src="../../../js/search.js?1785348040"></script>
+ 
+  </div>
+
+  <div class="highlightable">
+    <ul class="topics">
+               
+<li
+  data-nav-id="/vi/1-worklog/"
+  title="Nhật ký công việc"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/1-worklog/">
+     <b> 1. </b> Nhật ký công việc 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+  <ul>
+          
+            
+<li
+  data-nav-id="/vi/1-worklog/1.1-week1/"
+  title="Worklog Tuần 1"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/1-worklog/1.1-week1/">
+     <b> 1.1. </b> Worklog Tuần 1 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.2-week2/"
+  title="Worklog Tuần 2"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/1-worklog/1.2-week2/">
+     <b> 1.2. </b> Worklog Tuần 2 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.3-week3/"
+  title="Worklog Tuần 3"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/1-worklog/1.3-week3/">
+     <b> 1.3. </b> Worklog Tuần 3 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.4-week4/"
+  title="Worklog Tuần 4"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/1-worklog/1.4-week4/">
+     <b> 1.4. </b> Worklog Tuần 4 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.5-week5/"
+  title="Worklog Tuần 5"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/1-worklog/1.5-week5/">
+     <b> 1.5. </b> Worklog Tuần 5 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.6-week6/"
+  title="Worklog Tuần 6"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/1-worklog/1.6-week6/">
+     <b> 1.6. </b> Worklog Tuần 6 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.7-week7/"
+  title="Worklog Tuần 7"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/1-worklog/1.7-week7/">
+     <b> 1.7. </b> Worklog Tuần 7 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.8-week8/"
+  title="Worklog Tuần 8"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/1-worklog/1.8-week8/">
+     <b> 1.8. </b> Worklog Tuần 8 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.9-week9/"
+  title="[Dự kiến] Worklog Tuần 9"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/1-worklog/1.9-week9/">
+     <b> 1.9. </b> [Dự kiến] Worklog Tuần 9 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.10-week10/"
+  title="[Dự kiến] Worklog Tuần 10"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/1-worklog/1.10-week10/">
+     <b> 1.10. </b> [Dự kiến] Worklog Tuần 10 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+     
+  </ul>
+  
+</li>
+           
+<li
+  data-nav-id="/vi/2-proposal/"
+  title="Bản đề xuất"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/2-proposal/">
+     <b> 2. </b> Bản đề xuất 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+           
+<li
+  data-nav-id="/vi/3-blogstranslated/"
+  title="Các Blog Đã Dịch"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/3-blogstranslated/">
+     <b> 3. </b> Các Blog Đã Dịch 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+  <ul>
+          
+            
+<li
+  data-nav-id="/vi/3-blogstranslated/3.1-blog1/"
+  title="Blog 1"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/3-blogstranslated/3.1-blog1/">
+     <b> 3.1. </b> Blog 1 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/3-blogstranslated/3.2-blog2/"
+  title="Blog 2"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/3-blogstranslated/3.2-blog2/">
+     <b> 3.2. </b> Blog 2 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/3-blogstranslated/3.3-blog3/"
+  title="Blog 3"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/3-blogstranslated/3.3-blog3/">
+     <b> 3.3. </b> Blog 3 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+     
+  </ul>
+  
+</li>
+           
+<li
+  data-nav-id="/vi/4-eventparticipated/"
+  title="Các Sự kiện Đã Tham gia"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/4-eventparticipated/">
+     <b> 4. </b> Các Sự kiện Đã Tham gia 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+  <ul>
+          
+            
+<li
+  data-nav-id="/vi/4-eventparticipated/4.1-event1/"
+  title="Sự kiện 1"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/4-eventparticipated/4.1-event1/">
+     <b> 4.1. </b> Sự kiện 1 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/4-eventparticipated/4.2-event2/"
+  title="Sự kiện 2"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/4-eventparticipated/4.2-event2/">
+     <b> 4.2. </b> Sự kiện 2 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/4-eventparticipated/4.3-event3/"
+  title="Sự kiện 3"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/4-eventparticipated/4.3-event3/">
+     <b> 4.3. </b> Sự kiện 3 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+     
+  </ul>
+  
+</li>
+           
+<li
+  data-nav-id="/vi/5-workshop/"
+  title="Workshop"
+  class="dd-item 
+        parent
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/">
+     <b> 5. </b> Workshop 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+  <ul>
+          
+            
+<li
+  data-nav-id="/vi/5-workshop/5.1-workshop-overview/"
+  title="Tổng quan Workshop"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.1-workshop-overview/">
+     <b> 5.1. </b> Tổng quan Workshop 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.2-prerequisites/"
+  title="Điều kiện tiên quyết"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.2-prerequisites/">
+     <b> 5.2. </b> Điều kiện tiên quyết 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.3-architecture-and-service-design/"
+  title="Kiến trúc và thiết kế dịch vụ"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.3-architecture-and-service-design/">
+     <b> 5.3. </b> Kiến trúc và thiết kế dịch vụ 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.4-aws-infrastructure-setup/"
+  title="Thiết lập hạ tầng AWS"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.4-aws-infrastructure-setup/">
+     <b> 5.4. </b> Thiết lập hạ tầng AWS 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.5-backend-and-database/"
+  title="Triển khai backend và tích hợp cơ sở dữ liệu"
+  class="dd-item 
+        
+        active
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.5-backend-and-database/">
+     <b> 5.5. </b> Triển khai backend và tích hợp cơ sở dữ liệu 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.6-hardware-integration/"
+  title="Tích hợp phần cứng"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.6-hardware-integration/">
+     <b> 5.6. </b> Tích hợp phần cứng 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.7-frontend-integration/"
+  title="Tích hợp frontend"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.7-frontend-integration/">
+     <b> 5.7. </b> Tích hợp frontend 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.8-end-to-end-testing/"
+  title="Kiểm thử và xác minh đầu cuối"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.8-end-to-end-testing/">
+     <b> 5.8. </b> Kiểm thử và xác minh đầu cuối 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.9-cloudwatch-monitoring/"
+  title="Giám sát bằng CloudWatch"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.9-cloudwatch-monitoring/">
+     <b> 5.9. </b> Giám sát bằng CloudWatch 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.10-cost-security-cleanup/"
+  title="Chi phí, bảo mật và dọn dẹp"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.10-cost-security-cleanup/">
+     <b> 5.10. </b> Chi phí, bảo mật và dọn dẹp 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.11-results-challenges-future/"
+  title="Kết quả, thách thức và hướng cải tiến"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.11-results-challenges-future/">
+     <b> 5.11. </b> Kết quả, thách thức và hướng cải tiến 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.12-project-handover/"
+  title="Bàn giao dự án"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.12-project-handover/">
+     <b> 5.12. </b> Bàn giao dự án 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+     
+  </ul>
+  
+</li>
+           
+<li
+  data-nav-id="/vi/6-self-evaluation/"
+  title="Tự đánh giá"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/6-self-evaluation/">
+     <b> 6. </b> Tự đánh giá 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+           
+<li
+  data-nav-id="/vi/7-feedback/"
+  title="Chia sẻ, đóng góp ý kiến"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/7-feedback/">
+     <b> 7. </b> Chia sẻ, đóng góp ý kiến 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+    </ul>
+
+     
+    <section id="shortcuts">
+      <h3>
+        More
+      </h3>
+      <ul>
+        
+        <li>
+          <a class="padding" href="https://www.facebook.com/groups/awsstudygroupfcj/"
+            ><i class='fab fa-facebook'></i> AWS Study Group</a
+          >
+        </li>
+        
+      </ul>
+    </section>
+      
+    <section id="prefooter">
+      <hr />
+      <ul>
+        
+        <li>
+          <a class="padding">
+            <i class="fas fa-language fa-fw"></i>
+            <div class="select-style">
+              <select id="select-language" onchange="location = this.value;">
+                       
+                <option
+                  id="en"
+                  value="https://danielleit241.github.io/aws-fcj-report/5-workshop/5.5-backend-and-database/"
+                >
+                  English
+                </option>
+                            
+                <option
+                  id="vi"
+                  value="https://danielleit241.github.io/aws-fcj-report/vi/5-workshop/5.5-backend-and-database/"
+                  selected
+                >
+                  Tiếng Việt
+                </option>
+                   
+              </select>
+              <svg
+                version="1.1"
+                id="Capa_1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                x="0px"
+                y="0px"
+                width="255px"
+                height="255px"
+                viewBox="0 0 255 255"
+                style="enable-background: new 0 0 255 255"
+                xml:space="preserve"
+              >
+                <g>
+                  <g id="arrow-drop-down">
+                    <polygon points="0,63.75 127.5,191.25 255,63.75     " />
+                  </g>
+                </g>
+              </svg>
+            </div>
+          </a>
+        </li>
+         
+        <li>
+          <a class="padding" href="#" data-clear-history-toggle=""
+            ><i class="fas fa-history fa-fw"></i> Clear History</a
+          >
+        </li>
+        
+      </ul>
+    </section>
+    
+    <section id="footer"><left>
+    
+    <b> Workshop</b> <br>
+    <img src="https://hitwebcounter.com/counter/counter.php?page=7920860&style=0038&nbdigits=9&type=page&initCount=0"
+        title="Migrate" Alt="web counter" border="0" /></a> <br>
+    <b> <a href="https://cloudjourney.awsstudygroup.com/">Cloud Journey</a></b> <br>
+    <img src="https://hitwebcounter.com/counter/counter.php?page=7830807&style=0038&nbdigits=9&type=page&initCount=0"
+        title="Total CLoud Journey" Alt="web counter" border="0" />
+
+</left>
+<left>
+    <br>
+    <br>
+    <b>Last Updated</b><br>
+    <i>
+        <span id="lastUpdated" style="color:orange;"></span>
+    </i>
+
+    <script>
+        
+        const today = new Date();
+        
+        const formattedDate = today.toLocaleDateString('en-GB');
+        
+        document.getElementById('lastUpdated').textContent = formattedDate;
+    </script>
+</left>
+<left>
+    <br>
+    <br>
+    <b> Team </b> <br>
+
+    <i> <a href="https://www.facebook.com/groups/660548818043427" style="color:orange">First Cloud Journey</a> <br>
+
+    </i>
+</left>
+
+<script async defer src="https://buttons.github.io/buttons.js"></script></section>
+  </div>
+</nav>
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='../../../vi/'>Báo cáo thực tập</a> > <a href='../../../vi/5-workshop/'>Workshop</a> > Triển khai backend và tích hợp cơ sở dữ liệu
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+  <div class="wrapper"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#tổng-quan-và-mục-tiêu">Tổng quan và mục tiêu</a></li>
+    <li><a href="#bước-1---kết-nối-và-cài-công-cụ">Bước 1 - Kết nối và cài công cụ</a></li>
+    <li><a href="#bước-2---sao-chép-kho-mã-nguồn-và-tạo-môi-trường-ảo">Bước 2 - Sao chép kho mã nguồn và tạo môi trường ảo</a></li>
+    <li><a href="#bước-3---tạo-file-biến-môi-trường">Bước 3 - Tạo file biến môi trường</a></li>
+    <li><a href="#bước-4---kiểm-tra-postgresql">Bước 4 - Kiểm tra PostgreSQL</a></li>
+    <li><a href="#bước-5---chạy-uvicorn-thủ-công">Bước 5 - Chạy Uvicorn thủ công</a></li>
+    <li><a href="#bước-6---tạo-aws-iot-backendservice">Bước 6 - Tạo <code>aws-iot-backend.service</code></a></li>
+    <li><a href="#bước-7---xem-log-và-cập-nhật-phiên-bản-triển-khai">Bước 7 - Xem log và cập nhật phiên bản triển khai</a></li>
+    <li><a href="#kết-quả-mong-đợi">Kết quả mong đợi</a></li>
+    <li><a href="#xử-lý-sự-cố">Xử lý sự cố</a></li>
+  </ul>
+</nav></div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              Triển khai backend và tích hợp cơ sở dữ liệu
+            </h1>
+          
+
+        
+
+
+
+	<h2 id="tổng-quan-và-mục-tiêu">Tổng quan và mục tiêu</h2>
+<p>Triển khai ứng dụng Python trên EC2 Amazon Linux, kết nối tới cơ sở dữ liệu riêng <code>iot_dashboard</code>, đối chiếu API với mã nguồn và chạy Uvicorn ổn định bằng dịch vụ <code>aws-iot-backend</code>. Quy trình vận hành sử dụng tài khoản <code>ec2-user</code>, thư mục backend <code>/home/ec2-user/aws-iot-dashboard/backend</code>, môi trường ảo <code>venv</code> và điểm vào <code>main:app</code>.</p>
+<h2 id="bước-1---kết-nối-và-cài-công-cụ">Bước 1 - Kết nối và cài công cụ</h2>
+<p>Từ Windows PowerShell:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>ssh -i <span style="color:#e6db74">&#34;</span>$env:USERPROFILE<span style="color:#e6db74">\.ssh\&lt;KEY_FILE&gt;.pem&#34;</span> ec2-user@&lt;EC2_PUBLIC_IP&gt;
+</span></span></code></pre></div><p>Trên Amazon Linux EC2, chạy trong Linux Bash:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo dnf update -y
+</span></span><span style="display:flex;"><span>sudo dnf install -y git python3 python3-pip postgresql15 curl
+</span></span></code></pre></div><p>Nếu phiên bản Amazon Linux đã chọn dùng tên gói PostgreSQL client khác, hãy kiểm tra bằng <code>dnf search postgresql</code> trước khi cài.</p>
+<h2 id="bước-2---sao-chép-kho-mã-nguồn-và-tạo-môi-trường-ảo">Bước 2 - Sao chép kho mã nguồn và tạo môi trường ảo</h2>
+<p>Trong EC2 Linux Bash:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone &lt;REPOSITORY_URL&gt; ~/aws-iot-dashboard
+</span></span><span style="display:flex;"><span>cd ~/aws-iot-dashboard/backend
+</span></span><span style="display:flex;"><span>python3 -m venv venv
+</span></span><span style="display:flex;"><span>source venv/bin/activate
+</span></span><span style="display:flex;"><span>python -m pip install --upgrade pip
+</span></span><span style="display:flex;"><span>pip install -r requirements.txt
+</span></span></code></pre></div><p>Qua kiểm tra, file <code>backend/main.py</code> có xuất đối tượng <code>app</code>; vì vậy điểm vào Uvicorn là <code>main:app</code>.</p>
+<h2 id="bước-3---tạo-file-biến-môi-trường">Bước 3 - Tạo file biến môi trường</h2>
+<p>Tạo file <code>.env</code> trên EC2 và bảo đảm file này đã được loại khỏi Git:</p>
+<pre tabindex="0"><code class="language-dotenv" data-lang="dotenv">DATABASE_URL=postgresql://&lt;DB_USER&gt;:&lt;DB_PASSWORD&gt;@&lt;RDS_ENDPOINT&gt;:5432/iot_dashboard
+</code></pre><p>Nếu backend dùng <code>sslmode=verify-full</code>, hãy tải gói chứng chỉ CA hiện hành của Amazon RDS theo tài liệu dự án, lưu file với quyền truy cập hạn chế và dùng đường dẫn tuyệt đối theo yêu cầu của SQLAlchemy/psycopg:</p>
+<pre tabindex="0"><code class="language-dotenv" data-lang="dotenv">DATABASE_URL=postgresql://&lt;DB_USER&gt;:&lt;DB_PASSWORD&gt;@&lt;RDS_ENDPOINT&gt;:5432/iot_dashboard?sslmode=verify-full&amp;sslrootcert=&lt;ABSOLUTE_CA_PATH&gt;/global-bundle.pem
+</code></pre><p>Nếu <code>&lt;DB_PASSWORD&gt;</code> chứa ký tự đặc biệt, hãy mã hóa các ký tự đó theo chuẩn URL. Không commit file <code>.env</code> hoặc mật khẩu thật.</p>
+<h2 id="bước-4---kiểm-tra-postgresql">Bước 4 - Kiểm tra PostgreSQL</h2>
+<p>Từ EC2 Linux Bash:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>psql <span style="color:#e6db74">&#34;host=&lt;RDS_ENDPOINT&gt; port=5432 dbname=iot_dashboard user=&lt;DB_USER&gt; sslmode=require&#34;</span>
+</span></span></code></pre></div><p>Trong PostgreSQL <code>psql</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> current_database(), <span style="color:#66d9ef">current_user</span>;
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">\</span>dt
+</span></span></code></pre></div><p>Khởi tạo lược đồ SQLAlchemy bằng lệnh được định nghĩa trong mã nguồn:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python -m app.database.init_db
+</span></span></code></pre></div><p>Lệnh này gọi <code>Base.metadata.create_all</code> để tạo ba bảng <code>devices</code>, <code>telemetry_logs</code>, <code>commands</code>. Hãy xác nhận bằng <code>\dt</code> và <code>\d &lt;table_name&gt;</code>; dự án hiện chưa có quy trình migration bằng Alembic.</p>
+<h2 id="bước-5---chạy-uvicorn-thủ-công">Bước 5 - Chạy Uvicorn thủ công</h2>
+<p>Trong EC2 Linux Bash, tại thư mục backend:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>source venv/bin/activate
+</span></span><span style="display:flex;"><span>uvicorn main:app --host 0.0.0.0 --port <span style="color:#ae81ff">8000</span>
+</span></span></code></pre></div><p>Trong một phiên EC2 thứ hai:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -i http://127.0.0.1:8000/api/health
+</span></span><span style="display:flex;"><span>curl -s http://127.0.0.1:8000/openapi.json
+</span></span></code></pre></div><p>Đối chiếu tám route đã nêu ở mục 5.3 và xem lược đồ yêu cầu do Pydantic tạo ra trước khi gửi telemetry hoặc lệnh mẫu.</p>
+<h2 id="bước-6---tạo-aws-iot-backendservice">Bước 6 - Tạo <code>aws-iot-backend.service</code></h2>
+<p>Tạo <code>/etc/systemd/system/aws-iot-backend.service</code> bằng tài khoản, đường dẫn và module Uvicorn đã xác minh:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#66d9ef">[Unit]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Description</span><span style="color:#f92672">=</span><span style="color:#e6db74">AWS IoT FastAPI backend</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">After</span><span style="color:#f92672">=</span><span style="color:#e6db74">network-online.target</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Wants</span><span style="color:#f92672">=</span><span style="color:#e6db74">network-online.target</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">[Service]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Type</span><span style="color:#f92672">=</span><span style="color:#e6db74">simple</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">User</span><span style="color:#f92672">=</span><span style="color:#e6db74">ec2-user</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">WorkingDirectory</span><span style="color:#f92672">=</span><span style="color:#e6db74">/home/ec2-user/aws-iot-dashboard/backend</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">EnvironmentFile</span><span style="color:#f92672">=</span><span style="color:#e6db74">/home/ec2-user/aws-iot-dashboard/backend/.env</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ExecStart</span><span style="color:#f92672">=</span><span style="color:#e6db74">/home/ec2-user/aws-iot-dashboard/backend/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Restart</span><span style="color:#f92672">=</span><span style="color:#e6db74">on-failure</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">RestartSec</span><span style="color:#f92672">=</span><span style="color:#e6db74">5</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">StandardOutput</span><span style="color:#f92672">=</span><span style="color:#e6db74">append:/var/log/aws-iot-backend/backend.log</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">StandardError</span><span style="color:#f92672">=</span><span style="color:#e6db74">append:/var/log/aws-iot-backend/backend-error.log</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">[Install]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">WantedBy</span><span style="color:#f92672">=</span><span style="color:#e6db74">multi-user.target</span>
+</span></span></code></pre></div><p>Chuẩn bị thư mục log và khởi động dịch vụ:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo install -d -o ec2-user -g ec2-user /var/log/aws-iot-backend
+</span></span><span style="display:flex;"><span>sudo systemctl daemon-reload
+</span></span><span style="display:flex;"><span>sudo systemctl enable aws-iot-backend
+</span></span><span style="display:flex;"><span>sudo systemctl restart aws-iot-backend
+</span></span><span style="display:flex;"><span>sudo systemctl status aws-iot-backend --no-pager
+</span></span><span style="display:flex;"><span>curl -i http://127.0.0.1:8000/api/health
+</span></span></code></pre></div><p><strong>Kết quả mong đợi:</strong> dịch vụ ở trạng thái <code>active (running)</code>, API kiểm tra sức khỏe trả HTTP 200 và các bảng ứng dụng đã có trong <code>iot_dashboard</code>.</p>
+<h2 id="bước-7---xem-log-và-cập-nhật-phiên-bản-triển-khai">Bước 7 - Xem log và cập nhật phiên bản triển khai</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo journalctl -u aws-iot-backend -n <span style="color:#ae81ff">100</span> --no-pager
+</span></span><span style="display:flex;"><span>sudo tail -n <span style="color:#ae81ff">100</span> /var/log/aws-iot-backend/backend.log
+</span></span><span style="display:flex;"><span>cd ~/aws-iot-dashboard
+</span></span><span style="display:flex;"><span>git status --short
+</span></span><span style="display:flex;"><span>git pull --ff-only
+</span></span><span style="display:flex;"><span>source backend/venv/bin/activate
+</span></span><span style="display:flex;"><span>pip install -r backend/requirements.txt
+</span></span><span style="display:flex;"><span>sudo systemctl restart aws-iot-backend
+</span></span><span style="display:flex;"><span>curl -i http://127.0.0.1:8000/api/health
+</span></span></code></pre></div><p>Chỉ cập nhật từ nhánh đã được duyệt. Khi mô hình dữ liệu thay đổi, hãy chạy lại <code>python -m app.database.init_db</code> và kiểm tra tính tương thích của lược đồ trước khi khởi động lại dịch vụ. Không dùng <code>git reset --hard</code> như một cách triển khai nhanh.</p>
+<h2 id="kết-quả-mong-đợi">Kết quả mong đợi</h2>
+<p>Dịch vụ <code>aws-iot-backend</code> ở trạng thái <code>active (running)</code>, <code>GET /api/health</code> trả HTTP 200, EC2 kết nối được với RDS riêng và ba bảng <code>devices</code>, <code>telemetry_logs</code>, <code>commands</code> tồn tại trong <code>iot_dashboard</code>. Bằng chứng triển khai phải ghi mã commit của ứng dụng và không chứa thông tin xác thực.</p>
+<!-- TODO IMAGE: /images/5-Workshop/5.5-backend-database/backend-systemd-health-check.png — Terminal hiển thị aws-iot-backend đang hoạt động và GET /api/health trả HTTP 200; che tên máy, địa chỉ IP công khai và thông tin xác thực. -->
+<!-- TODO IMAGE: /images/5-Workshop/5.5-backend-database/postgresql-tables-and-commands.png — Bằng chứng psql cho các bảng devices, telemetry_logs, commands và truy vấn trạng thái lệnh đã che thông tin nhạy cảm; không để lộ endpoint RDS hoặc mật khẩu. -->
+<h2 id="xử-lý-sự-cố">Xử lý sự cố</h2>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Hiện tượng</th>
+          <th style="text-align: left">Chẩn đoán và khắc phục</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">Bị từ chối kết nối</td>
+          <td style="text-align: left">Xác nhận đúng RDS và cổng kết nối; nếu gọi API, kiểm tra Uvicorn đang chạy và lắng nghe</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Hết thời gian chờ</td>
+          <td style="text-align: left">Kiểm tra nguồn của RDS SG là <code>ec2-rds-1</code>, subnet, endpoint và khu vực</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Sai <code>DATABASE_URL</code></td>
+          <td style="text-align: left">Kiểm tra tên cơ sở dữ liệu, người dùng, cách mã hóa; nạp đúng <code>.env</code> mà <code>systemd</code> sử dụng</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">curl cục bộ thành công, truy cập từ xa thất bại</td>
+          <td style="text-align: left">Bind <code>0.0.0.0</code>, kiểm tra cổng 8000 trong EC2 SG và IP công khai</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>systemd</code> không khởi động được</td>
+          <td style="text-align: left">Xem <code>systemctl status</code>, <code>journalctl</code>; kiểm tra tài khoản, đường dẫn, module và quyền</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Cổng đã được sử dụng</td>
+          <td style="text-align: left">Chạy `sudo ss -ltnp</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Xác minh SSL thất bại</td>
+          <td style="text-align: left">Dùng đúng CA bundle, đường dẫn tuyệt đối, quyền file và tên máy chủ endpoint</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Thiếu bảng</td>
+          <td style="text-align: left">Chạy lệnh khởi tạo hoặc migration do mã nguồn định nghĩa; không tự tạo một lược đồ khác</td>
+      </tr>
+  </tbody>
+</table>
+<p>Tiếp theo: <a href="../../../vi/5-workshop/5.6-hardware-integration/">tích hợp phần cứng YOLO UNO</a>.</p>
+
+
+
+
+
+<footer class=" footline" >
+	
+</footer>
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="../../../vi/5-workshop/5.4-aws-infrastructure-setup/" title="Thiết lập hạ tầng AWS"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="../../../vi/5-workshop/5.6-hardware-integration/" title="Tích hợp phần cứng" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="../../../js/clipboard.min.js?1785348041"></script>
+    <script src="../../../js/perfect-scrollbar.min.js?1785348041"></script>
+    <script src="../../../js/perfect-scrollbar.jquery.min.js?1785348041"></script>
+    <script src="../../../js/jquery.sticky.js?1785348041"></script>
+    <script src="../../../js/featherlight.min.js?1785348041"></script>
+    <script src="../../../js/highlight.pack.js?1785348041"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="../../../js/modernizr.custom-3.6.0.js?1785348041"></script>
+    <script src="../../../js/learn.js?1785348041"></script>
+    <script src="../../../js/hugo-learn.js?1785348041"></script>
+
+    <link href="../../../mermaid/mermaid.css?1785348041" rel="stylesheet" />
+    <script src="../../../mermaid/mermaid.js?1785348041"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    <script>
+  (function (i, s, o, g, r, a, m) {
+    i["GoogleAnalyticsObject"] = r;
+    ((i[r] =
+      i[r] ||
+      function () {
+        (i[r].q = i[r].q || []).push(arguments);
+      }),
+      (i[r].l = 1 * new Date()));
+    ((a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]));
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m);
+  })(
+    window,
+    document,
+    "script",
+    "https://www.google-analytics.com/analytics.js",
+    "ga",
+  );
+
+  ga("create", "UA-158079754-2", "auto");
+  ga("send", "pageview");
+</script>
+
+  </body>
+</html>

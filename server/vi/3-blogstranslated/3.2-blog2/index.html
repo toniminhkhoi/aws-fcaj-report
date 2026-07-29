@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html lang="vi" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.134.3">
+    <meta
+  name="description"
+  content=""
+/>
+<meta name="author" content="thienlh@thienlu.com" />
+
+    <link rel="icon" href="../../../images/favicon.png" type="image/png">
+
+    <title>Blog 2 :: Báo cáo thực tập</title>
+
+    
+    <link href="../../../css/nucleus.css?1785348040" rel="stylesheet">
+    <link href="../../../css/fontawesome-all.min.css?1785348040" rel="stylesheet">
+    <link href="../../../css/hybrid.css?1785348040" rel="stylesheet">
+    <link href="../../../css/featherlight.min.css?1785348040" rel="stylesheet">
+    <link href="../../../css/perfect-scrollbar.min.css?1785348040" rel="stylesheet">
+    <link href="../../../css/auto-complete.css?1785348040" rel="stylesheet">
+    <link href="../../../css/atom-one-dark-reasonable.css?1785348040" rel="stylesheet">
+    <link href="../../../css/theme.css?1785348040" rel="stylesheet">
+    <link href="../../../css/hugo-theme.css?1785348040" rel="stylesheet">
+    
+    <link href="../../../css/theme-workshop.css?1785348040" rel="stylesheet">
+    
+    
+
+    <script src="../../../js/jquery-3.3.1.min.js?1785348040"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+    </style>
+    
+
+  </head>
+  <body class="" data-url="../../../vi/3-blogstranslated/3.2-blog2/">
+    <nav
+  id="sidebar"
+  class="showVisitedLinks"
+>
+   
+  <div id="header-wrapper">
+    <div id="header"><a id="logo" href="../../../">
+  <svg
+    id="Layer_1"
+    data-name="Layer 1"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 60 30"
+    width="30%"
+  >
+    <defs>
+      <style>
+        .cls-1 {
+          fill: #fff;
+        }
+        .cls-2 {
+          fill: #f90;
+          fill-rule: evenodd;
+        }
+      </style>
+    </defs>
+    <title>AWS-Logo_White-Color</title>
+    <path
+      class="cls-1"
+      d="M14.09,10.85a4.7,4.7,0,0,0,.19,1.48,7.73,7.73,0,0,0,.54,1.19.77.77,0,0,1,.12.38.64.64,0,0,1-.32.49l-1,.7a.83.83,0,0,1-.44.15.69.69,0,0,1-.49-.23,3.8,3.8,0,0,1-.6-.77q-.25-.42-.51-1a6.14,6.14,0,0,1-4.89,2.3,4.54,4.54,0,0,1-3.32-1.19,4.27,4.27,0,0,1-1.22-3.2A4.28,4.28,0,0,1,3.61,7.75,6.06,6.06,0,0,1,7.69,6.46a12.47,12.47,0,0,1,1.76.13q.92.13,1.91.36V5.73a3.65,3.65,0,0,0-.79-2.66A3.81,3.81,0,0,0,7.86,2.3a7.71,7.71,0,0,0-1.79.22,12.78,12.78,0,0,0-1.79.57,4.55,4.55,0,0,1-.58.22l-.26,0q-.35,0-.35-.52V2a1.09,1.09,0,0,1,.12-.58,1.2,1.2,0,0,1,.47-.35A10.88,10.88,0,0,1,5.77.32,10.19,10.19,0,0,1,8.36,0a6,6,0,0,1,4.35,1.35,5.49,5.49,0,0,1,1.38,4.09ZM7.34,13.38a5.36,5.36,0,0,0,1.72-.31A3.63,3.63,0,0,0,10.63,12,2.62,2.62,0,0,0,11.19,11a5.63,5.63,0,0,0,.16-1.44v-.7a14.35,14.35,0,0,0-1.53-.28,12.37,12.37,0,0,0-1.56-.1,3.84,3.84,0,0,0-2.47.67A2.34,2.34,0,0,0,5,11a2.35,2.35,0,0,0,.61,1.76A2.4,2.4,0,0,0,7.34,13.38Zm13.35,1.8a1,1,0,0,1-.64-.16,1.3,1.3,0,0,1-.35-.65L15.81,1.51a3,3,0,0,1-.15-.67.36.36,0,0,1,.41-.41H17.7a1,1,0,0,1,.65.16,1.4,1.4,0,0,1,.33.65l2.79,11,2.59-11A1.17,1.17,0,0,1,24.39.6a1.1,1.1,0,0,1,.67-.16H26.4a1.1,1.1,0,0,1,.67.16,1.17,1.17,0,0,1,.32.65L30,12.39,32.88,1.25A1.39,1.39,0,0,1,33.22.6a1,1,0,0,1,.65-.16h1.54a.36.36,0,0,1,.41.41,1.36,1.36,0,0,1,0,.26,3.64,3.64,0,0,1-.12.41l-4,12.86a1.3,1.3,0,0,1-.35.65,1,1,0,0,1-.64.16H29.25a1,1,0,0,1-.67-.17,1.26,1.26,0,0,1-.32-.67L25.67,3.64,23.11,14.34a1.26,1.26,0,0,1-.32.67,1,1,0,0,1-.67.17Zm21.36.44a11.28,11.28,0,0,1-2.56-.29,7.44,7.44,0,0,1-1.92-.67,1,1,0,0,1-.61-.93v-.84q0-.52.38-.52a.9.9,0,0,1,.31.06l.42.17a8.77,8.77,0,0,0,1.83.58,9.78,9.78,0,0,0,2,.2,4.48,4.48,0,0,0,2.43-.55,1.76,1.76,0,0,0,.86-1.57,1.61,1.61,0,0,0-.45-1.16A4.29,4.29,0,0,0,43,9.22l-2.41-.76A5.15,5.15,0,0,1,38,6.78a3.94,3.94,0,0,1-.83-2.41,3.7,3.7,0,0,1,.45-1.85,4.47,4.47,0,0,1,1.19-1.37A5.27,5.27,0,0,1,40.51.29,7.4,7.4,0,0,1,42.6,0a8.87,8.87,0,0,1,1.12.07q.57.07,1.08.19t.95.26a4.27,4.27,0,0,1,.7.29,1.59,1.59,0,0,1,.49.41.94.94,0,0,1,.15.55v.79q0,.52-.38.52a1.76,1.76,0,0,1-.64-.2,7.74,7.74,0,0,0-3.2-.64,4.37,4.37,0,0,0-2.21.47,1.6,1.6,0,0,0-.79,1.48,1.58,1.58,0,0,0,.49,1.18,4.94,4.94,0,0,0,1.83.92L44.55,7a5.08,5.08,0,0,1,2.57,1.6A3.76,3.76,0,0,1,47.9,11a4.21,4.21,0,0,1-.44,1.93,4.4,4.4,0,0,1-1.21,1.47,5.43,5.43,0,0,1-1.85.93A8.25,8.25,0,0,1,42.05,15.62Z"
+    ></path>
+    <path
+      class="cls-2"
+      d="M45.19,23.81C39.72,27.85,31.78,30,25,30A36.64,36.64,0,0,1,.22,20.57c-.51-.46-.06-1.09.56-.74A49.78,49.78,0,0,0,25.53,26.4,49.23,49.23,0,0,0,44.4,22.53C45.32,22.14,46.1,23.14,45.19,23.81Z"
+    ></path>
+    <path
+      class="cls-2"
+      d="M47.47,21.21c-.7-.9-4.63-.42-6.39-.21-.53.06-.62-.4-.14-.74,3.13-2.2,8.27-1.57,8.86-.83s-.16,5.89-3.09,8.35c-.45.38-.88.18-.68-.32C46.69,25.8,48.17,22.11,47.47,21.21Z"
+    ></path>
+  </svg>
+</a>
+</div>
+     <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="../../../js/lunr.min.js?1785348040"></script>
+<script type="text/javascript" src="../../../js/auto-complete.js?1785348040"></script>
+<script type="text/javascript">
+    
+    
+        var baseurl = "https:\/\/danielleit241.github.io\/aws-fcj-report\/\/vi";
+    
+</script>
+<script type="text/javascript" src="../../../js/search.js?1785348040"></script>
+ 
+  </div>
+
+  <div class="highlightable">
+    <ul class="topics">
+               
+<li
+  data-nav-id="/vi/1-worklog/"
+  title="Nhật ký công việc"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/1-worklog/">
+     <b> 1. </b> Nhật ký công việc 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+  <ul>
+          
+            
+<li
+  data-nav-id="/vi/1-worklog/1.1-week1/"
+  title="Worklog Tuần 1"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/1-worklog/1.1-week1/">
+     <b> 1.1. </b> Worklog Tuần 1 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.2-week2/"
+  title="Worklog Tuần 2"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/1-worklog/1.2-week2/">
+     <b> 1.2. </b> Worklog Tuần 2 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.3-week3/"
+  title="Worklog Tuần 3"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/1-worklog/1.3-week3/">
+     <b> 1.3. </b> Worklog Tuần 3 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.4-week4/"
+  title="Worklog Tuần 4"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/1-worklog/1.4-week4/">
+     <b> 1.4. </b> Worklog Tuần 4 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.5-week5/"
+  title="Worklog Tuần 5"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/1-worklog/1.5-week5/">
+     <b> 1.5. </b> Worklog Tuần 5 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.6-week6/"
+  title="Worklog Tuần 6"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/1-worklog/1.6-week6/">
+     <b> 1.6. </b> Worklog Tuần 6 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.7-week7/"
+  title="Worklog Tuần 7"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/1-worklog/1.7-week7/">
+     <b> 1.7. </b> Worklog Tuần 7 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.8-week8/"
+  title="Worklog Tuần 8"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/1-worklog/1.8-week8/">
+     <b> 1.8. </b> Worklog Tuần 8 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.9-week9/"
+  title="[Dự kiến] Worklog Tuần 9"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/1-worklog/1.9-week9/">
+     <b> 1.9. </b> [Dự kiến] Worklog Tuần 9 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/1-worklog/1.10-week10/"
+  title="[Dự kiến] Worklog Tuần 10"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/1-worklog/1.10-week10/">
+     <b> 1.10. </b> [Dự kiến] Worklog Tuần 10 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+     
+  </ul>
+  
+</li>
+           
+<li
+  data-nav-id="/vi/2-proposal/"
+  title="Bản đề xuất"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/2-proposal/">
+     <b> 2. </b> Bản đề xuất 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+           
+<li
+  data-nav-id="/vi/3-blogstranslated/"
+  title="Các Blog Đã Dịch"
+  class="dd-item 
+        parent
+        
+        
+        "
+>
+  <a href="../../../vi/3-blogstranslated/">
+     <b> 3. </b> Các Blog Đã Dịch 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+  <ul>
+          
+            
+<li
+  data-nav-id="/vi/3-blogstranslated/3.1-blog1/"
+  title="Blog 1"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/3-blogstranslated/3.1-blog1/">
+     <b> 3.1. </b> Blog 1 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/3-blogstranslated/3.2-blog2/"
+  title="Blog 2"
+  class="dd-item 
+        
+        active
+        
+        "
+>
+  <a href="../../../vi/3-blogstranslated/3.2-blog2/">
+     <b> 3.2. </b> Blog 2 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/3-blogstranslated/3.3-blog3/"
+  title="Blog 3"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/3-blogstranslated/3.3-blog3/">
+     <b> 3.3. </b> Blog 3 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+     
+  </ul>
+  
+</li>
+           
+<li
+  data-nav-id="/vi/4-eventparticipated/"
+  title="Các Sự kiện Đã Tham gia"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/4-eventparticipated/">
+     <b> 4. </b> Các Sự kiện Đã Tham gia 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+  <ul>
+          
+            
+<li
+  data-nav-id="/vi/4-eventparticipated/4.1-event1/"
+  title="Sự kiện 1"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/4-eventparticipated/4.1-event1/">
+     <b> 4.1. </b> Sự kiện 1 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/4-eventparticipated/4.2-event2/"
+  title="Sự kiện 2"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/4-eventparticipated/4.2-event2/">
+     <b> 4.2. </b> Sự kiện 2 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/4-eventparticipated/4.3-event3/"
+  title="Sự kiện 3"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/4-eventparticipated/4.3-event3/">
+     <b> 4.3. </b> Sự kiện 3 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+     
+  </ul>
+  
+</li>
+           
+<li
+  data-nav-id="/vi/5-workshop/"
+  title="Workshop"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/">
+     <b> 5. </b> Workshop 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+  <ul>
+          
+            
+<li
+  data-nav-id="/vi/5-workshop/5.1-workshop-overview/"
+  title="Tổng quan Workshop"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.1-workshop-overview/">
+     <b> 5.1. </b> Tổng quan Workshop 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.2-prerequisites/"
+  title="Điều kiện tiên quyết"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.2-prerequisites/">
+     <b> 5.2. </b> Điều kiện tiên quyết 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.3-architecture-and-service-design/"
+  title="Kiến trúc và thiết kế dịch vụ"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.3-architecture-and-service-design/">
+     <b> 5.3. </b> Kiến trúc và thiết kế dịch vụ 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.4-aws-infrastructure-setup/"
+  title="Thiết lập hạ tầng AWS"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.4-aws-infrastructure-setup/">
+     <b> 5.4. </b> Thiết lập hạ tầng AWS 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.5-backend-and-database/"
+  title="Triển khai backend và tích hợp cơ sở dữ liệu"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.5-backend-and-database/">
+     <b> 5.5. </b> Triển khai backend và tích hợp cơ sở dữ liệu 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.6-hardware-integration/"
+  title="Tích hợp phần cứng"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.6-hardware-integration/">
+     <b> 5.6. </b> Tích hợp phần cứng 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.7-frontend-integration/"
+  title="Tích hợp frontend"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.7-frontend-integration/">
+     <b> 5.7. </b> Tích hợp frontend 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.8-end-to-end-testing/"
+  title="Kiểm thử và xác minh đầu cuối"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.8-end-to-end-testing/">
+     <b> 5.8. </b> Kiểm thử và xác minh đầu cuối 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.9-cloudwatch-monitoring/"
+  title="Giám sát bằng CloudWatch"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.9-cloudwatch-monitoring/">
+     <b> 5.9. </b> Giám sát bằng CloudWatch 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.10-cost-security-cleanup/"
+  title="Chi phí, bảo mật và dọn dẹp"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.10-cost-security-cleanup/">
+     <b> 5.10. </b> Chi phí, bảo mật và dọn dẹp 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.11-results-challenges-future/"
+  title="Kết quả, thách thức và hướng cải tiến"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.11-results-challenges-future/">
+     <b> 5.11. </b> Kết quả, thách thức và hướng cải tiến 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+            
+<li
+  data-nav-id="/vi/5-workshop/5.12-project-handover/"
+  title="Bàn giao dự án"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/5-workshop/5.12-project-handover/">
+     <b> 5.12. </b> Bàn giao dự án 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+     
+  </ul>
+  
+</li>
+           
+<li
+  data-nav-id="/vi/6-self-evaluation/"
+  title="Tự đánh giá"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/6-self-evaluation/">
+     <b> 6. </b> Tự đánh giá 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+           
+<li
+  data-nav-id="/vi/7-feedback/"
+  title="Chia sẻ, đóng góp ý kiến"
+  class="dd-item 
+        
+        
+        
+        "
+>
+  <a href="../../../vi/7-feedback/">
+     <b> 7. </b> Chia sẻ, đóng góp ý kiến 
+    <i class="fas fa-check read-icon"></i>
+    
+  </a>
+   
+</li>
+    
+    </ul>
+
+     
+    <section id="shortcuts">
+      <h3>
+        More
+      </h3>
+      <ul>
+        
+        <li>
+          <a class="padding" href="https://www.facebook.com/groups/awsstudygroupfcj/"
+            ><i class='fab fa-facebook'></i> AWS Study Group</a
+          >
+        </li>
+        
+      </ul>
+    </section>
+      
+    <section id="prefooter">
+      <hr />
+      <ul>
+        
+        <li>
+          <a class="padding">
+            <i class="fas fa-language fa-fw"></i>
+            <div class="select-style">
+              <select id="select-language" onchange="location = this.value;">
+                       
+                <option
+                  id="en"
+                  value="https://danielleit241.github.io/aws-fcj-report/3-blogstranslated/3.2-blog2/"
+                >
+                  English
+                </option>
+                            
+                <option
+                  id="vi"
+                  value="https://danielleit241.github.io/aws-fcj-report/vi/3-blogstranslated/3.2-blog2/"
+                  selected
+                >
+                  Tiếng Việt
+                </option>
+                   
+              </select>
+              <svg
+                version="1.1"
+                id="Capa_1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                x="0px"
+                y="0px"
+                width="255px"
+                height="255px"
+                viewBox="0 0 255 255"
+                style="enable-background: new 0 0 255 255"
+                xml:space="preserve"
+              >
+                <g>
+                  <g id="arrow-drop-down">
+                    <polygon points="0,63.75 127.5,191.25 255,63.75     " />
+                  </g>
+                </g>
+              </svg>
+            </div>
+          </a>
+        </li>
+         
+        <li>
+          <a class="padding" href="#" data-clear-history-toggle=""
+            ><i class="fas fa-history fa-fw"></i> Clear History</a
+          >
+        </li>
+        
+      </ul>
+    </section>
+    
+    <section id="footer"><left>
+    
+    <b> Workshop</b> <br>
+    <img src="https://hitwebcounter.com/counter/counter.php?page=7920860&style=0038&nbdigits=9&type=page&initCount=0"
+        title="Migrate" Alt="web counter" border="0" /></a> <br>
+    <b> <a href="https://cloudjourney.awsstudygroup.com/">Cloud Journey</a></b> <br>
+    <img src="https://hitwebcounter.com/counter/counter.php?page=7830807&style=0038&nbdigits=9&type=page&initCount=0"
+        title="Total CLoud Journey" Alt="web counter" border="0" />
+
+</left>
+<left>
+    <br>
+    <br>
+    <b>Last Updated</b><br>
+    <i>
+        <span id="lastUpdated" style="color:orange;"></span>
+    </i>
+
+    <script>
+        
+        const today = new Date();
+        
+        const formattedDate = today.toLocaleDateString('en-GB');
+        
+        document.getElementById('lastUpdated').textContent = formattedDate;
+    </script>
+</left>
+<left>
+    <br>
+    <br>
+    <b> Team </b> <br>
+
+    <i> <a href="https://www.facebook.com/groups/660548818043427" style="color:orange">First Cloud Journey</a> <br>
+
+    </i>
+</left>
+
+<script async defer src="https://buttons.github.io/buttons.js"></script></section>
+  </div>
+</nav>
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='../../../vi/'>Báo cáo thực tập</a> > <a href='../../../vi/3-blogstranslated/'>Các Blog Đã Dịch</a> > Blog 2
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+  <div class="wrapper"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#tổng-quan-giải-pháp"><strong>Tổng quan giải pháp</strong></a></li>
+    <li><a href="#images3-blogstranslated32-blog2image_1jpg"><img src="../../../images/3-BlogsTranslated/3.2-Blog2/image_1.jpg" alt=""></a></li>
+    <li><a href="#điều-kiện-tiên-quyết"><strong>Điều kiện tiên quyết</strong></a></li>
+    <li><a href="#cài-đặt-aws-iot-greengrass-trên-cổng-biên"><strong>Cài đặt AWS IoT Greengrass trên cổng biên</strong></a></li>
+    <li><a href="#images3-blogstranslated32-blog2image_2jpg"><img src="../../../images/3-BlogsTranslated/3.2-Blog2/image_2.jpg" alt=""></a></li>
+    <li><a href="#cấp-phép-luồng-data-firehose"><strong>Cấp phép luồng Data Firehose</strong></a></li>
+    <li><a href="#images3-blogstranslated32-blog2image_3jpg"><img src="../../../images/3-BlogsTranslated/3.2-Blog2/image_3.jpg" alt=""></a></li>
+    <li><a href="#triển-khai-các-thành-phần-greengrass"><strong>Triển khai các thành phần Greengrass</strong></a></li>
+    <li><a href="#thu-thập-dữ-liệu"><strong>Thu thập dữ liệu</strong></a></li>
+    <li><a href="#xác-minh-dữ-liệu-trong-athena"><strong>Xác minh dữ liệu trong Athena</strong></a></li>
+    <li><a href="#mở-rộng-giải-pháp"><strong>Mở rộng giải pháp</strong></a></li>
+    <li><a href="#dọn-dẹp"><strong>Dọn dẹp</strong></a></li>
+    <li><a href="#kết-luận"><strong>Kết luận</strong></a></li>
+    <li><a href="#về-các-tác-giả"><strong>Về các tác giả</strong></a></li>
+  </ul>
+</nav></div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              Blog 2
+            </h1>
+          
+
+        
+
+
+
+	<h1 id="tối-ưu-hóa-phân-tích-dữ-liệu-iot-công-nghiệp-với-amazon-data-firehose-và-amazon-s3-tables-cùng-apache-iceberg"><strong>Tối ưu hóa phân tích dữ liệu IoT công nghiệp với Amazon Data Firehose và Amazon S3 Tables cùng Apache Iceberg</strong></h1>
+<p><em>bởi Ashok Padmanabhan, Joyson Neville Lewis, và Anil Vure vào ngày 25 THÁNG 7 NĂM 2025 trong Amazon Data Firehose, Amazon S3 Tables, Analytics, AWS IoT Greengrass, Internet of Things, Technical How-to</em></p>
+<p>Các tổ chức sản xuất đang chạy đua để số hóa hoạt động của họ thông qua các sáng kiến Công nghiệp 4.0. Một thách thức chính mà họ phải đối mặt là việc thu thập, xử lý và phân tích dữ liệu thời gian thực từ các thiết bị công nghiệp để cho phép ra quyết định dựa trên dữ liệu.</p>
+<p>Các cơ sở sản xuất hiện đại tạo ra lượng dữ liệu thời gian thực khổng lồ từ các dây chuyền sản xuất của họ. Việc thu thập dữ liệu giá trị này đòi hỏi một kiến trúc hai tầng: đầu tiên, một thiết bị biên (edge device) hiểu các giao thức công nghiệp sẽ thu thập dữ liệu trực tiếp từ các cảm biến trên sàn nhà máy. Sau đó, các cổng biên (edge gateway) này sẽ đệm (buffer) và truyền dữ liệu một cách an toàn đến AWS Cloud, đảm bảo độ tin cậy trong các trường hợp gián đoạn mạng.</p>
+<p>Trong bài viết này, chúng tôi sẽ trình bày cách sử dụng các tích hợp dịch vụ của AWS để giảm thiểu mã tùy chỉnh (custom code) trong khi vẫn cung cấp một nền tảng mạnh mẽ cho việc thu thập, xử lý và phân tích dữ liệu công nghiệp. Bằng cách sử dụng Amazon S3 Tables và các tối ưu hóa được tích hợp sẵn của nó, bạn có thể tối đa hóa hiệu suất truy vấn và giảm thiểu chi phí mà không cần thiết lập thêm cơ sở hạ tầng. Ngoài ra, AWS IoT Greengrass hỗ trợ VPC endpoints, giúp bạn có thể giao tiếp an toàn giữa cổng biên (được lưu trữ tại chỗ) và AWS.</p>
+<h2 id="tổng-quan-giải-pháp"><strong>Tổng quan giải pháp</strong></h2>
+<p>Hãy xem xét một dây chuyền sản xuất có các cảm biến thiết bị ghi lại tốc độ dòng chảy, nhiệt độ và áp suất. Để thực hiện phân tích trên dữ liệu này, bạn thu thập dữ liệu truyền phát (streaming data) theo thời gian thực từ các cảm biến này vào môi trường AWS bằng cách sử dụng một cổng biên. Sau khi dữ liệu được đưa vào AWS, bạn có thể sử dụng các dịch vụ phân tích khác nhau để thu thập thông tin chi tiết.</p>
+<p>Để minh họa luồng dữ liệu từ biên lên đám mây (cloud), chúng tôi có các tài sản, máy móc và công cụ xuất bản (publish) dữ liệu bằng MQTT. Theo tùy chọn, chúng tôi sử dụng một thiết bị biên mô phỏng để xuất bản dữ liệu đến một MQTT endpoint cục bộ. Chúng tôi sử dụng cổng biên với môi trường runtime AWS IoT Greengrass V2 edge để truyền dữ liệu qua Amazon Data Firehose trên đám mây đến S3 Tables.</p>
+<p>Biểu đồ sau đây minh họa kiến trúc của giải pháp.</p>
+<h2 id="images3-blogstranslated32-blog2image_1jpg"><img src="../../../images/3-BlogsTranslated/3.2-Blog2/image_1.jpg"></h2>
+<p>Luồng công việc bao gồm các bước sau:</p>
+<ol>
+<li>Thu thập dữ liệu từ các cảm biến Internet of Things (IoT) và truyền dữ liệu thời gian thực từ các thiết bị biên đến AWS Cloud bằng AWS IoT Greengrass.</li>
+<li>Thu thập, chuyển đổi và lưu trữ dữ liệu trong thời gian gần thực (near real-time) bằng cách sử dụng Data Firehose, với thành phần Firehose trên AWS IoT Greengrass, và tích hợp S3 Tables.</li>
+<li>Lưu trữ và sắp xếp dữ liệu dạng bảng bằng cách sử dụng S3 Tables, cung cấp bộ lưu trữ được xây dựng chuyên biệt cho định dạng Apache Iceberg với giải pháp truy vấn đơn giản, hiệu suất cao và tiết kiệm chi phí.</li>
+<li>Truy vấn và phân tích dữ liệu dạng bảng bằng cách sử dụng Amazon Athena.</li>
+</ol>
+<p>Luồng dữ liệu tại biên bao gồm các thành phần chính sau:</p>
+<ul>
+<li><strong>Thiết bị IoT đến MQTT broker cục bộ</strong> – Một thiết bị mô phỏng được sử dụng để tạo dữ liệu cho mục đích của bài viết này. Trong một triển khai thực tế điển hình, đây sẽ là thiết bị hoặc cổng của bạn có hỗ trợ MQTT. Các thiết bị IoT có thể xuất bản tin nhắn đến một MQTT broker cục bộ (Moquette) đang chạy trên AWS IoT Greengrass.</li>
+<li><strong>Cầu nối MQTT (MQTT bridge)</strong> – Thành phần MQTT bridge chuyển tiếp tin nhắn giữa MQTT broker (nơi các thiết bị máy khách giao tiếp) và publish/subscribe (IPC) cục bộ của AWS IoT Greengrass.</li>
+<li><strong>Thành phần PubSub cục bộ (tùy chỉnh)</strong> – Thành phần này đăng ký (subscribe) các tin nhắn IPC cục bộ, chuyển tiếp tin nhắn đến chủ đề (topic) <code>kinesisfirehose/message</code>, và sử dụng giao diện IPC để đăng ký nhận tin nhắn.</li>
+<li><strong>Thành phần Firehose</strong> – Thành phần Firehose đăng ký vào chủ đề <code>kinesisfirehose/message</code>. Sau đó, thành phần này sẽ truyền dữ liệu đến Data Firehose trên đám mây. Nó sử dụng QoS 1 để đảm bảo việc gửi tin nhắn đáng tin cậy.</li>
+</ul>
+<p>Bạn có thể mở rộng giải pháp này ra nhiều vị trí biên, giúp bạn có được cái nhìn liền mạch về dữ liệu trên nhiều vị trí của khu vực sản xuất, hoạt động như một giải pháp low-code.</p>
+<p>Trong các phần tiếp theo, chúng tôi sẽ hướng dẫn các bước để cấu hình luồng thu thập dữ liệu đám mây:</p>
+<ol>
+<li>Tạo một S3 Tables bucket và kích hoạt tích hợp với các dịch vụ phân tích của AWS.</li>
+<li>Tạo một không gian tên (namespace) trong table bucket bằng AWS Command Line Interface (AWS CLI).</li>
+<li>Tạo một bảng (table) trong table bucket với schema đã định nghĩa bằng AWS CLI.</li>
+<li>Tạo một vai trò AWS Identity and Access Management (IAM) cho Data Firehose với các quyền cần thiết.</li>
+<li>Cấu hình các quyền của AWS Lake Formation bằng cách cấp quyền Super trên các bảng cụ thể cho vai trò Data Firehose.</li>
+<li>Thiết lập luồng Data Firehose bằng cách chọn Direct PUT làm nguồn và Iceberg tables làm đích. Cấu hình cài đặt đích với tên cơ sở dữ liệu và bảng, chỉ định một Amazon Simple Storage Service (Amazon S3) bucket cho đầu ra lỗi (error output), và liên kết với vai trò IAM đã tạo trước đó.</li>
+<li>Xác minh và truy vấn dữ liệu bằng Athena bằng cách cấp quyền Lake Formation để Athena truy cập và truy vấn bảng để xác minh việc thu thập dữ liệu.</li>
+</ol>
+<h2 id="điều-kiện-tiên-quyết"><strong>Điều kiện tiên quyết</strong></h2>
+<p>Bạn phải đáp ứng các điều kiện tiên quyết sau:</p>
+<ul>
+<li>Một tài khoản AWS</li>
+<li>Các đặc quyền IAM cần thiết để khởi chạy AWS IoT Greengrass trên cổng biên (hoặc một thiết bị được hỗ trợ khác)</li>
+<li>Một phiên bản Amazon Elastic Compute Cloud (Amazon EC2) với hệ điều hành được hỗ trợ để thực hiện proof of concept (bằng chứng khái niệm)</li>
+</ul>
+<h2 id="cài-đặt-aws-iot-greengrass-trên-cổng-biên"><strong>Cài đặt AWS IoT Greengrass trên cổng biên</strong></h2>
+<p>Để biết hướng dẫn cài đặt AWS IoT Greengrass, hãy tham khảo Cài đặt phần mềm AWS IoT Greengrass Core. Sau khi hoàn tất cài đặt, bạn sẽ có một thiết bị core được cấp phép, như hiển thị trong ảnh chụp màn hình sau. Trạng thái của thiết bị là Healthy (Khỏe mạnh), có nghĩa là tài khoản của bạn có thể giao tiếp thành công với thiết bị.</p>
+<p>Đối với proof of concept, bạn có thể sử dụng phiên bản EC2 chạy Ubuntu làm cổng biên của mình.</p>
+<h2 id="images3-blogstranslated32-blog2image_2jpg"><img src="../../../images/3-BlogsTranslated/3.2-Blog2/image_2.jpg"></h2>
+<h2 id="cấp-phép-luồng-data-firehose"><strong>Cấp phép luồng Data Firehose</strong></h2>
+<p>Để biết các bước chi tiết về cách thiết lập Data Firehose gửi dữ liệu đến các bảng Iceberg, hãy tham khảo Gửi dữ liệu đến Apache Iceberg Tables bằng Amazon Data Firehose. Để tích hợp S3 Tables, hãy tham khảo Xây dựng data lake cho dữ liệu truyền phát với Amazon S3 Tables và Amazon Data Firehose.</p>
+<p>Bởi vì bạn đang sử dụng AWS IoT Greengrass để truyền dữ liệu, bạn có thể bỏ qua các bước Kinesis Data Generator được đề cập trong các hướng dẫn này. Thay vào đó, dữ liệu sẽ chảy từ các thiết bị biên của bạn qua các thành phần Greengrass đến Data Firehose.</p>
+<p>Sau khi hoàn thành các bước này, bạn sẽ có một luồng Firehose và S3 Tables bucket, như hiển thị trong ảnh chụp màn hình sau. Lưu ý Amazon Resource Name (ARN) của luồng Firehose để sử dụng trong các bước tiếp theo.</p>
+<h2 id="images3-blogstranslated32-blog2image_3jpg"><img src="../../../images/3-BlogsTranslated/3.2-Blog2/image_3.jpg"></h2>
+<h2 id="triển-khai-các-thành-phần-greengrass"><strong>Triển khai các thành phần Greengrass</strong></h2>
+<p>Hoàn thành các bước sau để cấu hình và triển khai các thành phần Greengrass. Để biết thêm chi tiết, hãy tham khảo Tạo các triển khai.</p>
+<p>Sử dụng cấu hình sau để kích hoạt định tuyến tin nhắn từ MQTT cục bộ đến thành phần AWS IoT Greengrass PubSub. Lưu ý chủ đề (topic) trong đoạn mã. Đây là chủ đề MQTT mà các thiết bị sẽ gửi dữ liệu đến.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;reset&#34;</span>: [<span style="color:#e6db74">&#34;&#34;</span>],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;merge&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;mqttTopicMapping&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;HelloWorldIotCoreMapping&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;topic&#34;</span>: <span style="color:#e6db74">&#34;clients/#&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;source&#34;</span>: <span style="color:#e6db74">&#34;LocalMqtt&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;target&#34;</span>: <span style="color:#e6db74">&#34;Pubsub&#34;</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Sử dụng cấu hình sau để triển khai thành phần Firehose. Sử dụng ARN của luồng Firehose mà bạn đã lưu ý trước đó.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;reset&#34;</span>: [<span style="color:#e6db74">&#34;&#34;</span>],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;merge&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;lambdaExecutionParameters&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;EnvironmentVariables&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;DEFAULT_DELIVERY_STREAM_ARN&#34;</span>: <span style="color:#e6db74">&#34;arn:aws:firehose:us-east-1:&lt;&lt;account-id&gt;&gt;:deliverystream/&lt;&lt;stream name&gt;&gt;&#34;</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;containerMode&#34;</span>: <span style="color:#e6db74">&#34;NoContainer&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Sử dụng cấu hình sau để triển khai thành phần bộ định tuyến đăng ký cũ (Lưu ý rằng đây là thành phần phụ thuộc của thành phần Firehose):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;reset&#34;</span>: [<span style="color:#e6db74">&#34;&#34;</span>],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;merge&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;subscriptions&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;aws-greengrass-kinesisfirehose&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#e6db74">&#34;aws-greengrass-kinesisfirehose&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;source&#34;</span>: <span style="color:#e6db74">&#34;component:aws.greengrass.KinesisFirehose&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;subject&#34;</span>: <span style="color:#e6db74">&#34;kinesisfirehose/message/status&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;target&#34;</span>: <span style="color:#e6db74">&#34;cloud&#34;</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Tạo và triển khai một thành phần PubSub tùy chỉnh. Bạn có thể sử dụng đoạn mã mẫu sau bằng ngôn ngữ ưa thích của mình để triển khai như một thành phần Greengrass. Bạn có thể sử dụng gdk để tạo các thành phần tùy chỉnh.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;reset&#34;</span>: [<span style="color:#e6db74">&#34;&#34;</span>],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;merge&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;subscriptions&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;aws-greengrass-kinesisfirehose&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#e6db74">&#34;aws-greengrass-kinesisfirehose&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;source&#34;</span>: <span style="color:#e6db74">&#34;component:aws.greengrass.KinesisFirehose&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;subject&#34;</span>: <span style="color:#e6db74">&#34;kinesisfirehose/message/status&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;target&#34;</span>: <span style="color:#e6db74">&#34;cloud&#34;</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Sau khi triển khai các thành phần, bạn sẽ thấy chúng trên tab Components (Các thành phần) của thiết bị core.</p>
+<h2 id="thu-thập-dữ-liệu"><strong>Thu thập dữ liệu</strong></h2>
+<p>Trong bước này, bạn thu thập dữ liệu từ thiết bị của mình lên AWS IoT Greengrass, sau đó dữ liệu này sẽ được đưa vào Data Firehose. Hoàn thành các bước sau:</p>
+<ol>
+<li>
+<p>Từ thiết bị biên có hỗ trợ MQTT hoặc cổng biên của bạn, xuất bản dữ liệu đến chủ đề đã xác định trước đó (client/#). Ví dụ: chúng tôi xuất bản dữ liệu đến chủ đề MQTT client/devices/telemetry.</p>
+</li>
+<li>
+<p>Nếu bạn muốn thực hiện việc này như một proof of concept, hãy tham khảo Tạo thiết bị ảo với Amazon EC2 để tạo một thiết bị IoT mẫu.</p>
+</li>
+</ol>
+<p>Đoạn mã sau là payload mẫu cho ví dụ của chúng tôi:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">PAYLOAD=</span><span style="color:#e6db74">&#34;{
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">\&#34;device_id\&#34;: \&#34;$DEVICE_ID\&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">\&#34;timestamp\&#34;: \&#34;$TIMESTAMP\&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">\&#34;temperature\&#34;: $TEMPERATURE,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">\&#34;pressure\&#34;: $PRESSURE,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">\&#34;flow_rate\&#34;: $FLOW_RATE,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">\&#34;vibration\&#34;: $VIBRATION,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">\&#34;motor_speed\&#34;: $MOTOR_SPEED,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">\&#34;status\&#34;: \&#34;$STATUS\&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">\&#34;battery\&#34;: $((RANDOM % 30 + 70 )),}&#34;</span>
+</span></span></code></pre></div><p>Để biết thêm chi tiết về cách xuất bản tin nhắn từ một thiết bị mẫu, hãy tham khảo Cấp phép tức thời.</p>
+<p>Thành phần MQTT bridge sẽ định tuyến payload từ chủ đề MQTT (client/devices/telemetry) đến một chủ đề IPC có cùng tên. Thành phần tùy chỉnh mà bạn đã triển khai trước đó sẽ lắng nghe chủ đề IPC client/devices/telemetry và xuất bản đến chủ đề IPC kinesisfirehose/message. Tin nhắn phải tuân theo cấu trúc được mô tả trong Dữ liệu đầu vào.</p>
+<h2 id="xác-minh-dữ-liệu-trong-athena"><strong>Xác minh dữ liệu trong Athena</strong></h2>
+<p>Giờ đây, bạn có thể truy vấn dữ liệu được xuất bản từ thiết bị IoT biên bằng Athena. Trên bảng điều khiển Athena, tìm danh mục (catalog) và cơ sở dữ liệu mà bạn đã thiết lập và chạy truy vấn sau:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">SELECT</span> <span style="color:#960050;background-color:#1e0010">*</span> <span style="color:#960050;background-color:#1e0010">FROM</span> <span style="color:#960050;background-color:#1e0010">&lt;&lt;database&gt;&gt;.</span><span style="color:#e6db74">&#34;device_telemetry&#34;</span> <span style="color:#960050;background-color:#1e0010">limit</span> <span style="color:#ae81ff">10</span><span style="color:#960050;background-color:#1e0010">;</span>
+</span></span></code></pre></div><p>Bạn sẽ thấy dữ liệu được hiển thị như trong ảnh chụp màn hình sau. Lưu ý tên cơ sở dữ liệu và bảng mà bạn đã xác định trong bước &ldquo;Cấp phép luồng Data Firehose&rdquo;.</p>
+<h2 id="mở-rộng-giải-pháp"><strong>Mở rộng giải pháp</strong></h2>
+<p>Trong các phần trước, chúng tôi đã chỉ ra cách nhiều thiết bị có thể đưa dữ liệu lên đám mây bằng cách sử dụng một cổng biên Greengrass duy nhất. Vì các vị trí sản xuất thường phân tán trong kịch bản thế giới thực, bạn có thể thiết lập các thiết bị Greengrass tại các địa điểm khác và xuất bản dữ liệu đến cùng một luồng Firehose. Điều này đảm bảo dữ liệu từ các địa điểm khác nhau sẽ được đưa vào một S3 bucket duy nhất, được phân vùng một cách phù hợp (trong ví dụ của chúng tôi là Device_Id), và có thể được truy vấn một cách liền mạch.</p>
+<h2 id="dọn-dẹp"><strong>Dọn dẹp</strong></h2>
+<p>Sau khi xác minh kết quả, bạn có thể xóa các tài nguyên sau để tránh phát sinh thêm chi phí:</p>
+<p>Xóa phiên bản EC2 Ubuntu mà bạn đã tạo cho proof of concept.</p>
+<p>Xóa luồng phân phối Firehose và các tài nguyên liên quan.</p>
+<p>Xóa (Drop) các bảng Athena đã tạo để truy vấn dữ liệu.</p>
+<p>Xóa S3 Tables bucket mà bạn đã cấp phép.</p>
+<h2 id="kết-luận"><strong>Kết luận</strong></h2>
+<p>Trong bài viết này, chúng tôi đã hướng dẫn cách thiết lập một khuôn khổ thu thập dữ liệu gần thời gian thực từ biên lên đám mây có khả năng mở rộng bằng AWS IoT Greengrass và bắt đầu thực hiện phân tích dữ liệu trong các dịch vụ AWS bằng phương pháp low-code. Chúng tôi đã trình bày cách tối ưu hóa lưu trữ dữ liệu sang định dạng Iceberg với S3 Tables và chuyển đổi dữ liệu truyền phát trước khi nó được đưa vào lớp lưu trữ bằng Data Firehose. Chúng tôi cũng đã thảo luận về cách bạn có thể mở rộng giải pháp này theo chiều ngang qua nhiều địa điểm sản xuất (nhà máy hoặc khu vực) để tạo ra một giải pháp low-code nhằm phân tích dữ liệu theo thời gian gần thực.</p>
+<p>Để tìm hiểu thêm, hãy tham khảo các tài nguyên sau:</p>
+<p>Hướng dẫn dành cho nhà phát triển Amazon Data Firehose</p>
+<p>Làm việc với Amazon S3 Tables và table buckets</p>
+<p>Xây dựng data lake cho dữ liệu truyền phát bằng Amazon S3 Tables và Amazon Data Firehose</p>
+<h2 id="về-các-tác-giả"><strong>Về các tác giả</strong></h2>
+<div style="display:flex; flex-direction:column; gap:1rem;">
+  <div style="display:flex; align-items:flex-start; gap:1rem;">
+    <img src="../../../images/3-BlogsTranslated/3.2-Blog2/image_6.jpg" alt="Joyson Neville Lewis" style="width:120px; height:120px; object-fit:cover; border-radius:8px;" />
+    <div>
+      <strong>Joyson Neville Lewis</strong><br/>
+      Joyson Neville Lewis là Kiến trúc sư Trí tuệ nhân tạo Đàm thoại (Conversational AI Architect) cấp cao tại AWS Professional Services. Joyson từng làm Kỹ sư Phần mềm/Dữ liệu trước khi lấn sân sang lĩnh vực AI Đàm thoại và IoT Công nghiệp. Anh hỗ trợ các khách hàng của AWS hiện thực hóa tầm nhìn AI của họ bằng cách sử dụng Trợ lý giọng nói/Chatbot và các giải pháp IoT.
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:1rem;">
+    <img src="../../../images/3-BlogsTranslated/3.2-Blog2/image_7.jpg" alt="Anil Vure" style="width:120px; height:120px; object-fit:cover; border-radius:8px;" />
+    <div>
+      <strong>Anil Vure</strong><br/>
+      Anil Vure là Kiến trúc sư Dữ liệu IoT cấp cao tại AWS Professional services. Anil có nhiều kinh nghiệm trong việc xây dựng các nền tảng dữ liệu quy mô lớn và làm việc với các khách hàng trong ngành sản xuất để thiết kế các hệ thống thu thập dữ liệu tốc độ cao.
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:1rem;">
+    <img src="../../../images/3-BlogsTranslated/3.2-Blog2/image_8.jpg" alt="Ashok Padmanabhan" style="width:120px; height:120px; object-fit:cover; border-radius:8px;" />
+    <div>
+      <strong>Ashok Padmanabhan</strong><br/>
+      Ashok Padmanabhan là Kiến trúc sư Dữ liệu IoT cấp cao tại AWS Professional Services. Ashok chủ yếu làm việc với các khách hàng trong ngành sản xuất và ô tô để thiết kế và xây dựng các giải pháp Công nghiệp 4.0.
+    </div>
+  </div>
+</div>
+
+
+
+
+<footer class=" footline" >
+	
+</footer>
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="../../../vi/3-blogstranslated/3.1-blog1/" title="Blog 1"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="../../../vi/3-blogstranslated/3.3-blog3/" title="Blog 3" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="../../../js/clipboard.min.js?1785348040"></script>
+    <script src="../../../js/perfect-scrollbar.min.js?1785348040"></script>
+    <script src="../../../js/perfect-scrollbar.jquery.min.js?1785348040"></script>
+    <script src="../../../js/jquery.sticky.js?1785348040"></script>
+    <script src="../../../js/featherlight.min.js?1785348040"></script>
+    <script src="../../../js/highlight.pack.js?1785348040"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="../../../js/modernizr.custom-3.6.0.js?1785348040"></script>
+    <script src="../../../js/learn.js?1785348040"></script>
+    <script src="../../../js/hugo-learn.js?1785348040"></script>
+
+    <link href="../../../mermaid/mermaid.css?1785348040" rel="stylesheet" />
+    <script src="../../../mermaid/mermaid.js?1785348040"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    <script>
+  (function (i, s, o, g, r, a, m) {
+    i["GoogleAnalyticsObject"] = r;
+    ((i[r] =
+      i[r] ||
+      function () {
+        (i[r].q = i[r].q || []).push(arguments);
+      }),
+      (i[r].l = 1 * new Date()));
+    ((a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]));
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m);
+  })(
+    window,
+    document,
+    "script",
+    "https://www.google-analytics.com/analytics.js",
+    "ga",
+  );
+
+  ga("create", "UA-158079754-2", "auto");
+  ga("send", "pageview");
+</script>
+
+  </body>
+</html>
