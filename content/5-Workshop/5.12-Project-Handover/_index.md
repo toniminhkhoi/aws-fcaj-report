@@ -10,26 +10,19 @@ pre: " <b> 5.12. </b> "
 
 Transfer enough source, configuration, operational knowledge, and evidence for a new maintainer to start, validate, update, troubleshoot, and safely clean up the prototype.
 
-## Repository structure
+## Handover Repository Structure
 
-The application handover should contain:
+The main repository contains the backend and frontend source code, YOLO UNO firmware, architecture diagrams, and bilingual README documentation. The `main` branch is used as the final project handover version.
 
-```text
-<application-repository>/
-├── backend/              # FastAPI, Pydantic, SQLAlchemy, requirements
-├── frontend/             # React, Vite, TypeScript, Tailwind CSS
-├── hardware/             # PlatformIO firmware and YOLO UNO board definition
-│   └── include/
-│       └── secrets.example.h
-└── README.md
-```
+<p align="center">
+  <img src="/images/5-Workshop/5.12-handover/repository-handover-checklist.png"
+       alt="GitHub repository structure of the AWS IoT Monitoring and Control Dashboard project"
+       width="100%" />
+</p>
 
-The reviewed application source is maintained separately at `F:\aws-iot-dashboard`; this repository contains the Hugo report and Workshop. Record:
+*Figure 22. Final project repository structure, including the backend, frontend, YOLO UNO firmware, architecture diagrams, and bilingual README files.*
 
-- source repository: `<SOURCE_REPOSITORY_URL>`;
-- demo video: `<VIDEO_DEMO_URL>`;
-- deployed application commit: `<COMMIT_SHA>`;
-- AWS region/resource inventory location: `<HANDOVER_EVIDENCE_LOCATION>`.
+The screenshot shows that the handover repository contains the source code for the main system components, bilingual README files, and architecture resources. Files containing private configuration values must be excluded through `.gitignore` and verified separately before handover.
 
 ## Start procedures
 
@@ -56,30 +49,6 @@ pio run
 pio run --target upload
 pio device monitor --baud 115200
 ```
-
-## Required local secrets
-
-| Location | Values | Storage rule |
-| :--- | :--- | :--- |
-| Backend `.env` | `DATABASE_URL` and source-defined settings | EC2/local only; restricted; ignored |
-| Firmware `secrets.h` | Wi-Fi, API URL, `room_01` | Local only; ignored |
-| Frontend `.env.local` if used | API base URL | Local only; ignored |
-| EC2 key | Private key | Approved local secret storage; never Git |
-
-Handover the retrieval/rotation process, not plaintext credentials in the report.
-
-## AWS and operational checklist
-
-- [ ] Correct AWS account and region are known.
-- [ ] VPC, public subnet, DB Subnet Group, route tables, and tags are recorded.
-- [ ] EC2, EBS, key owner, IAM Role, and `iot-ec2-sg` are recorded.
-- [ ] RDS identifier/endpoint, database `iot_dashboard`, and `iot-rds-sg` are recorded.
-- [ ] RDS remains private and port 5432 is sourced from the EC2 SG.
-- [ ] `aws-iot-backend` and CloudWatch Agent start at boot.
-- [ ] Backend log group, metric dimensions, retention, and alarms are recorded.
-- [ ] `room_01` firmware build, exact GPIO map, and safe power requirements are recorded.
-- [ ] Latest T01-T15 results and open issues are linked.
-- [ ] Cost owner and clean-up date are assigned.
 
 ## Update deployment procedure
 
@@ -128,31 +97,118 @@ The documented prototype uses one room, direct HTTP on port 8000 for demo, a cha
 
 The table preserves the agreed assignment and points reviewers to contribution evidence. It does not replace the separate [individual reflections in section 5.11](../5.11-Results-Challenges-Future/); each member must review and sign off both ownership and reflection before final submission.
 
-## Final handover checklist
+## Final Handover Checklist
 
-- [ ] Application source links and exact commit IDs open for the receiver.
-- [ ] No credential appears in Git, screenshots, video, or this Workshop.
-- [ ] Backend, frontend, and firmware start procedures were demonstrated.
-- [ ] OpenAPI routes and database schemas were reviewed from source.
-- [ ] Numeric GPIO map and power diagram were handed over.
-- [ ] Test matrix contains actual evidence and status.
-- [ ] Contribution evidence is attributable to the named member and the individual reflection was reviewed.
-- [ ] CloudWatch configuration and alarm thresholds were confirmed.
-- [ ] Open issues, limitations, owners, cost decision, and clean-up status were signed off.
+| Item | Status |
+|---|---|
+| FastAPI backend source code | Completed |
+| React + Vite frontend source code | Completed |
+| PlatformIO firmware for YOLO UNO | Completed |
+| English and Vietnamese README files | Completed |
+| Architecture diagram and hardware wiring documentation | Completed |
+| End-to-end demo video | Completed |
+| Bilingual Workshop documentation | Completed |
+| Backend and hardware deployment instructions | Completed |
+| Testing and CloudWatch instructions | Completed |
+| AWS resource clean-up instructions | Completed |
+| Secrets and private credentials excluded from Git | Verified |
 
-<!-- TODO IMAGE: /images/5-Workshop/5.12-handover/repository-handover-checklist.png — Final redacted repository/resource/test handover checklist with commit IDs, owners, open issues, and team sign-off. -->
+### Secret Verification
 
-## Demo and Handover Resources
+Secrets and credentials are private values used to authenticate users, devices, applications, or cloud resources. These values must not be committed to the GitHub repository.
 
-The final handover package includes:
+Files and values that must be excluded include:
 
-- Source code repository
-- End-to-end demo video
-- Deployment and operation documentation
-- Bilingual Workshop
-- Architecture diagram
-- AWS resource clean-up instructions
+- `backend/.env`
+- `hardware/include/secrets.h`
+- Wi-Fi SSIDs when they are not intended to be public
+- Wi-Fi passwords
+- Amazon RDS usernames and passwords
+- `DATABASE_URL` values containing credentials
+- AWS Access Key IDs
+- AWS Secret Access Keys
+- AWS session tokens
+- SSH private keys such as `.pem` files
+- API tokens
+- GitHub personal access tokens
+- Other private credentials
 
-See [References]({{% relref "8-References/_index.md" %}}).
+Template files may be committed:
+
+- `.env.example`
+- `secrets.example.h`
+
+However, templates must contain placeholders instead of real credentials.
+
+Examples:
+
+```env
+DATABASE_URL=postgresql://USERNAME:PASSWORD@RDS_ENDPOINT:5432/DATABASE_NAME
+```
+
+```cpp
+#define WIFI_SSID "YOUR_WIFI_SSID"
+#define WIFI_PASSWORD "YOUR_WIFI_PASSWORD"
+#define API_BASE_URL "http://YOUR_EC2_ADDRESS"
+```
+
+> Removing a secret from the latest version does not necessarily remove it from the Git history. If a secret was previously committed, revoke or rotate the credential and clean the repository history when required.
+
+### Pre-Handover Verification
+
+Run the following commands from the repository root.
+
+Check the current working tree:
+
+```bash
+git status
+```
+
+List all tracked files:
+
+```bash
+git ls-files
+```
+
+Search the commit history for sensitive files:
+
+```bash
+git log --all --oneline -- .env secrets.h "*.pem"
+```
+
+Search tracked files for common credential variable names:
+
+```bash
+git grep -n -I -E "AWS_ACCESS_KEY_ID|AWS_SECRET_ACCESS_KEY|AWS_SESSION_TOKEN|DATABASE_URL|WIFI_PASSWORD|PRIVATE_KEY|API_TOKEN"
+```
+
+Check whether sensitive files are currently tracked:
+
+```bash
+git ls-files | grep -E '(^|/)\.env$|secrets\.h$|\.pem$'
+```
+
+Notes:
+
+- Do not publish command output containing real credentials.
+- `git status` only checks the current working tree.
+- `git log --all` helps review the complete commit history.
+- If an AWS key, password, or token was committed, revoke or rotate it.
+- Deleting a file without rotating the exposed credential is insufficient.
+
+## Handover Resources
+
+The final project handover package includes:
+
+- GitHub source code repository.
+- End-to-end demo video.
+- Backend deployment documentation.
+- YOLO UNO firmware instructions.
+- Bilingual Workshop documentation.
+- AWS architecture diagram.
+- Testing and CloudWatch monitoring instructions.
+- AWS resource clean-up instructions.
+
+The source code, demo video, and related documents are collected in the [References]({{% relref "8-References/_index.md" %}}) section.
 
 Return to the [Workshop landing page](../).

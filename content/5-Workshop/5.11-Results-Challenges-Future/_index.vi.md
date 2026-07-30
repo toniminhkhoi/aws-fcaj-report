@@ -8,32 +8,21 @@ pre: " <b> 5.11. </b> "
 
 ## Tổng quan
 
-Phần này tách rõ những nội dung đã được đối chiếu với mã nguồn và những nội dung vẫn cần bằng chứng từ môi trường chạy thực tế. Mã nguồn ứng dụng tại `F:\aws-iot-dashboard` đã được rà soát, nhưng kho báo cáo vẫn chưa có đầy đủ dữ liệu xuất từ môi trường triển khai, ảnh CloudWatch, ảnh cơ sở dữ liệu và kết quả kiểm thử phần cứng. Vì vậy, các mục dưới đây là điều kiện nghiệm thu cần xác nhận theo mục 5.8, không phải kết quả đã đạt.
+Phần này tổng hợp các kết quả đã được xác minh, những điều chỉnh riêng của dự án, đóng góp của từng thành viên, bài học rút ra, giới hạn hiện tại và hướng cải tiến tiếp theo. Kết luận được đối chiếu từ mã nguồn, ma trận kiểm thử T01–T12, ảnh chụp AWS, bản ghi PostgreSQL, giao diện dashboard và video demo phần cứng.
 
-## Kết quả cần xác nhận
+## Kết quả đạt được
 
-| Kết quả | Bằng chứng nghiệm thu |
-| :--- | :--- |
-| Telemetry đầu cuối | Yêu cầu từ YOLO UNO, phản hồi/log FastAPI, bản ghi RDS và màn hình dữ liệu mới nhất trên dashboard |
-| Dashboard và lịch sử | Thẻ dữ liệu mới nhất, lịch sử/biểu đồ đúng thứ tự, trạng thái tải và lỗi |
-| Khả năng lưu trữ bền vững bằng PostgreSQL | Truy vấn telemetry và lệnh trước và sau khi làm mới hoặc khởi động lại API |
-| Điều khiển quạt/đèn/rèm | ID lệnh đi kèm bằng chứng hoạt động của thiết bị vật lý |
-| `Pending` → `Executed` | Phản hồi tạo lệnh và truy vấn sau đó cho cùng một ID lệnh |
-| ACK của lệnh | Dòng log nối tiếp của thiết bị, log backend và trạng thái cuối đã lưu |
-| Giám sát CloudWatch | Log backend mới, các metric EC2/RDS và cấu hình cảnh báo |
+| Kết quả | Trạng thái | Bằng chứng |
+| :--- | :---: | :--- |
+| Backend FastAPI hoạt động và phản hồi health check | **Đạt** | Phản hồi health check và trạng thái `systemd` trong [mục 5.5](../5.5-Backend-and-Database/) |
+| Gửi telemetry và lưu dữ liệu vào PostgreSQL | **Đạt** | Phản hồi API và bản ghi tương ứng trong RDS tại [mục 5.8](../5.8-End-to-End-Testing/) |
+| Hiển thị dữ liệu mới nhất và lịch sử trên dashboard | **Đạt** | Các thẻ telemetry, biểu đồ lịch sử và request HTTP 200 trong mục [5.7](../5.7-Frontend-Integration/) và [5.8](../5.8-End-to-End-Testing/) |
+| Tạo lệnh và chuyển trạng thái `Pending` → `Executed` | **Đạt** | ID lệnh, phản hồi ACK và trạng thái PostgreSQL trong mục [5.5](../5.5-Backend-and-Database/) và [5.8](../5.8-End-to-End-Testing/) |
+| Điều khiển quạt, đèn và rèm vật lý | **Đạt** | Ảnh đối chiếu dashboard–phần cứng và video demo end-to-end trong [mục 5.8](../5.8-End-to-End-Testing/) |
+| Thu thập log, metric và cấu hình alarm trên CloudWatch | **Đạt** | Log backend, bốn widget giám sát và năm cấu hình alarm trong [mục 5.9](../5.9-CloudWatch-Monitoring/) |
+| Kiểm thử toàn bộ luồng end-to-end | **Đạt** | Cả 12 test case T01–T12 trong ma trận kiểm thử đều có trạng thái Đạt |
 
-Chỉ đánh dấu hoàn tất khi đã đính kèm bằng chứng tương ứng. Mô hình hiện tại chưa chứng minh HA, độ trễ dưới 50 ms, khả năng “không thể lỗi”, HTTPS, xác thực hoặc điều khiển bằng AI.
-
-## Phát hiện khi rà soát mã nguồn
-
-- Backend chưa kiểm tra lệnh có thuộc danh sách được hỗ trợ hay không; giá trị không hợp lệ vẫn có thể được lưu ở trạng thái `Pending`.
-- Cơ chế thăm dò trả bản ghi đang chờ cũ nhất theo FIFO, dù route có tên `commands/latest`.
-- Xử lý ACK tìm theo ID lệnh nhưng chưa xác minh ID thiết bị trong route hoặc trạng thái trước đó.
-- `DEVICE_API_KEY` có giá trị mặc định trong cấu hình nhưng các route chưa thực sự kiểm tra giá trị này.
-- Khi lấy dữ liệu thất bại, frontend có thể chuyển sang dữ liệu `SIMULATED`; một lệnh lỗi vẫn có thể bị hiển thị như trạng thái mô phỏng thành công.
-- Chế độ trên frontend chỉ là trạng thái cục bộ, chưa được API xác nhận; các nhãn “AI” và “FAIL-PROOF” mô tả quá mức hành vi dựa trên luật của bản demo.
-- Frontend đang gọi giá trị ADC ánh sáng thô là Lux và ghi trực tiếp địa chỉ EC2 trong cấu hình Vite.
-- Một phần tài liệu phần cứng trong kho mã nguồn ghi servo ở GPIO 8 và không nhắc LCD, trong khi firmware đang hoạt động dùng GPIO 38 và có LCD1602. Workshop lấy mã đang chạy làm chuẩn.
+Phạm vi kiểm thử là mô hình Smart Room đã triển khai với `device_id=room_01`. Các kết quả trên chỉ áp dụng cho môi trường đã được trình diễn và không được suy rộng ra ngoài phạm vi này.
 
 ## Các điều chỉnh riêng của dự án (Project Customizations)
 
@@ -41,25 +30,25 @@ Dự án không sao chép nguyên trạng một bài hướng dẫn có sẵn. N
 
 - mô hình `room_01` kết nối telemetry vật lý, lịch sử trên dashboard và trạng thái thiết bị chấp hành;
 - vòng đời lệnh FastAPI/PostgreSQL lưu `Pending`, `Executed` và ACK từ thiết bị;
-- tám lệnh firmware cho chế độ tự động/thủ công cùng khả năng điều khiển trực tiếp quạt, đèn và rèm;
+- 8 lệnh firmware cho chế độ tự động/thủ công cùng khả năng điều khiển trực tiếp quạt, đèn và rèm;
 - các ngưỡng điều khiển, sơ đồ GPIO, LCD1602, thời gian kết nối lại và cơ chế khôi phục ACK bằng ESP32 Preferences;
-- dashboard React/Vite có biểu đồ telemetry, bảng điều khiển, đề xuất dựa trên luật và cách phân biệt nguồn dữ liệu thật/mô phỏng;
+- dashboard React/Vite có biểu đồ telemetry, bảng điều khiển thiết bị và các đề xuất vận hành dựa trên luật;
 - kết nối RDS riêng thông qua tham chiếu Security Group, không mở cơ sở dữ liệu công khai;
-- namespace CloudWatch riêng, cấu hình thu thập log backend và năm alarm đã được ghi nhận; và
-- Workshop song ngữ ưu tiên bằng chứng, phân biệt rõ hành vi xác minh từ mã nguồn với kết quả còn cần ảnh chụp hoặc kiểm thử.
+- metric riêng trên CloudWatch, cơ chế thu thập log backend và năm cấu hình alarm; và
+- Workshop song ngữ liên kết từng bước triển khai với ảnh chụp, kết quả kiểm thử và hướng dẫn xử lý sự cố.
 
-Những điều chỉnh trên giúp kiến trúc bám sát mã nguồn và phần cứng YOLO UNO thực tế. Auto Scaling, Amazon SQS, AWS IoT Core và kiến trúc hướng sự kiện vẫn chỉ là lựa chọn trong tương lai, chưa được triển khai.
+Những điều chỉnh này giúp kiến trúc bám sát mã nguồn, phần cứng YOLO UNO và bài toán Smart Room của nhóm.
 
 ## Đóng góp cá nhân
 
 | Thành viên | Phạm vi phụ trách và đóng góp cụ thể | Đường dẫn bằng chứng |
 | :--- | :--- | :--- |
-| **Phạm Lê Minh Khôi** | Kiến trúc AWS, ranh giới mạng/bảo mật, vận hành EC2/RDS/CloudWatch, nối dây YOLO UNO, cảm biến/thiết bị chấp hành, thăm dò telemetry/lệnh, thực thi và ACK | [Kiến trúc](../5.3-Architecture-and-Service-Design/), [thiết lập AWS](../5.4-AWS-Infrastructure-Setup/), [phần cứng](../5.6-Hardware-Integration/), [CloudWatch](../5.9-CloudWatch-Monitoring/) |
+| **Phạm Lê Minh Khôi** | Kiến trúc AWS, ranh giới mạng/bảo mật và vận hành EC2/RDS/CloudWatch; phát triển firmware PlatformIO cho YOLO UNO; tích hợp cảm biến, LCD và thiết bị chấp hành; gửi telemetry, thăm dò lệnh, thực thi đầy đủ 8 lệnh và xử lý ACK | [Kiến trúc](../5.3-Architecture-and-Service-Design/), [thiết lập AWS](../5.4-AWS-Infrastructure-Setup/), [phần cứng](../5.6-Hardware-Integration/), [CloudWatch](../5.9-CloudWatch-Monitoring/) |
 | **Ngô Minh Thuận** | Các route FastAPI, alias trong Pydantic, mô hình SQLAlchemy, lưu trữ bền vững bằng PostgreSQL, dịch vụ telemetry, vòng đời lệnh và xử lý ACK | [Thiết kế API/dữ liệu](../5.3-Architecture-and-Service-Design/), [backend/cơ sở dữ liệu](../5.5-Backend-and-Database/), [ma trận kiểm thử](../5.8-End-to-End-Testing/) |
 | **Thượng Đình Hưng** | Dashboard React/Vite, trực quan hóa telemetry, yêu cầu điều khiển, giao diện chế độ/đề xuất, gỡ lỗi tích hợp và quay/dựng video minh họa | [tích hợp frontend](../5.7-Frontend-Integration/), [xác minh đầu cuối](../5.8-End-to-End-Testing/), [bàn giao](../5.12-Project-Handover/) |
 | **Lê Bảo Khánh** | Nội dung đề xuất/báo cáo, blog/nhật ký/sự kiện, cấu trúc Workshop song ngữ, đối chiếu mã nguồn với tài liệu, điều hướng, kế hoạch ảnh và bảo đảm chất lượng | [tổng quan Workshop](../5.1-Workshop-overview/), [kế hoạch kiểm thử/bằng chứng](../5.8-End-to-End-Testing/), [kết quả](../5.11-Results-Challenges-Future/), [bàn giao](../5.12-Project-Handover/) |
 
-Một đóng góp chỉ được nghiệm thu khi phần liên kết đi kèm mã commit, ảnh chụp, log, kết quả kiểm thử, lịch sử tài liệu hoặc bằng chứng khác giúp xác định người thực hiện. Bảng này chỉ ghi phạm vi phụ trách, không thay thế phần nhìn lại cá nhân bên dưới.
+Các mục Workshop được liên kết trong bảng là bằng chứng cho từng phạm vi phụ trách. Bảng này ghi lại vai trò và phần việc chính, không thay thế phần nhìn lại riêng của từng thành viên bên dưới.
 
 ## Nhìn lại theo từng thành viên (Individual Reflections)
 
@@ -71,7 +60,7 @@ Một đóng góp chỉ được nghiệm thu khi phần liên kết đi kèm m�
 | Root Cause | Luồng xử lý đi qua nhiều lớp: quy tắc VPC, IAM, dịch vụ Linux, cơ chế thăm dò HTTP, đấu nối phần cứng và trạng thái ACK bất đồng bộ |
 | Solution | Dùng tham chiếu Security Group từ EC2 tới RDS, gắn EC2 IAM Role, kiểm tra `systemd` và CloudWatch, đối chiếu GPIO với mã nguồn, cấp nguồn an toàn, theo dõi ID lệnh và lưu trạng thái để gửi lại ACK |
 | Lesson Learned | Cần xác minh từng ranh giới độc lập và theo dõi cùng một ID lệnh qua API, cơ sở dữ liệu, cổng nối tiếp, thao tác vật lý và hệ thống giám sát |
-| Future Improvement | Bổ sung HTTPS/endpoint ổn định, Infrastructure as Code, giới hạn IAM chặt hơn, bằng chứng phần cứng đã hiệu chuẩn và chỉ đánh giá MQTT được quản lý sau khi rà soát kiến trúc |
+| Future Improvement | Bổ sung HTTPS và endpoint ổn định, chuẩn hóa cách định nghĩa hạ tầng, giới hạn quyền IAM chặt hơn, đồng thời cải thiện việc hiệu chuẩn cảm biến và lưu bằng chứng kiểm thử phần cứng |
 
 ### Ngô Minh Thuận
 
@@ -97,47 +86,49 @@ Một đóng góp chỉ được nghiệm thu khi phần liên kết đi kèm m�
 
 | Nội dung nhìn lại | Trình bày |
 | :--- | :--- |
-| Challenge | Chuyển các ghi chú mã nguồn thường xuyên thay đổi, đôi khi mâu thuẫn, thành một Workshop song ngữ nhất quán mà không tự suy diễn bằng chứng triển khai |
-| Root Cause | Workshop cũ mô tả dịch vụ không liên quan, phần diễn giải khác với firmware đang chạy và ảnh/kết quả kiểm thử bắt buộc chưa đầy đủ |
-| Solution | Lấy mã nguồn đang hoạt động làm chuẩn, đồng bộ cấu trúc Anh–Việt, nêu rõ hạn chế, đặt TODO đúng vị trí cho bằng chứng còn thiếu và kiểm tra Hugo, cấu trúc cùng liên kết |
-| Lesson Learned | Tài liệu kỹ thuật phải phân biệt rõ nội dung đã triển khai, nội dung đề xuất, kết quả mong đợi và phần đã có bằng chứng; đồng thời giữ lệnh, tên và đường dẫn nhất quán giữa hai ngôn ngữ |
-| Future Improvement | Bổ sung CI để kiểm tra Hugo, liên kết, thông tin bí mật và tính đồng bộ Anh–Việt; thay TODO bằng bằng chứng có người chịu trách nhiệm; duy trì đặc tả API/GPIO có phiên bản và lên lịch để các thành viên rà soát, xác nhận |
+| Challenge | Chuyển các ghi chú kỹ thuật và thay đổi trong quá trình triển khai thành một Workshop song ngữ mạch lạc |
+| Root Cause | Backend, frontend, firmware, cấu hình AWS và bằng chứng được nhiều thành viên cập nhật vào những thời điểm khác nhau |
+| Solution | Lấy mã nguồn đang hoạt động làm chuẩn kỹ thuật, đồng bộ cấu trúc Anh–Việt, đặt bằng chứng vào đúng bước và rà soát tên, đường dẫn, bảng cùng liên kết |
+| Lesson Learned | Tài liệu kỹ thuật cần phân biệt rõ phần đã triển khai, hành vi mong đợi, kết quả quan sát, giới hạn và hướng cải tiến; đồng thời hai ngôn ngữ phải luôn được cập nhật cùng nhau |
+| Future Improvement | Bổ sung kiểm tra tự động cho Hugo, liên kết, thông tin bí mật và tính tương ứng Anh–Việt; duy trì đặc tả API/GPIO có phiên bản; tổ chức vòng rà soát cuối với toàn bộ thành viên |
 
-## Thách thức và bài học
+## Thách thức chính và bài học rút ra
 
 | Vấn đề | Nguyên nhân gốc | Cách xử lý | Bài học |
 | :--- | :--- | :--- | :--- |
-| Khóa SSH bị từ chối trên Windows | Sai đường dẫn/quyền ACL của khóa hoặc sai tài khoản đăng nhập | Dùng đúng tài khoản của AMI và giới hạn quyền file khóa trên máy cục bộ | Chẩn đoán danh tính trước khi thay đổi quy tắc mạng |
-| Sai cú pháp biến môi trường | PowerShell, CMD và Bash dùng cú pháp khác nhau | Chỉ dùng `$env:...`, `%...%`, `$HOME` trong đúng shell | Ghi rõ môi trường thực thi cho mọi lệnh |
-| Không truy cập được cổng 8000 | SG đóng hoặc Uvicorn bind vào `127.0.0.1` | Mở đúng nguồn đã duyệt, bind `0.0.0.0` cho demo | Kiểm tra sức khỏe cục bộ trước khi thử đường công khai |
-| Kết nối SSL tới RDS lỗi | Sai đường dẫn CA, hostname hoặc `DATABASE_URL` | Dùng gói chứng chỉ hiện hành và đường dẫn tuyệt đối; kiểm tra endpoint | Kết nối mạng và xác minh TLS là hai lớp khác nhau |
-| `systemd` khởi động thất bại | Sai tài khoản, đường dẫn, module hoặc môi trường | Xem trạng thái/journal và dùng đúng lệnh đã chạy thủ công thành công | Chỉ đưa lệnh đã xác minh vào unit |
-| Vite proxy trả 404/CORS | Sai đích/đường dẫn hoặc yêu cầu đi vòng qua proxy | Dùng `/api` tương đối, khởi động lại Vite, kiểm tra Network | Duy trì một cấu hình gốc API |
-| IP công khai thay đổi | EC2 nhận địa chỉ mới sau khi dừng/khởi động | Cập nhật cấu hình trên máy cục bộ và thiết bị | Endpoint ổn định là việc cần làm sau |
-| Endpoint không đồng nhất | Route số ít/số nhiều hoặc máy khách dùng đặc tả cũ | Lấy OpenAPI và mã nguồn làm chuẩn | Dùng chung một đặc tả API có phiên bản |
-| Lệnh bị trùng | Thăm dò/làm mới/thử lại khiến lệnh được gửi hoặc chạy hai lần | Kiểm tra trạng thái chờ và ID lệnh gần nhất | Gửi lại ACK không được làm thiết bị hoạt động lần nữa |
-| ACK quá nhanh làm mất `Pending` | Thiết bị thăm dò và thực thi ngay | Lưu phản hồi tạo lệnh và trạng thái cuối có cùng ID | Bằng chứng phải bám theo cùng một ID |
-| Giá trị ánh sáng không chính xác | ADC thô chưa được hiệu chuẩn | Gọi là giá trị analog và hiệu chuẩn sau | Không tự gán đơn vị Lux |
-| CloudWatch Agent không có dữ liệu | Sai IAM, đường dẫn, dimension hoặc cấu hình | Xem log Agent và nguồn log thực tế | Quyền truy cập và cấu hình thu thập là hai vấn đề riêng |
+| Kết nối EC2 với RDS mà vẫn giữ RDS trong mạng riêng | Backend cần truy cập PostgreSQL nhưng database không nên mở công khai | Cho phép cổng 5432 từ Security Group của EC2 thay vì dùng CIDR công khai | Nên cấp quyền theo đúng workload và cổng cần thiết |
+| Đồng bộ trạng thái lệnh giữa API, cơ sở dữ liệu và thiết bị | Quá trình thăm dò và ACK diễn ra bất đồng bộ | Lưu ID cùng trạng thái lệnh, sau đó đối chiếu cùng ID từ lúc tạo đến khi ACK | API trả thành công chưa đủ để chứng minh thiết bị đã thực thi |
+| Nguy cơ thực thi lệnh lặp khi thử lại | Thiết bị có thể nhận hoặc xác nhận cùng một lệnh nhiều lần | Theo dõi lệnh gần nhất và tách việc gửi lại ACK khỏi thao tác với thiết bị chấp hành | Cơ chế thử lại phải bảo đảm tính lũy đẳng |
+| Route giữa frontend và backend không đồng nhất | Đường dẫn số ít/số nhiều và địa chỉ API thay đổi trong quá trình tích hợp | Dùng đặc tả OpenAPI đang triển khai và kiểm tra request trong DevTools Network | Cần duy trì một hợp đồng API có phiên bản |
+| Giá trị ánh sáng chưa được hiệu chuẩn | Cảm biến trả về giá trị analog thô | Giữ giá trị gốc để truy vết và đưa việc hiệu chuẩn vào kế hoạch tiếp theo | Không gán đơn vị vật lý khi chưa có công thức quy đổi |
+| Một số metric CloudWatch chưa có đủ datapoint | Quyền Agent, dimension, đường dẫn nguồn hoặc thời điểm thu thập có thể chưa khớp | Kiểm tra log Agent, dimension và đường dẫn nguồn thực tế | Phải đọc trạng thái alarm cùng với dữ liệu metric bên dưới |
+
+## Giới hạn hiện tại
+
+- Backend demo đang dùng HTTP qua cổng 8000 và địa chỉ công khai của EC2 có thể thay đổi sau khi dừng rồi khởi động lại instance.
+- Các route API chưa áp dụng cơ chế xác thực mạnh cho máy khách và thiết bị.
+- Backend cần kiểm tra chặt hơn danh sách lệnh được hỗ trợ và quan hệ giữa ACK với thiết bị.
+- Frontend cần xử lý rõ ràng hơn khi chuyển sang dữ liệu mô phỏng hoặc khi request điều khiển thất bại.
+- Giá trị ánh sáng hiện dựa trên dữ liệu analog chưa được hiệu chuẩn.
+- Hai alarm CloudWatch ở trạng thái `Insufficient data`, đồng thời chưa có action thông báo tại thời điểm chụp.
 
 ## Cải tiến tương lai
 
-- Cân nhắc Elastic IP hoặc domain để có endpoint ổn định.
-- Thêm Nginx hoặc reverse proxy đã được rà soát.
-- Bổ sung HTTPS, xác thực và phân quyền chặt chẽ hơn.
+- Sử dụng domain hoặc endpoint ổn định cho backend đã triển khai.
+- Bổ sung reverse proxy phù hợp, HTTPS, xác thực và phân quyền chặt chẽ hơn.
 - Lưu bí mật ứng dụng trong giải pháp quản lý bí mật phù hợp.
 - Hỗ trợ nhiều thiết bị/phòng với quy tắc sở hữu và phân quyền.
-- Đánh giá WebSocket hoặc MQTT để giảm chi phí thăm dò.
-- Đánh giá AWS IoT Core như một lựa chọn truyền thông trong tương lai; hiện chưa triển khai.
-- Đóng gói bằng container khi phù hợp và định nghĩa hạ tầng bằng mã.
-- Tự động hóa quy trình triển khai và quay lui đã được kiểm thử.
-- Bổ sung kênh thông báo cho cảnh báo sau khi rà soát.
+- Bổ sung kiểm tra lệnh hợp lệ, ràng buộc ACK với thiết bị và quy tắc lũy đẳng.
+- Áp dụng migration cơ sở dữ liệu có phiên bản và kiểm thử API tự động.
+- Tập trung cấu hình môi trường của frontend và loại bỏ cơ chế báo thành công khi request thất bại.
+- Chuẩn hóa cách định nghĩa hạ tầng, quy trình triển khai và phương án quay lui đã được kiểm thử.
+- Bổ sung kênh thông báo phù hợp cho các alarm vận hành.
 - Hiệu chuẩn cảm biến ánh sáng và công bố phương pháp cùng đơn vị quy đổi.
 
-Mỗi hạng mục trong tương lai cần có người phụ trách, được rà soát kiến trúc, phân tích chi phí và bảo mật, triển khai rồi kiểm thử trước khi bổ sung vào tài liệu kiến trúc hiện tại.
+Mỗi hạng mục cải tiến cần có người phụ trách, kế hoạch triển khai và bằng chứng kiểm thử trước khi được mô tả là một phần của hệ thống hiện tại.
 
 ## Kết quả
 
-Sau khi rà soát bằng chứng, hãy ghi **Đạt**, **Không đạt** hoặc **Chưa chạy** cho từng điều kiện nghiệm thu. Với mọi nội dung còn thiếu, cần liên kết vấn đề và chỉ định người phụ trách. Không đổi “mong đợi” thành “đã đạt” khi chưa có bằng chứng.
+Dự án đã hoàn thành phạm vi Smart Room đề ra: telemetry được thu thập và lưu trữ, dashboard hiển thị dữ liệu hiện tại cùng lịch sử, các lệnh điều khiển được thực thi trên ba thiết bị chấp hành, ACK cập nhật trạng thái lệnh và CloudWatch cung cấp bằng chứng vận hành. Cả T01–T12 đều được ghi nhận Đạt; các giới hạn nêu trên là cơ sở để xác định thứ tự ưu tiên cho giai đoạn cải tiến tiếp theo.
 
 Tiếp theo: [chuẩn bị bàn giao dự án](../5.12-Project-Handover/).

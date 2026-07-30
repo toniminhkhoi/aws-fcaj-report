@@ -8,32 +8,21 @@ pre: " <b> 5.11. </b> "
 
 ## Overview
 
-This section separates source-verified implementation from execution evidence still required. The application source was reviewed in `F:\aws-iot-dashboard`; deployment exports, CloudWatch screenshots, database captures, and physical test artifacts are not present in this report repository. The items below remain acceptance statements to confirm against section 5.8, not fabricated test results.
+This section summarizes the verified project outcomes, project-specific customizations, individual contributions, lessons learned, current limitations, and practical next steps. The conclusions are based on the source code, the T01–T12 test matrix, AWS screenshots, PostgreSQL records, dashboard captures, and the hardware demonstration.
 
-## Results to confirm
+## Achieved Results
 
-| Result | Acceptance evidence |
-| :--- | :--- |
-| Telemetry end to end | YOLO UNO request, FastAPI response/log, RDS row, dashboard latest view |
-| Dashboard and history | Latest card, ordered history/chart, loading/error behavior |
-| PostgreSQL persistence | Telemetry and command queries before/after API refresh |
-| Fan/light/curtain control | Command IDs paired with physical-device evidence |
-| `Pending` → `Executed` | Create response and later query for the same command ID |
-| Command ACK | Device serial line, backend log, and stored final state |
-| CloudWatch monitoring | Recent backend log, EC2/RDS metrics, and alarm configuration |
+| Outcome | Status | Evidence |
+| :--- | :---: | :--- |
+| FastAPI backend health and service operation | **Pass** | Health response and `systemd` evidence in [section 5.5](../5.5-Backend-and-Database/) |
+| Telemetry submission and PostgreSQL persistence | **Pass** | API response and matching RDS record in [section 5.8](../5.8-End-to-End-Testing/) |
+| Latest telemetry and ordered history on the dashboard | **Pass** | Dashboard cards, history charts, and HTTP 200 requests in sections [5.7](../5.7-Frontend-Integration/) and [5.8](../5.8-End-to-End-Testing/) |
+| Command creation and `Pending` → `Executed` lifecycle | **Pass** | Command ID, ACK response, and PostgreSQL state in sections [5.5](../5.5-Backend-and-Database/) and [5.8](../5.8-End-to-End-Testing/) |
+| Physical fan, light, and curtain control | **Pass** | Dashboard-to-hardware captures and the end-to-end demonstration video in [section 5.8](../5.8-End-to-End-Testing/) |
+| CloudWatch logs, metrics, and alarms | **Pass** | Backend logs, four dashboard widgets, and five alarm configurations in [section 5.9](../5.9-CloudWatch-Monitoring/) |
+| Complete end-to-end validation | **Pass** | All twelve test cases T01–T12 are recorded as Pass in the test matrix |
 
-Mark a result complete only when its evidence is attached. This prototype does not prove HA, sub-50 ms latency, fail-proof behavior, HTTPS, authentication, or AI control.
-
-## Source-review findings
-
-- Backend command input has no supported-command validator; unsupported values can be stored as `Pending`.
-- Command polling returns the oldest pending record (FIFO), although the route is named `commands/latest`.
-- ACK lookup uses command ID without verifying the route device ID or prior state.
-- `DEVICE_API_KEY` has a default setting but the routes do not enforce it.
-- Frontend fetch failures can switch to `SIMULATED` data, while command failures can still be presented as successful mock state.
-- Frontend mode is local state and has no API-backed confirmation; “AI” and “FAIL-PROOF” labels overstate rule-based/demo behavior.
-- Frontend labels the raw ADC light reading as Lux and hard-codes a real EC2 target in Vite configuration.
-- Hardware prose in the source repository mentions servo GPIO 8 and omits LCD in one place, but active firmware uses GPIO 38 and includes LCD1602. Active code is the workshop authority.
+The test scope covers the implemented Smart Room model identified by `device_id=room_01`. Results are reported only for the demonstrated environment and are not generalized beyond that scope.
 
 ## Project Customizations
 
@@ -41,29 +30,29 @@ The project is not an unchanged tutorial deployment. Its reviewed customizations
 
 - a `room_01` domain model joining physical telemetry, dashboard history, and actuator state;
 - a FastAPI/PostgreSQL command lifecycle with stored `Pending` and `Executed` states plus device ACK;
-- eight firmware commands covering automatic/manual mode and direct fan, light, and curtain control;
+- 8 firmware commands covering automatic/manual mode and direct fan, light, and curtain control;
 - firmware thresholds, GPIO mapping, LCD1602 output, reconnect timing, and ESP32 Preferences-based ACK recovery;
-- a React/Vite dashboard with telemetry charts, controls, rule-based recommendations, and explicit real/simulated-source concerns;
+- a React/Vite dashboard with telemetry charts, device controls, and rule-based operating recommendations;
 - a private RDS network path through Security Group reference rather than public database access;
-- project-specific CloudWatch namespace, two backend log groups, and six documented alarms; and
-- an evidence-first bilingual Workshop that separates source-verified behavior from results still requiring screenshots/tests.
+- project-specific CloudWatch metrics, backend log collection, and five alarm configurations; and
+- an evidence-based bilingual Workshop that connects implementation steps with screenshots, test records, and troubleshooting guidance.
 
-These choices adapt the architecture to the implemented source and YOLO UNO hardware. Auto Scaling, Amazon SQS, AWS IoT Core, and an event-driven architecture remain future options and are not project customizations already deployed.
+These customizations adapt the architecture to the implemented source code, the YOLO UNO hardware, and the Smart Room use case.
 
 ## Individual Contributions
 
 | Contributor | Owned scope and concrete contribution | Evidence path |
 | :--- | :--- | :--- |
-| **Pham Le Minh Khoi** | AWS architecture, network/security boundaries, EC2/RDS/CloudWatch operations, YOLO UNO wiring, sensors/actuators, telemetry polling, command execution, and ACK | [Architecture](../5.3-Architecture-and-Service-Design/), [AWS setup](../5.4-AWS-Infrastructure-Setup/), [hardware](../5.6-Hardware-Integration/), [CloudWatch](../5.9-CloudWatch-Monitoring/) |
-| **Ngo Minh Thuan** | FastAPI routes, Pydantic aliases, SQLAlchemy models, PostgreSQL persistence, telemetry service, command lifecycle, and ACK processing | [API/data design](../5.3-Architecture-and-Service-Design/), [backend/database](../5.5-Backend-and-Database/), [test matrix](../5.8-End-to-End-Testing/) |
-| **Thuong Dinh Hung** | React/Vite dashboard, telemetry visualization, control requests, mode/recommendation UI, integration debugging, and demo-video production | [frontend integration](../5.7-Frontend-Integration/), [end-to-end validation](../5.8-End-to-End-Testing/), [handover](../5.12-Project-Handover/) |
-| **Le Bao Khanh** | Proposal/report content, blogs/worklogs/events, bilingual Workshop structure, source-to-document verification, navigation, screenshot plan, and QA | [Workshop overview](../5.1-Workshop-overview/), [test/evidence plan](../5.8-End-to-End-Testing/), [results](../5.11-Results-Challenges-Future/), [handover](../5.12-Project-Handover/) |
+| **Phạm Lê Minh Khôi** | AWS architecture, network/security boundaries, and EC2/RDS/CloudWatch operations; PlatformIO firmware development for YOLO UNO; sensor, LCD, and actuator integration; telemetry transmission, command polling, execution of all 8 commands, and ACK processing | [Architecture](../5.3-Architecture-and-Service-Design/), [AWS setup](../5.4-AWS-Infrastructure-Setup/), [hardware](../5.6-Hardware-Integration/), [CloudWatch](../5.9-CloudWatch-Monitoring/) |
+| **Ngô Minh Thuận** | FastAPI routes, Pydantic aliases, SQLAlchemy models, PostgreSQL persistence, telemetry service, command lifecycle, and ACK processing | [API/data design](../5.3-Architecture-and-Service-Design/), [backend/database](../5.5-Backend-and-Database/), [test matrix](../5.8-End-to-End-Testing/) |
+| **Thượng Đình Hưng** | React/Vite dashboard, telemetry visualization, control requests, mode/recommendation UI, integration debugging, and demo-video production | [frontend integration](../5.7-Frontend-Integration/), [end-to-end validation](../5.8-End-to-End-Testing/), [handover](../5.12-Project-Handover/) |
+| **Lê Bảo Khánh** | Proposal/report content, blogs/worklogs/events, bilingual Workshop structure, source-to-document verification, navigation, screenshot planning, and QA | [Workshop overview](../5.1-Workshop-overview/), [test evidence](../5.8-End-to-End-Testing/), [results](../5.11-Results-Challenges-Future/), [handover](../5.12-Project-Handover/) |
 
-Contribution is accepted only when the linked section is paired with source commit, screenshot, log, test record, document history, or other attributable evidence. This table records ownership; it does not replace the individual reflections below.
+The linked Workshop sections provide evidence for each area of responsibility. This table records ownership and does not replace the individual reflections below.
 
 ## Individual Reflections
 
-### Pham Le Minh Khoi
+### Phạm Lê Minh Khôi
 
 | Reflection field | Reflection |
 | :--- | :--- |
@@ -71,9 +60,9 @@ Contribution is accepted only when the linked section is paired with source comm
 | Root Cause | The flow crosses VPC rules, IAM, Linux services, HTTP polling, electrical wiring, and asynchronous ACK state |
 | Solution | Use an EC2-to-RDS Security Group reference, EC2 IAM Role, systemd/CloudWatch checks, source-defined GPIOs, safe power, command IDs, and persistent ACK recovery |
 | Lesson Learned | Validate each boundary independently and correlate one command ID through API, database, serial output, actuator action, and monitoring |
-| Future Improvement | Add HTTPS/stable endpoint, Infrastructure as Code, stronger IAM scoping, calibrated hardware evidence, and evaluate managed MQTT only after architecture review |
+| Future Improvement | Add HTTPS and a stable endpoint, define infrastructure consistently, tighten IAM permissions, and improve sensor calibration and hardware test records |
 
-### Ngo Minh Thuan
+### Ngô Minh Thuận
 
 | Reflection field | Reflection |
 | :--- | :--- |
@@ -83,7 +72,7 @@ Contribution is accepted only when the linked section is paired with source comm
 | Lesson Learned | An OpenAPI contract and stored state improve traceability, but validation, authorization, idempotency, and schema migration must be designed explicitly |
 | Future Improvement | Add supported-command validation, authenticated device identity, device-bound ACK checks, idempotency rules, Alembic migrations, and automated API tests |
 
-### Thuong Dinh Hung
+### Thượng Đình Hưng
 
 | Reflection field | Reflection |
 | :--- | :--- |
@@ -93,51 +82,53 @@ Contribution is accepted only when the linked section is paired with source comm
 | Lesson Learned | A responsive UI is not enough; operational truth must come from backend/device state and error handling must never imply unverified success |
 | Future Improvement | Remove false-success fallback, add API-backed mode/command status, centralize environment configuration, correct the Lux label, and add component/integration tests |
 
-### Le Bao Khanh
+### Lê Bảo Khánh
 
 | Reflection field | Reflection |
 | :--- | :--- |
-| Challenge | Turn evolving and sometimes inconsistent source notes into a coherent bilingual Workshop without inventing deployment evidence |
-| Root Cause | Old Workshop pages described unrelated services, prose disagreed with active firmware, and required screenshots/test artifacts were incomplete |
-| Solution | Treat active source as authority, align English/Vietnamese structure, document limitations, use exact TODO evidence paths, and run Hugo/structure/link checks |
-| Lesson Learned | Technical documentation must distinguish implemented, proposed, expected, and proven states while keeping commands, names, paths, and translations synchronized |
-| Future Improvement | Add CI for Hugo/link/secret/parity checks, replace TODOs with attributable evidence, maintain a versioned API/GPIO contract, and schedule member review/sign-off |
+| Challenge | Turn evolving source notes and implementation changes into a coherent bilingual Workshop |
+| Root Cause | Backend, frontend, firmware, AWS configuration, and evidence were updated at different times by different contributors |
+| Solution | Use the active source as the technical reference, align the English and Vietnamese structures, add evidence at the relevant steps, and verify names, paths, tables, and links |
+| Lesson Learned | Technical documentation must distinguish implementation, expected behavior, observed results, limitations, and future work while keeping both languages synchronized |
+| Future Improvement | Add automated Hugo, link, secret, and bilingual-parity checks; maintain a versioned API/GPIO contract; and schedule a final review by all contributors |
 
-## Challenges and lessons learned
+## Key Challenges and Lessons Learned
 
 | Problem | Root cause | Solution | Lesson learned |
 | :--- | :--- | :--- | :--- |
-| SSH key rejected on Windows | Key path/ACL or wrong login user | Use correct AMI user and restrict local key access | Diagnose identity before changing network rules |
-| Environment command mismatch | PowerShell, CMD, and Bash use different syntax | Use `$env:...`, `%...%`, and `$HOME` only in their own shell | Label every command environment |
-| Port 8000 unreachable | SG closed or Uvicorn bound to `127.0.0.1` | Open approved source and bind `0.0.0.0` for demo | Test local health before public path |
-| RDS SSL failure | Wrong CA path, hostname, or `DATABASE_URL` | Use current bundle and absolute path; verify endpoint | Network success and TLS success are separate |
-| `systemd` service fails | Wrong user/path/module/environment | Inspect status/journal and mirror successful manual run | Promote a verified command into the unit |
-| Vite proxy 404/CORS | Wrong target/path or proxy bypass | Use relative `/api`, restart Vite, inspect Network | Keep one API base configuration |
-| Public IP changes | EC2 stop/start assigns a different address | Update local/device configuration | Stable endpoint remains future work |
-| Endpoint mismatch | Singular/plural routes or stale client contract | Treat OpenAPI and source as canonical | Share one versioned API contract |
-| Duplicate command | Poll/refresh/retry submits or executes twice | Check pending state and last command ID | ACK retry must not repeat actuation |
-| ACK timing hides `Pending` | Fast polling executes immediately | Preserve create response and final state with same ID | Evidence must follow entity IDs |
-| Light reading is inaccurate | Raw ADC lacks calibration | Label as analog value and calibrate later | Do not invent Lux |
-| CloudWatch Agent has no data | IAM, path, dimension, or config error | Check agent log and actual log source | Permission and collection configuration are distinct |
+| Secure EC2-to-RDS connectivity | RDS must remain private while the backend still needs PostgreSQL access | Allow port 5432 from the EC2 Security Group instead of a public CIDR | Define access by workload identity and required port |
+| Command state across API, database, and device | Polling and ACK occur asynchronously | Persist command IDs and states, then correlate the same ID from creation through ACK | A successful API response alone does not prove physical execution |
+| Duplicate execution during retries | A device can receive or acknowledge the same command more than once | Track the last command and make ACK retries independent of actuator execution | Retry logic must be designed for idempotency |
+| Frontend and backend route mismatch | Singular/plural paths and API targets changed during integration | Use the implemented OpenAPI contract and verify requests in DevTools Network | Maintain one versioned API contract |
+| Uncalibrated light readings | The sensor provides a raw analog value | Keep the raw value traceable and document calibration as a follow-up | Do not assign a physical unit without a conversion method |
+| Missing CloudWatch datapoints | Agent permissions, dimensions, paths, or collection timing may not match | Check the Agent log, metric dimensions, and actual source path | Alarm state must be interpreted together with the underlying metric data |
 
-## Future improvements
+## Current Limitations
 
-- Attach an Elastic IP or use a domain for a stable endpoint.
-- Add Nginx or another reviewed reverse proxy.
-- Add HTTPS, authentication, and stronger authorization.
+- The demonstration backend currently uses HTTP on port 8000 and an EC2 public address that may change after a stop/start cycle.
+- API routes do not yet enforce strong client or device authentication.
+- Command validation and ACK ownership checks should be tightened.
+- The frontend still needs stricter handling of simulated fallback and failed command requests.
+- The light value is based on an uncalibrated analog reading.
+- Two CloudWatch alarms showed `Insufficient data`, and no notification action was attached at the time of capture.
+
+## Future Improvements
+
+- Use a stable domain or endpoint for the deployed backend.
+- Add a reviewed reverse proxy, HTTPS, authentication, and stronger authorization.
 - Store application secrets in a managed secret solution.
 - Support more devices and rooms with ownership/authorization rules.
-- Evaluate WebSocket or MQTT for lower-overhead updates.
-- Evaluate AWS IoT Core as a future messaging option; it is not deployed now.
-- Containerize where useful and define infrastructure with code.
-- Automate tested deployment and rollback.
-- Add reviewed alarm notifications.
+- Add supported-command validation, device-bound ACK checks, and idempotency rules.
+- Introduce versioned database migrations and automated API tests.
+- Centralize frontend environment configuration and remove false-success fallback behavior.
+- Define infrastructure and deployment steps consistently and automate tested rollback.
+- Add a reviewed notification channel for operational alarms.
 - Calibrate the light sensor and publish the conversion method/unit.
 
-Each future item needs an owner, architecture review, cost/security analysis, implementation, and tests before it can move into the current-state diagram.
+Each improvement should have an owner, an implementation plan, and test evidence before it is described as part of the current system.
 
 ## Result
 
-After evidence review, record Passed, Failed, or Not Run for each acceptance statement and link the owning issue for any gap. Never convert “expected” into “achieved” without proof.
+The project achieved its intended Smart Room scope: telemetry is collected and stored, the dashboard presents current and historical data, commands control the three demonstrated actuators, ACK updates command state, and CloudWatch provides operational evidence. All T01–T12 test cases are recorded as Pass, while the limitations above define the next improvement priorities.
 
 Next: [prepare the project handover](../5.12-Project-Handover/).

@@ -6,20 +6,22 @@ chapter: false
 pre: " <b> 5. </b> "
 ---
 
-Workshop này hướng dẫn xây dựng một quy trình đầu cuối cho thiết bị có mã `room_01`: YOLO UNO đọc dữ liệu từ DHT20 và cảm biến ánh sáng analog; FastAPI lưu telemetry cùng lệnh điều khiển vào Amazon RDS for PostgreSQL; React hiển thị dữ liệu và gửi lệnh; sau khi điều khiển quạt, đèn hoặc rèm, thiết bị gửi ACK để xác nhận đã thực thi.
+Workshop này hướng dẫn xây dựng một Smart Room kết nối với AWS, được định danh bằng `device_id=room_01`. YOLO UNO thu thập nhiệt độ, độ ẩm và giá trị ánh sáng analog; backend FastAPI trên Amazon EC2 tiếp nhận request rồi lưu telemetry cùng trạng thái lệnh vào Amazon RDS for PostgreSQL; dashboard React hiển thị dữ liệu và gửi lệnh điều khiển. Sau khi thực thi lệnh, firmware gửi ACK để backend cập nhật trạng thái cuối.
 
-## Mục tiêu và kết quả cuối
+## Mục tiêu và kết quả đạt được
 
-Sau Workshop, bạn có thể:
+Sau khi hoàn thành Workshop, người học có thể:
 
-- triển khai backend FastAPI trên Amazon EC2 với ổ đĩa gốc Amazon EBS;
-- kết nối EC2 với Amazon RDS for PostgreSQL qua mạng riêng trong DB Subnet Group;
-- tích hợp quá trình gửi telemetry, thăm dò lệnh, thực thi lệnh và gửi ACK trên YOLO UNO;
-- kết nối dashboard React + Vite + TypeScript chạy trên máy cục bộ;
-- xác minh lệnh chuyển từ `Pending` sang `Executed`; và
-- thu thập bằng chứng vận hành của EC2, RDS và backend trên CloudWatch.
+- chuẩn bị các tài nguyên Amazon VPC, Security Group, Amazon EC2, Amazon EBS và Amazon RDS for PostgreSQL theo kiến trúc của dự án;
+- triển khai FastAPI trên EC2 dưới dạng dịch vụ `systemd` và xác minh kết nối cơ sở dữ liệu;
+- biên dịch và nạp firmware PlatformIO cho YOLO UNO;
+- thu thập telemetry và điều khiển quạt, đèn, rèm thông qua 8 lệnh firmware được hỗ trợ;
+- sử dụng dashboard React + Vite để xem dữ liệu hiện tại, theo dõi lịch sử và gửi lệnh điều khiển;
+- xác minh vòng đời lệnh từ `Pending` sang `Executed` thông qua ACK của thiết bị;
+- kiểm tra log backend, metric EC2/RDS và trạng thái alarm trên Amazon CloudWatch; và
+- hoàn thành kiểm thử end-to-end, xử lý sự cố, dọn dẹp tài nguyên và bàn giao dự án.
 
-Kết quả cuối cùng là một mô hình thử nghiệm có thể tái tạo cho `room_01`, không phải hệ thống quản lý tòa nhà ở quy mô doanh nghiệp. Sau khi chuẩn bị sẵn mã nguồn và tài khoản AWS, người học dự kiến cần khoảng **8–12 giờ** để hoàn thành.
+Kết quả cuối cùng là một mô hình Smart Room có thể tái triển khai cho `device_id=room_01`, đi kèm mã nguồn, hướng dẫn triển khai, kết quả kiểm thử, ảnh chụp AWS và video demo phần cứng.
 
 ## Nội dung Workshop
 
@@ -30,18 +32,25 @@ Kết quả cuối cùng là một mô hình thử nghiệm có thể tái tạo
 5. [5.5 Triển khai backend và tích hợp cơ sở dữ liệu](5.5-Backend-and-Database/)
 6. [5.6 Tích hợp phần cứng](5.6-Hardware-Integration/)
 7. [5.7 Tích hợp frontend](5.7-Frontend-Integration/)
-8. [5.8 Kiểm thử và xác minh end-to-end](5.8-End-to-End-Testing/)
-9. [5.9 Giám sát với CloudWatch](5.9-CloudWatch-Monitoring/)
+8. [5.8 Kiểm thử và xác minh đầu cuối](5.8-End-to-End-Testing/)
+9. [5.9 Giám sát bằng CloudWatch](5.9-CloudWatch-Monitoring/)
 10. [5.10 Chi phí, bảo mật và dọn dẹp](5.10-Cost-Security-Cleanup/)
-11. [5.11 Kết quả, thách thức và cải tiến tương lai](5.11-Results-Challenges-Future/)
+11. [5.11 Kết quả, thách thức và hướng cải tiến](5.11-Results-Challenges-Future/)
 12. [5.12 Bàn giao dự án](5.12-Project-Handover/)
 
-## Kiến trúc
+## Kiến trúc và luồng hoạt động
 
 ![Kiến trúc AWS IoT Monitoring and Control Dashboard](/images/5-Workshop/5.3-architecture/aws-iot-dashboard-architecture.png)
 
-*Hình 5-1. Sơ đồ kiến trúc từ kho mã nguồn ứng dụng: người dùng dashboard, React frontend chạy cục bộ và YOLO UNO nằm ngoài AWS; EC2 và RDS nằm trong VPC; IAM và CloudWatch hoạt động ở cấp tài khoản hoặc khu vực nên không nằm trong ranh giới VPC.*
+*Hình 5-1. Kiến trúc dự án: dashboard React và YOLO UNO giao tiếp với backend FastAPI trên Amazon EC2; Amazon RDS for PostgreSQL lưu telemetry cùng dữ liệu lệnh; Amazon CloudWatch hỗ trợ giám sát vận hành.*
 
-Kiến trúc hiện sử dụng **Amazon EC2, Amazon EBS, Amazon RDS for PostgreSQL, Amazon VPC, subnet, Security Group, AWS IAM Role, Amazon CloudWatch và CloudWatch Alarms**. AWS IoT Core, Lambda, API Gateway, S3, SNS, ECS/ECR, Cognito, CloudFront và DynamoDB chưa được sử dụng.
+Hệ thống hoạt động theo bốn luồng chính:
 
-Bắt đầu tại [Tổng quan Workshop](5.1-Workshop-overview/).
+1. YOLO UNO đọc cảm biến và gửi telemetry đến FastAPI qua HTTP.
+2. FastAPI kiểm tra dữ liệu rồi lưu telemetry vào Amazon RDS for PostgreSQL.
+3. Dashboard lấy dữ liệu hiện tại và lịch sử, tạo lệnh điều khiển và hiển thị trạng thái lệnh.
+4. YOLO UNO thăm dò lệnh, điều khiển thiết bị chấp hành tương ứng và gửi ACK; CloudWatch thu thập log cùng metric vận hành.
+
+Môi trường AWS gồm **Amazon VPC, subnet, Security Group, Amazon EC2 với ổ đĩa gốc Amazon EBS, Amazon RDS for PostgreSQL, IAM Role gắn với EC2, Amazon CloudWatch và CloudWatch Alarms**.
+
+Bắt đầu từ [Tổng quan Workshop](5.1-Workshop-overview/).

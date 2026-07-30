@@ -19,10 +19,9 @@ Video thể hiện:
 5. Quạt, đèn và servo rèm phản ứng với lệnh điều khiển.
 6. Thiết bị gửi ACK sau khi thực thi.
 7. Backend cập nhật command sang trạng thái `Executed`.
-8. Amazon CloudWatch hiển thị log, metric và alarm.
+
+Video không bao gồm phần Amazon CloudWatch. Bằng chứng về log, metric và alarm được trình bày bằng ảnh chụp tại [mục 5.9 - Giám sát bằng CloudWatch]({{% relref "5-Workshop/5.9-CloudWatch-Monitoring/_index.vi.md" %}}).
 
 ## Liên kết video
 
 [▶ Xem video demo end-to-end](https://drive.google.com/file/d/1T97dUY58hbT2ppxvg7ESR12Jg9BA828W/view?usp=sharing)
-
-> Video phải tiếp tục được đặt ở chế độ công khai hoặc cho phép bất kỳ ai có liên kết xem. Người chấm không cần gửi yêu cầu cấp quyền.

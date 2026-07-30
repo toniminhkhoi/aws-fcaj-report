@@ -26,9 +26,7 @@ chapter: false
 &emsp; **Internship Position:** Workforce Bootcamp - First Cloud AI Journey
 
 &emsp; **Internship Duration:** 2 months (from 01/06/2026 to 15/08/2026)
-
-<img src="/images/Ảnh CV.jpg" alt="Your profile picture" width="450"/>
-
+<img src="/images/profile-pham-le-minh-khoi.png" alt="Profile photo of Pham Le Minh Khoi" width="280"/>
 ### Report Content
 
 1.  [Worklog](1-Worklog/)

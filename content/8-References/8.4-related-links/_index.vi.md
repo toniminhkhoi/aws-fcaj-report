@@ -23,5 +23,4 @@ pre: " <b> 8.4. </b> "
 
 ## Phần cứng
 
-- **TODO:** Thêm URL tài liệu YOLO UNO chính thức sau khi xác nhận từ nguồn có thẩm quyền: `REPLACE_WITH_YOLO_UNO_DOCUMENTATION_URL`.
-- Không tự tạo hoặc đoán URL tài liệu phần cứng.
+- [Tài liệu YOLO UNO chính thức](https://docs.ohstem.vn/en/latest/yolo_uno/yolo_uno_khoi_lenh/gioi_thieu_yolo_uno.html)

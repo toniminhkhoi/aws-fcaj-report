@@ -23,5 +23,4 @@ pre: " <b> 8.4. </b> "
 
 ## Hardware
 
-- **TODO:** Add the official YOLO UNO documentation URL after confirming it from an authoritative source: `REPLACE_WITH_YOLO_UNO_DOCUMENTATION_URL`.
-- Do not invent or guess the hardware documentation URL.
+- [Official YOLO UNO documentation](https://docs.ohstem.vn/en/latest/yolo_uno/yolo_uno_khoi_lenh/gioi_thieu_yolo_uno.html)

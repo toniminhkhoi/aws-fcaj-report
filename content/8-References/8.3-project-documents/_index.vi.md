@@ -17,5 +17,3 @@ Các tài liệu sau hỗ trợ việc triển khai, vận hành và bàn giao d
 | Sơ đồ kiến trúc | Kiến trúc triển khai trên AWS | [Mở sơ đồ](https://github.com/toniminhkhoi/aws-iot-dashboard/blob/main/diagrams/aws-iot-dashboard-architecture.png) |
 | Workshop | Hướng dẫn triển khai end-to-end | [Mở Workshop]({{% relref "5-Workshop/_index.vi.md" %}}) |
 | Hướng dẫn clean-up | Xóa các tài nguyên AWS được tạo trong Workshop | [Mở hướng dẫn]({{% relref "5-Workshop/5.10-Cost-Security-Cleanup/_index.vi.md" %}}) |
-
-Trước khi bàn giao, cần xác nhận người chấm có thể mở được tất cả liên kết bên ngoài.

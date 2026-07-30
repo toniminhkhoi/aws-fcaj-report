@@ -10,26 +10,19 @@ pre: " <b> 5.12. </b> "
 
 Bàn giao đầy đủ mã nguồn, cấu hình, tài liệu vận hành và bằng chứng để người tiếp quản có thể khởi động, xác minh, cập nhật, xử lý sự cố và dọn dẹp mô hình thử nghiệm một cách an toàn.
 
-## Cấu trúc kho mã nguồn
+## Cấu trúc repository bàn giao
 
-Gói bàn giao ứng dụng cần có:
+Repository chính chứa source code backend, frontend, firmware YOLO UNO, sơ đồ kiến trúc và tài liệu README song ngữ. Branch `main` được sử dụng làm phiên bản bàn giao cuối cùng của project.
 
-```text
-<application-repository>/
-├── backend/              # FastAPI, Pydantic, SQLAlchemy, requirements
-├── frontend/             # React, Vite, TypeScript, Tailwind CSS
-├── hardware/             # Firmware PlatformIO và định nghĩa bo mạch YOLO UNO
-│   └── include/
-│       └── secrets.example.h
-└── README.md
-```
+<p align="center">
+  <img src="/images/5-Workshop/5.12-handover/repository-handover-checklist.png"
+       alt="Cấu trúc GitHub repository của dự án AWS IoT Monitoring and Control Dashboard"
+       width="100%" />
+</p>
 
-Mã nguồn ứng dụng đã được rà soát và được quản lý riêng tại `F:\aws-iot-dashboard`; kho hiện tại chỉ chứa báo cáo Hugo và nội dung Workshop. Hồ sơ bàn giao cần ghi rõ:
+*Hình 22. Cấu trúc repository cuối cùng của dự án, bao gồm backend, frontend, firmware YOLO UNO, sơ đồ kiến trúc và tài liệu README song ngữ.*
 
-- kho mã nguồn ứng dụng: `<SOURCE_REPOSITORY_URL>`;
-- video minh họa: `<VIDEO_DEMO_URL>`;
-- mã commit của phiên bản đang triển khai: `<COMMIT_SHA>`;
-- nơi lưu danh mục tài nguyên AWS và bằng chứng bàn giao: `<HANDOVER_EVIDENCE_LOCATION>`.
+Ảnh cho thấy repository bàn giao có source code cho các thành phần chính của hệ thống, tài liệu README bằng hai ngôn ngữ và thư mục lưu sơ đồ. Những file chứa cấu hình bí mật phải được loại trừ bằng `.gitignore` và kiểm tra riêng trước khi bàn giao.
 
 ## Quy trình khởi động
 
@@ -56,30 +49,6 @@ pio run
 pio run --target upload
 pio device monitor --baud 115200
 ```
-
-## Thông tin bí mật cần lưu cục bộ
-
-| Vị trí | Giá trị | Quy tắc lưu |
-| :--- | :--- | :--- |
-| Backend `.env` | `DATABASE_URL` và các thiết lập được định nghĩa trong mã nguồn | Chỉ lưu trên EC2 hoặc máy cục bộ; giới hạn quyền truy cập; loại khỏi Git |
-| Firmware `secrets.h` | Wi-Fi, API URL, `room_01` | Chỉ lưu cục bộ; loại khỏi Git |
-| Frontend `.env.local` nếu dùng | URL gốc của API | Chỉ lưu cục bộ; loại khỏi Git |
-| Khóa EC2 | Khóa riêng tư | Lưu trong nơi quản lý bí mật đã được phê duyệt; không đưa vào Git |
-
-Tài liệu bàn giao phải nêu cách cấp và xoay vòng thông tin bí mật. Không ghi thông tin xác thực dưới dạng văn bản thuần trong báo cáo.
-
-## Danh sách kiểm tra AWS và vận hành
-
-- [ ] Xác định đúng tài khoản AWS và Khu vực.
-- [ ] Đã ghi lại VPC, public subnet, DB Subnet Group, route table và các thẻ tài nguyên.
-- [ ] Đã ghi lại EC2, EBS, người giữ khóa, IAM Role, `iot-backend-sg` và `ec2-rds-1`.
-- [ ] Đã ghi lại định danh/endpoint RDS, cơ sở dữ liệu `iot_dashboard` và `rds-ec2-1`.
-- [ ] RDS vẫn ở private subnet; cổng 5432 chỉ nhận kết nối từ Security Group của EC2.
-- [ ] `aws-iot-backend` và CloudWatch Agent tự chạy khi hệ điều hành khởi động.
-- [ ] Đã ghi lại các log group của backend, namespace/dimension của metric, thời gian lưu log và các alarm.
-- [ ] Đã ghi lại bản firmware cho `room_01`, sơ đồ chân GPIO chính xác và yêu cầu cấp nguồn an toàn.
-- [ ] Đã liên kết kết quả T01–T15 mới nhất và các vấn đề còn mở.
-- [ ] Đã chỉ định người chịu trách nhiệm chi phí và ngày dọn dẹp.
 
 ## Quy trình cập nhật phiên bản triển khai
 
@@ -128,31 +97,118 @@ Mô hình thử nghiệm hiện chỉ phục vụ một phòng và dùng HTTP tr
 
 Bảng trên giữ nguyên nội dung phân công đã thống nhất và dẫn người chấm tới bằng chứng đóng góp tương ứng. Bảng này không thay thế [phần nhìn lại riêng của từng thành viên ở mục 5.11](../5.11-Results-Challenges-Future/). Trước khi nộp, mỗi thành viên cần rà soát và xác nhận cả phạm vi phụ trách lẫn phần nhìn lại của mình.
 
-## Danh sách kiểm tra bàn giao cuối
+## Checklist bàn giao cuối cùng
 
-- [ ] Người nhận mở được liên kết mã nguồn và xác định đúng mã commit.
-- [ ] Git, hình ảnh, video và Workshop không chứa thông tin xác thực.
-- [ ] Đã trình bày cách khởi động backend, frontend và firmware.
-- [ ] Đã rà soát các route OpenAPI và lược đồ cơ sở dữ liệu dựa trên mã nguồn.
-- [ ] Đã bàn giao sơ đồ chân GPIO và sơ đồ cấp nguồn.
-- [ ] Ma trận kiểm thử có kết quả thực tế, bằng chứng và trạng thái.
-- [ ] Bằng chứng đóng góp được gắn đúng thành viên và phần nhìn lại cá nhân đã được rà soát.
-- [ ] Đã xác nhận cấu hình CloudWatch và ngưỡng cảnh báo.
-- [ ] Đã xác nhận các vấn đề còn mở, hạn chế, người phụ trách, quyết định chi phí và trạng thái dọn dẹp.
+| Hạng mục | Trạng thái |
+|---|---|
+| Source code FastAPI backend | Hoàn thành |
+| Source code React + Vite frontend | Hoàn thành |
+| Firmware PlatformIO cho YOLO UNO | Hoàn thành |
+| README tiếng Anh và tiếng Việt | Hoàn thành |
+| Sơ đồ kiến trúc và tài liệu đấu nối phần cứng | Hoàn thành |
+| Video demo end-to-end | Hoàn thành |
+| Tài liệu Workshop song ngữ | Hoàn thành |
+| Hướng dẫn triển khai backend và phần cứng | Hoàn thành |
+| Hướng dẫn kiểm thử và CloudWatch | Hoàn thành |
+| Hướng dẫn clean-up tài nguyên AWS | Hoàn thành |
+| Thông tin bí mật không được commit lên Git | Đã kiểm tra |
 
-<!-- TODO IMAGE: /images/5-Workshop/5.12-handover/repository-handover-checklist.png — Danh sách kiểm tra bàn giao kho mã nguồn, tài nguyên và kết quả kiểm thử; đã che thông tin nhạy cảm, có mã commit, người phụ trách, vấn đề còn mở và xác nhận của nhóm. -->
+### Kiểm tra thông tin bí mật
 
-## Demo và tài nguyên bàn giao
+Thông tin bí mật, còn gọi là secrets hoặc credentials, là các dữ liệu dùng để xác thực và kết nối hệ thống. Các giá trị này không được commit lên GitHub repository.
 
-Gói bàn giao cuối cùng gồm:
+Các file và thông tin cần được loại trừ gồm:
 
-- Repository source code
-- Video demo end-to-end
-- Tài liệu triển khai và vận hành
-- Workshop song ngữ
-- Sơ đồ kiến trúc
-- Hướng dẫn clean-up tài nguyên AWS
+- `backend/.env`
+- `hardware/include/secrets.h`
+- Wi-Fi SSID nếu không muốn công khai
+- Mật khẩu Wi-Fi
+- Amazon RDS username và password
+- Chuỗi `DATABASE_URL` có chứa credential
+- AWS Access Key ID
+- AWS Secret Access Key
+- AWS session token
+- SSH private key dạng `.pem`
+- API token
+- GitHub personal access token
+- Các credential cá nhân khác
 
-Xem đầy đủ tại [Tài liệu tham khảo]({{% relref "8-References/_index.vi.md" %}}).
+Các file mẫu được phép commit:
+
+- `.env.example`
+- `secrets.example.h`
+
+Tuy nhiên, các file mẫu chỉ được chứa placeholder, ví dụ:
+
+```env
+DATABASE_URL=postgresql://USERNAME:PASSWORD@RDS_ENDPOINT:5432/DATABASE_NAME
+```
+
+```cpp
+#define WIFI_SSID "YOUR_WIFI_SSID"
+#define WIFI_PASSWORD "YOUR_WIFI_PASSWORD"
+#define API_BASE_URL "http://YOUR_EC2_ADDRESS"
+```
+
+Không được đưa giá trị thật vào các file mẫu.
+
+> Việc xóa secret khỏi phiên bản hiện tại chưa chắc đã xóa secret khỏi lịch sử Git. Nếu secret từng được commit, cần thu hồi hoặc thay đổi credential đó và làm sạch lịch sử repository khi cần thiết.
+
+### Kiểm tra trước khi bàn giao
+
+Chạy các lệnh sau tại thư mục gốc của repository.
+
+Kiểm tra trạng thái working tree:
+
+```bash
+git status
+```
+
+Liệt kê toàn bộ file đang được Git theo dõi:
+
+```bash
+git ls-files
+```
+
+Tìm các file nhạy cảm trong lịch sử commit:
+
+```bash
+git log --all --oneline -- .env secrets.h "*.pem"
+```
+
+Tìm tên biến thường dùng cho credential trong các file đang được theo dõi:
+
+```bash
+git grep -n -I -E "AWS_ACCESS_KEY_ID|AWS_SECRET_ACCESS_KEY|AWS_SESSION_TOKEN|DATABASE_URL|WIFI_PASSWORD|PRIVATE_KEY|API_TOKEN"
+```
+
+Kiểm tra riêng các file không nên được Git theo dõi:
+
+```bash
+git ls-files | grep -E '(^|/)\.env$|secrets\.h$|\.pem$'
+```
+
+Lưu ý:
+
+- Không chèn output có chứa password hoặc credential vào Workshop.
+- `git status` chỉ kiểm tra trạng thái hiện tại.
+- `git log --all` dùng để kiểm tra lịch sử commit.
+- Nếu phát hiện AWS key, password hoặc token từng bị commit, phải thu hồi hoặc thay đổi credential đó.
+- Không chỉ xóa file rồi tiếp tục sử dụng lại credential cũ.
+
+## Tài nguyên bàn giao
+
+Gói bàn giao cuối cùng của dự án gồm:
+
+- GitHub repository chứa source code.
+- Video demo end-to-end.
+- Tài liệu triển khai backend.
+- Hướng dẫn firmware YOLO UNO.
+- Workshop song ngữ.
+- Sơ đồ kiến trúc AWS.
+- Hướng dẫn kiểm thử và giám sát CloudWatch.
+- Hướng dẫn clean-up tài nguyên AWS.
+
+Source code, video demo và các tài liệu liên quan được tổng hợp trong mục [Tài liệu tham khảo]({{% relref "8-References/_index.vi.md" %}}).
 
 Quay lại [trang Workshop](../).

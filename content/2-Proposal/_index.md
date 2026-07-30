@@ -8,359 +8,316 @@ pre: " <b> 2. </b> "
 
 # AWS IoT Monitoring and Control Dashboard
 
-### You can read the downloadable proposal here: <a href="/files/2-Proposal/IoT_Dashboard_Proposal.pdf" download>IoT Dashboard Proposal</a>
+### Downloadable version: <a href="/files/2-Proposal/IoT_Dashboard_Proposal.pdf" download>IoT Dashboard Proposal (PDF)</a>
 
-> The PDF file must be updated to match the content of this page before final submission.
+> **PDF update required:** the downloadable PDF is retained for reference and must be re-exported to match this revised web proposal before final submission.
 
 ---
 
 ## 1. Executive Summary
 
-The **AWS IoT Monitoring and Control Dashboard** is a cloud-connected IoT platform designed to monitor environmental data and remotely control devices in a room.
+The **AWS IoT Monitoring and Control Dashboard** addresses the need to monitor room conditions and control physical devices from a centralized interface. It connects YOLO UNO hardware to a backend deployed on AWS so that users can view temperature, humidity, and light readings, issue remote commands, and verify physical execution through command acknowledgement.
 
-The system uses a **YOLO UNO ESP32-S3** device to collect temperature, humidity, and light intensity data. The hardware sends telemetry through HTTP REST APIs to a **FastAPI backend hosted on Amazon EC2**. The backend stores telemetry and device commands in **Amazon RDS for PostgreSQL**.
+In the current Workshop deployment:
 
-A **React + Vite dashboard** displays the latest telemetry, historical data, device states, and command results. Users can control a fan, light, and curtain through the dashboard. The device periodically polls the backend for pending commands, executes them, and sends an acknowledgement so that the command state changes from `Pending` to `Executed`.
+- YOLO UNO collects environmental telemetry and controls the fan, light, and curtain servo;
+- FastAPI runs on Amazon EC2 under `aws-iot-backend.service`;
+- Amazon RDS for PostgreSQL stores telemetry and command states;
+- a local React + Vite frontend presents near-real-time data, history, controls, and rule-based recommendations;
+- the device polls for commands and sends an ACK after execution; and
+- Amazon CloudWatch collects backend logs, operational metrics, and alarm states.
 
-**Amazon CloudWatch** collects backend logs and infrastructure metrics. CloudWatch Alarms are configured to monitor EC2 and RDS operating conditions.
+The result is a reproducible Smart Room prototype that demonstrates an end-to-end flow from physical sensing to cloud storage, dashboard visualization, remote control, and physical-device acknowledgement.
 
 ---
 
-## 2. Problem Statement
+## 2. Problem Statement and Target Users
 
-### 2.1 Current Problem
+### 2.1 Problem Statement
 
-Small rooms, laboratories, and learning environments often use sensors and electrical devices independently. This creates several limitations:
+Small classrooms, laboratories, and equipment rooms often rely on sensors and actuators that operate independently. Values may only be visible at the device, historical records are not stored centrally, and operators cannot easily inspect room conditions or control equipment remotely. A dashboard action alone also does not prove that a fan, light, or curtain physically completed the requested operation.
 
-- Environmental data is not stored centrally.
-- Users cannot review historical temperature, humidity, or light data.
-- Devices cannot be controlled remotely from one dashboard.
-- A control request does not always prove that the physical device executed the command.
-- System logs and infrastructure metrics are difficult to monitor without a centralized platform.
+Troubleshooting is fragmented when application logs, infrastructure metrics, database records, and device states are not connected. This project creates one traceable workflow for telemetry, commands, acknowledgement, and monitoring.
 
-### 2.2 Proposed Solution
+### 2.2 Target Users
 
-The project provides a cloud-based monitoring and control platform with a complete two-way data flow:
+| Target user | Main need |
+|---|---|
+| Room or laboratory manager | Monitor environmental conditions and actuator status from one interface |
+| Lecturers and students | Observe telemetry, historical data, and an end-to-end IoT experiment |
+| Operators | Remotely control the fan, light, and curtain |
+| Development team | Debug through logs, metrics, APIs, database records, and command states |
 
-The platform supports:
+### 2.3 Delivered Value
 
-- Telemetry ingestion from physical hardware.
-- Latest and historical sensor data.
-- Remote fan, light, and curtain control.
-- Command tracking with `Pending` and `Executed` states.
-- Device acknowledgement after command execution.
-- Rule-based analysis and control recommendations.
-- Monitoring with CloudWatch Logs, Metrics, and Alarms.
-
-### 2.3 Benefits
-
-- Centralized monitoring for sensor and actuator data.
-- Two-way communication between the dashboard and physical hardware.
+- A centralized dashboard for current values, historical telemetry, and controls.
+- Two-way communication between the cloud backend and physical hardware.
 - Persistent telemetry and command history in PostgreSQL.
-- Better troubleshooting through logs, metrics, and command states.
-- A modular design that can be expanded to additional rooms and devices.
+- Physical-action verification through `Pending` and `Executed` states.
+- Centralized logs and metrics for troubleshooting.
+- A documented foundation that can later support additional rooms or devices.
 
 ---
 
-## 3. Project Objectives and Scope
+## 3. Objectives and Scope
 
-### 3.1 Objectives
+### 3.1 Hardware Objectives
 
-The project aims to:
+- Read temperature and humidity from the DHT20 and read the analog light sensor.
+- Control the fan, light/relay, and curtain servo; display status on LCD1602 I2C.
+- Connect through Wi-Fi and HTTP REST.
+- Support eight commands: `MODE_AUTO`, `MODE_MANUAL`, `FAN_ON`, `FAN_OFF`, `LIGHT_ON`, `LIGHT_OFF`, `CURTAIN_OPEN`, and `CURTAIN_CLOSE`.
 
-1. Build a physical IoT device using YOLO UNO ESP32-S3.
-2. Collect temperature, humidity, and light sensor data.
-3. Send telemetry to a FastAPI REST API on Amazon EC2.
-4. Store telemetry and commands in Amazon RDS for PostgreSQL.
-5. Display latest and historical data on a React dashboard.
-6. Remotely control a fan, light, and curtain.
-7. Implement the command lifecycle `Pending` → `Executed`.
-8. Send command acknowledgements from the device.
-9. Monitor EC2, RDS, and backend logs with Amazon CloudWatch.
-10. Produce a bilingual workshop and project report.
+### 3.2 Backend and Cloud Objectives
 
-### 3.2 Project Scope
+- Deploy FastAPI, Uvicorn, SQLAlchemy, and Pydantic on Amazon EC2.
+- Manage the backend through `aws-iot-backend.service`.
+- Store telemetry and commands in the `iot_dashboard` database on RDS PostgreSQL.
+- Configure VPC networking, routing, and Security Groups for the deployment.
+- Keep RDS non-public and allow PostgreSQL only from the EC2 Security Group.
+- Use an EC2 IAM Role/Instance Profile for CloudWatch Agent permissions.
 
-The current implementation focuses on one sample device:
+### 3.3 Frontend Objectives
 
-```text
-DEVICE_ID = room_01
-```
+- Display temperature, humidity, light, and historical charts through REST polling.
+- Create fan, light, curtain, Manual, and Auto commands.
+- Present threshold-based, rule-based analysis without describing it as machine learning.
 
-The device includes:
+### 3.4 Monitoring and Documentation Objectives
 
-- DHT20 temperature and humidity sensor.
-- Analog light sensor.
-- Fan module.
-- Light or relay module.
-- Servo motor for curtain control.
+- Send backend logs to CloudWatch Logs.
+- Monitor EC2 CPU, memory, disk, RDS CPU, and database connections.
+- Configure alarms for important operational thresholds.
+- Deliver bilingual Workshop instructions, source code, architecture, demo, and clean-up guidance.
 
-Supported commands:
+### 3.5 Current Scope
 
-```text
-FAN_ON
-FAN_OFF
-LIGHT_ON
-LIGHT_OFF
-CURTAIN_OPEN
-CURTAIN_CLOSE
-```
+The prototype uses `room_01` as the logical identifier of the model room. It covers three environmental measurements, three physical actuators, HTTP REST, command polling, ACK, one EC2 instance, one Single-AZ RDS PostgreSQL instance, a local frontend, and CloudWatch monitoring.
 
-### 3.3 Out of Scope
+### 3.6 Out of Scope
 
-The current version does not use:
-
-- AWS IoT Core.
-- AWS Lambda.
-- Amazon API Gateway.
-- Amazon S3.
-- Amazon SNS.
-- Amazon ECS or ECR.
-- Amazon Cognito.
-- Amazon CloudFront.
-- Amazon DynamoDB.
-
-These services may be considered in future versions if the project requires a different deployment model.
+The current delivery does not include a production multi-room rollout, user authentication, HTTPS with a custom domain, automatic horizontal scaling, cross-AZ disaster recovery, a mobile application, an automated delivery pipeline, or a trained machine-learning model. These capabilities require a separate review of requirements, cost, security, and operating complexity.
 
 ---
 
 ## 4. Solution Architecture
 
-![AWS IoT Monitoring and Control Dashboard Architecture](/images/2-Proposal/IoT_Dashboard_Architecture.png)
+![AWS IoT Monitoring and Control Dashboard architecture](/images/2-Proposal/IoT_Dashboard_Architecture.png)
 
-### 4.1 Architecture Components
+*Current deployment architecture of the AWS IoT Monitoring and Control Dashboard, including the local frontend, YOLO UNO, FastAPI on EC2, RDS PostgreSQL, and Amazon CloudWatch.*
 
-| Component | Technology | Purpose |
-| :--- | :--- | :--- |
-| **Frontend** | React, Vite, TypeScript, Tailwind CSS | Displays telemetry, history, analysis, and device controls |
-| **Backend** | Python, FastAPI, Uvicorn, SQLAlchemy, Pydantic | Provides REST APIs and processes telemetry, commands, and ACKs |
-| **Database** | Amazon RDS for PostgreSQL | Stores telemetry records and command states |
-| **Compute** | Amazon EC2 with Amazon EBS | Runs the FastAPI backend as a `systemd` service |
-| **IoT Hardware** | YOLO UNO ESP32-S3, PlatformIO, Arduino | Reads sensors, controls actuators, polls commands, and sends ACKs |
-| **Networking** | Amazon VPC, subnets, Security Groups | Controls network access between users, EC2, and RDS |
-| **Identity** | AWS IAM Role | Grants the EC2 instance permission to publish CloudWatch data |
-| **Monitoring** | Amazon CloudWatch and CloudWatch Alarms | Collects logs and metrics and evaluates configured thresholds |
+### 4.1 Resource Placement
 
-### 4.2 Data Flow
+| Location | Components | Responsibility |
+|---|---|---|
+| Outside AWS | Dashboard user, local React + Vite frontend, YOLO UNO ESP32-S3 | User interaction, telemetry, command execution, and ACK |
+| AWS Cloud, outside VPC | EC2 IAM Role/Instance Profile, CloudWatch | Permissions, logs, metrics, dashboard, and alarms |
+| Amazon VPC | Internet Gateway, public route table, public application subnet, private DB subnet | Network boundary and routing |
+| Public application subnet | Amazon EC2 | FastAPI backend and CloudWatch Agent |
+| Private DB subnet through DB Subnet Group | Amazon RDS for PostgreSQL | Private telemetry and command persistence |
+| Attached to EC2 in the same AZ | 10 GiB gp3 EBS root volume | OS, application, and runtime files |
 
-#### Telemetry Flow
+CloudWatch Agent runs inside EC2 and sends backend logs plus memory and disk metrics to CloudWatch. RDS publishes managed metrics to CloudWatch. EBS is the EC2 root volume, not an independent service inside a subnet.
 
-1. YOLO UNO reads temperature, humidity, light intensity, and actuator states.
-2. The device sends telemetry to:
+### 4.2 Telemetry Flow
 
-```text
-POST /api/telemetry
-```
+1. YOLO UNO reads the DHT20 and analog light sensor.
+2. Firmware sends `POST /api/telemetry` to FastAPI on EC2.
+3. FastAPI validates and stores the record in RDS PostgreSQL.
+4. The frontend polls latest and history endpoints.
+5. The dashboard displays current readings and ordered history.
 
-3. FastAPI validates the payload.
-4. The backend stores the data in Amazon RDS for PostgreSQL.
-5. The frontend retrieves the latest or historical data from the backend.
+### 4.3 Command and Acknowledgement Flow
 
-#### Command Flow
+1. The operator creates a command from the frontend.
+2. FastAPI stores it in the `Pending` state.
+3. YOLO UNO polls the latest command for `room_01`.
+4. Firmware executes the actuator or mode command.
+5. YOLO UNO sends an ACK with the numeric command ID.
+6. FastAPI updates the matching record to `Executed`.
 
-1. A user presses a control button on the dashboard.
-2. The frontend sends a command to:
+### 4.4 Main REST Endpoints
 
-```text
-POST /api/devices/{device_id}/commands
-```
+| Method | Endpoint | Purpose |
+|---|---|---|
+| `GET` | `/api/health` | Verify backend health |
+| `POST` | `/api/telemetry` | Store telemetry |
+| `GET` | `/api/devices/{device_id}/latest` | Retrieve latest telemetry |
+| `GET` | `/api/devices/{device_id}/history` | Retrieve telemetry history |
+| `POST` | `/api/devices/{device_id}/commands` | Create a command |
+| `GET` | `/api/devices/{device_id}/commands/latest` | Poll the latest command |
+| `POST` | `/api/devices/{device_id}/commands/{command_id}/ack` | Acknowledge execution |
 
-3. The backend stores the command with the `Pending` state.
-4. YOLO UNO polls:
+### 4.5 Security Boundary
 
-```text
-GET /api/devices/{device_id}/commands/latest
-```
-
-5. The device executes the command.
-6. The device sends an acknowledgement to:
-
-```text
-POST /api/devices/{device_id}/commands/{command_id}/ack
-```
-
-7. The backend updates the command state to `Executed`.
-
-### 4.3 Service Selection
-
-| AWS Service | Selection Reason |
-| :--- | :--- |
-| **Amazon EC2** | Provides full control of the FastAPI runtime, Python environment, systemd service, and log files |
-| **Amazon EBS** | Provides persistent root storage for the EC2 instance |
-| **Amazon RDS for PostgreSQL** | Managed relational database suitable for telemetry and command records |
-| **Amazon VPC** | Provides network isolation and Security Group control |
-| **AWS IAM Role** | Avoids hard-coded AWS access keys on EC2 |
-| **Amazon CloudWatch** | Centralizes logs, metrics, and alarms for operations and troubleshooting |
-
-### 4.4 Security Design
-
-- SSH access is restricted to the administrator IP.
-- The backend port is opened only as required for the project demo.
-- RDS accepts PostgreSQL traffic only from the EC2 Security Group.
-- AWS access keys are not hard-coded in the application.
-- EC2 uses an IAM Role for CloudWatch Agent permissions.
-- `.env`, `.pem`, private keys, and `hardware/include/secrets.h` are excluded from Git.
-- Public documentation uses placeholders instead of real credentials.
+- RDS has no public Internet access.
+- RDS TCP `5432` accepts traffic from the EC2 Security Group, not a public CIDR.
+- EC2 uses an IAM Role/Instance Profile for CloudWatch instead of static AWS credentials.
+- Runtime values use environment or local secret files.
+- `backend/.env`, `hardware/include/secrets.h`, `*.pem`, passwords, and credentials must not be committed.
 
 ---
 
 ## 5. Technical Implementation Plan
 
-### Phase 1 — Cloud Foundation
+### Phase 1 — Requirements and AWS Foundation
 
-- Design the AWS architecture.
-- Configure VPC, subnet, Security Groups, and IAM Role.
-- Launch the EC2 instance.
-- Create Amazon RDS for PostgreSQL.
-- Verify EC2-to-RDS connectivity.
+Confirm the Smart Room functional requirements and acceptance criteria, assign team responsibilities, and define `room_01` as the logical identifier of the model room. Then design the AWS infrastructure, deploy EC2 and RDS, and verify private database connectivity.
 
 ### Phase 2 — Backend and Database
 
-- Initialize the FastAPI backend.
-- Define Pydantic schemas and SQLAlchemy models.
-- Implement telemetry ingestion.
-- Implement latest and historical data APIs.
-- Implement command creation, polling, and acknowledgement.
-- Run the backend as the `aws-iot-backend` systemd service.
+Define the PostgreSQL schema; implement health, telemetry, latest, history, command, polling, and ACK endpoints; configure environment values and systemd.
 
-### Phase 3 — Hardware
+### Phase 3 — Hardware and Firmware
 
-- Configure the YOLO UNO board in PlatformIO.
-- Connect DHT20, analog light sensor, fan, light, and servo.
-- Connect the board to Wi-Fi.
-- Send telemetry to the EC2 backend.
-- Poll pending commands.
-- Execute device commands.
-- Send ACKs and prevent duplicate command execution.
+Connect DHT20, the light sensor, fan, light/relay, servo, and LCD; develop PlatformIO firmware for sensing, Wi-Fi, telemetry, polling, actuator control, modes, and ACK; validate all eight commands.
 
 ### Phase 4 — Frontend and Integration
 
-- Build the React + Vite dashboard.
-- Display latest and historical telemetry.
-- Add fan, light, and curtain controls.
-- Add manual and rule-based automatic or recommendation modes.
-- Integrate the frontend with the EC2 backend.
-- Debug the complete system flow.
+Build the React + Vite + TypeScript dashboard, history charts, controls, and rule-based recommendations; integrate all components and resolve API, CORS, command-state, and hardware issues.
 
-### Phase 5 — Monitoring and Documentation
+### Phase 5 — Monitoring, Validation, and Handover
 
-- Install and configure CloudWatch Agent.
-- Collect backend logs, EC2 memory, and disk metrics.
-- Monitor EC2 CPU and RDS metrics.
-- Create CloudWatch Alarms.
-- Perform end-to-end testing.
-- Record the demonstration video.
-- Complete the bilingual report and workshop.
+Configure CloudWatch Agent, logs, metrics, and five alarms; run end-to-end tests; review security; complete the bilingual Workshop, evidence, demo, clean-up guide, and handover.
 
 ---
 
 ## 6. Timeline and Milestones
 
-The project is planned over **10 weeks**.
+The Proposal follows the eight-week Worklog from **01/06/2026 to 31/07/2026**.
 
-| Week | Milestone | Expected Output |
-| :---: | :--- | :--- |
-| **Week 1** | Requirements analysis and project planning | Problem statement, scope, team roles, initial architecture |
-| **Week 2** | AWS architecture and network foundation | VPC, subnets, Security Groups, IAM plan |
-| **Week 3** | EC2 and RDS deployment | Running EC2 instance and PostgreSQL database |
-| **Week 4** | Backend and database foundation | FastAPI structure, schemas, database connection |
-| **Week 5** | Telemetry and command APIs | Telemetry, latest, history, command, and ACK endpoints |
-| **Week 6** | YOLO UNO hardware integration | Sensor readings, actuator control, Wi-Fi, REST communication |
-| **Week 7** | Frontend dashboard development | Telemetry cards, charts, control panel, analysis section |
-| **Week 8** | End-to-end integration and debugging | Complete telemetry and command flow with physical hardware |
-| **Week 9** | CloudWatch monitoring and system validation | Logs, metrics, alarms, failure tests, security review |
-| **Week 10** | Documentation, demo, and final handover | Bilingual report, workshop website, demo video, final repository |
+| Week | Period | Main activities | Milestone |
+|---|---|---|---|
+| **Week 1** | 01/06–07/06 | Requirements, scope, initial architecture, roles, and plan | Agreed functions, acceptance scope, architecture, and assignments |
+| **Week 2** | 08/06–14/06 | AWS architecture, VPC, IAM, and Security Groups | Reviewed cloud and security design |
+| **Week 3** | 15/06–21/06 | EC2, EBS, RDS, network, and database connectivity | Running EC2 and available private PostgreSQL |
+| **Week 4** | 22/06–28/06 | FastAPI, schema, environment, and systemd | Backend running and connected to RDS |
+| **Week 5** | 29/06–05/07 | Telemetry, latest, history, command polling, and ACK APIs | Complete REST flow and persisted command states |
+| **Week 6** | 06/07–12/07 | YOLO UNO firmware, sensors, actuators, Wi-Fi, and REST | Hardware sends telemetry and processes eight commands |
+| **Week 7** | 13/07–19/07 | React dashboard, charts, controls, integration, and debugging | Frontend reads AWS data and creates commands |
+| **Week 8** | 20/07–31/07 | End-to-end tests, CloudWatch, security, documentation, demo, and handover | Verified evidence and submission-ready bilingual documentation |
 
 ---
 
-## 7. Budget Estimation
+## 7. Resource Configuration, Cost and Optimization
 
-The project uses small AWS resources suitable for learning and demonstration.
+### 7.1 Current Resource Configuration
 
-| Resource | Cost Factor | Optimization Approach |
-| :--- | :--- | :--- |
-| **Amazon EC2** | Instance running time | Use a small instance and stop it when it is not required |
-| **Amazon EBS** | Provisioned storage | Allocate only the required root volume size |
-| **Amazon RDS for PostgreSQL** | Instance class, storage, and running time | Use a small database instance for the workshop environment |
-| **Amazon CloudWatch** | Log ingestion, retention, and custom metrics | Limit log retention and avoid unnecessary high-frequency metrics |
-| **Data Transfer** | Requests between users, hardware, and EC2 | Use reasonable telemetry and polling intervals |
+| Resource | Current configuration | Main cost factor | Optimization |
+|---|---|---|---|
+| EC2 | `t3.micro`, Linux, Public IPv4, Single-AZ | Running hours and data transfer | Stop when unused; inspect CPU/memory before resizing |
+| EBS | 10 GiB `gp3` root volume | Provisioned storage and snapshots | Keep required storage and remove unused snapshots |
+| RDS PostgreSQL | `db.t4g.micro`, Single-AZ, non-public | Instance hours, storage, backups, transfer | Stop during permitted idle periods; review backups and connections |
+| RDS storage | 20 GiB General Purpose SSD | Provisioned storage | Monitor growth and avoid unnecessary retention |
+| CloudWatch | Logs, EC2/RDS metrics, dashboard, five alarms | Log ingestion/retention, custom metrics, dashboard, alarms | Set suitable retention and remove unused artifacts |
+| Data transfer | HTTP telemetry and polling | Internet and data volume | Use reasonable intervals and compact payloads |
+| IAM/VPC foundation | Role, VPC, subnets, route, IGW, Security Groups | Basic configuration usually has no direct hourly cost; attached resources and processing may cost | Remove unused dependencies carefully |
 
-The exact cost depends on region, resource size, and usage duration. Resources must be reviewed and cleaned up after the workshop to avoid unexpected charges.
+No fixed monthly total is claimed because charges depend on runtime, Region, traffic, retention, backups, and account pricing. Actual charges must be checked in AWS Billing and Cost Management.
+
+### 7.2 Optimization Actions
+
+- Stop EC2/RDS when the demo environment is not required and policy permits it.
+- Use CloudWatch evidence to assess resource sizing.
+- Retain logs only as long as needed for evaluation and troubleshooting.
+- Balance polling responsiveness against request volume.
+- Follow the dependency-aware clean-up order in Workshop section 5.10.
 
 ---
 
 ## 8. Risk Assessment
 
-| Risk | Impact | Mitigation |
-| :--- | :--- | :--- |
-| **YOLO UNO loses Wi-Fi** | Telemetry and commands stop temporarily | Reconnect to Wi-Fi and retry HTTP requests |
-| **EC2 public IP changes** | Frontend and hardware cannot reach the backend | Update configuration or attach an Elastic IP in a future improvement |
-| **Backend process stops** | APIs become unavailable | Run Uvicorn with `systemd` and automatic restart |
-| **RDS connection failure** | Telemetry and commands cannot be stored | Verify endpoint, credentials, Security Groups, and `DATABASE_URL` |
-| **Duplicate command execution** | Actuators may repeat an action | Store the latest command ID and execute each command only once |
-| **ACK request fails** | Command remains `Pending` | Retry the ACK without repeating the actuator action |
-| **Credentials are exposed** | Security incident | Ignore `.env`, `.pem`, private keys, and `secrets.h` in Git |
-| **Unexpected AWS cost** | Project budget increases | Stop or delete resources after testing and review CloudWatch usage |
-| **Incorrect sensor values** | Dashboard recommendations become inaccurate | Validate readings and calibrate sensor thresholds |
-| **Integration mismatch** | Frontend, backend, and hardware use different payloads or endpoints | Maintain one API contract and test each endpoint end to end |
+| Risk | Likelihood | Impact | Mitigation |
+|---|---|---|---|
+| EC2 Public IPv4 changes after stop/start | Medium | High | Update frontend/firmware and document the active endpoint |
+| Workshop uses HTTP | High | High | Avoid sensitive payloads, limit exposure, and plan HTTPS before broader use |
+| Security Group rules are too broad | Medium | High | Restrict SSH; keep RDS `5432` limited to the EC2 Security Group |
+| Credentials are committed | Low | High | Use local secret files, placeholder examples, and review Git status |
+| EC2 cannot reach RDS | Medium | High | Verify subnet, DB Subnet Group, DNS, SG rules, and TLS with `psql` |
+| Device loses Wi-Fi/backend connectivity | Medium | Medium | Add retry/reconnect logic and show connection state |
+| Polling creates excess requests | Medium | Medium | Use documented intervals and review browser/backend logs |
+| Command remains `Pending` | Medium | High | Check polling, command name/ID, actuator result, ACK, and DB state |
+| GPIO/power error causes instability | Medium | High | Use verified pin map, shared ground, safe power, and incremental tests |
+| Monitoring evidence is incomplete | Medium | Medium | Verify Agent, log group, metric dimensions, retention, and five alarms |
+| Resources continue generating cost | Medium | High | Assign clean-up responsibility and follow dependency order |
 
 ---
 
-## 9. Expected Results
+## 9. Expected Results and Success Criteria
 
-The project is expected to deliver:
+### 9.1 Expected Results
 
-- A working YOLO UNO physical IoT device.
-- Periodic temperature, humidity, and light telemetry.
-- A FastAPI backend running on Amazon EC2.
-- Persistent telemetry and command data in Amazon RDS for PostgreSQL.
-- A React dashboard with latest data, history, controls, and recommendations.
-- Remote fan, light, and curtain control.
-- Command state tracking from `Pending` to `Executed`.
-- Device acknowledgement for completed commands.
-- CloudWatch logs, metrics, and alarms.
-- A bilingual FCAJ workshop and final report.
-- A demonstration video showing the dashboard, database, CloudWatch, and physical hardware.
+The prototype should provide a traceable path from physical readings to AWS storage and dashboard visualization, plus a return path from dashboard commands to actuator execution and ACK. Evidence must allow another reviewer to inspect the application, database, hardware, and monitoring layers.
 
-### Success Criteria
+### 9.2 Measurable Success Criteria
 
-The project is considered successful when:
-
-1. YOLO UNO can send valid telemetry to the backend.
-2. Telemetry is stored and retrieved from PostgreSQL.
-3. The dashboard displays current and historical data.
-4. The dashboard creates commands for `room_01`.
-5. The hardware receives and executes supported commands.
-6. ACK updates commands to `Executed`.
-7. CloudWatch receives the configured logs and metrics.
-8. Another reader can follow the workshop and reproduce the main deployment steps.
+| Success criterion | Acceptance evidence |
+|---|---|
+| Backend runs | `systemctl status aws-iot-backend` shows `active (running)` |
+| Health works | `/api/health` returns `status: ok` |
+| EC2 connects to RDS | `psql` uses SSL/TLS and `\dt` shows application tables |
+| Telemetry persists | PostgreSQL contains a `room_01` telemetry record |
+| Dashboard displays data | Temperature, humidity, and light show Live AWS |
+| History works | Charts use `/api/devices/room_01/history` |
+| Frontend calls succeed | Latest, history, and command requests return HTTP `200` |
+| Commands persist | `commands` contains the created command and state |
+| Actuators respond | Fan, light, and curtain servo react in demo evidence |
+| ACK lifecycle works | The same command changes `Pending` → `Executed` |
+| CloudWatch Logs works | Backend log stream contains FastAPI request logs |
+| Metrics are visible | EC2 CPU/disk, RDS CPU/connections, and Agent-collected EC2 memory are shown |
+| Alarms exist | CloudWatch lists five project alarms |
+| RDS is private | Internet access is disabled or `Publicly accessible: No` |
+| PostgreSQL is restricted | RDS accepts TCP `5432` from the EC2 Security Group |
+| Secrets stay out of Git | `.env`, `secrets.h`, `*.pem`, and real credentials are untracked |
 
 ---
 
-## 10. Team Responsibilities
+## 10. Current Limitations and Future Improvements
 
-| Member | Role | Primary Responsibilities |
-| :--- | :--- | :--- |
-| **Pham Le Minh Khoi** | AWS and Hardware Lead | AWS architecture, VPC, Security Groups, IAM Role, EC2, RDS, CloudWatch, DevOps, YOLO UNO firmware, sensors, actuators, telemetry, command polling, and ACK |
-| **Ngo Minh Thuan** | Backend Developer | FastAPI backend, API endpoints, Pydantic schemas, SQLAlchemy models, PostgreSQL integration, telemetry processing, command lifecycle, and ACK processing |
-| **Thuong Dinh Hung** | Frontend and Integration Developer | React + Vite dashboard, user interface, telemetry visualization, device controls, overall system integration, debugging, and demo video recording |
-| **Le Bao Khanh** | Documentation and QA | Proposal, blog posts, weekly worklog, event reports, workshop documentation, bilingual content review, navigation, screenshots, and quality assurance |
+### 10.1 Current Limitations
+
+- One EC2 with Public IPv4 and one Single-AZ RDS instance.
+- Local frontend outside AWS; HTTP and no user authentication in the Workshop.
+- Polling-based command delivery and dashboard refresh.
+- One model room identified by `room_01`.
+- Rule-based recommendations, not trained machine learning.
+- Manual deployment and testing.
+
+### 10.2 Future Improvements
+
+After reviewing requirements, security, cost, and complexity, future work may add HTTPS and authentication, tighter network boundaries, multiple rooms and identities, availability/recovery procedures, event-driven communication at greater scale, automated testing/deployment, stronger secret and backup handling, operational notifications, and a mobile-friendly experience.
+
+These are future options and are not part of the current deployment.
 
 ---
 
-## 11. Deliverables
+## 11. Team Responsibilities
 
-The final project deliverables include:
+| Member | Role and responsibilities |
+|---|---|
+| **Phạm Lê Minh Khôi** | AWS infrastructure, EC2, EBS, RDS, VPC, Security Groups, IAM, CloudWatch, DevOps, PlatformIO firmware development, and YOLO UNO hardware integration |
+| **Thượng Đình Hưng** | React + Vite frontend, dashboard, overall integration, debugging, and demo recording support |
+| **Ngô Minh Thuận** | FastAPI backend, REST endpoints, PostgreSQL integration, telemetry, command processing, and ACK handling |
+| **Lê Bảo Khánh** | Documentation and QA, Proposal, Blogs, Worklog, Event Reports, and bilingual Workshop content |
 
-- Source code repository.
-- FastAPI backend.
-- React + Vite frontend.
-- YOLO UNO PlatformIO firmware.
-- AWS architecture diagram.
-- Amazon RDS database schema.
-- CloudWatch logs, metrics, and alarms.
-- API documentation.
-- Bilingual proposal and workshop.
-- Worklog, blog posts, and event reports.
-- End-to-end demonstration video.
-- Clean-up and project handover instructions.
+---
+
+## 12. Deliverables and Evidence
+
+| Deliverable | Content | Evidence |
+|---|---|---|
+| GitHub repository | Backend, frontend, hardware, diagrams, bilingual README | [Source Code]({{% relref "8-References/8.1-source-code/_index.md" %}}), public `main` |
+| FastAPI backend | Health, telemetry, history, command, polling, ACK | [Backend Workshop]({{% relref "5-Workshop/5.5-Backend-and-Database/_index.md" %}}), systemd and health evidence |
+| PostgreSQL database | Tables, telemetry, command states | `psql`, `\dt`, telemetry and command queries |
+| React + Vite frontend | Telemetry, controls, rules, history charts | [Frontend Workshop]({{% relref "5-Workshop/5.7-Frontend-Integration/_index.md" %}}), screenshots |
+| YOLO UNO firmware | Sensors, actuators, modes, polling, ACK | [Hardware Workshop]({{% relref "5-Workshop/5.6-Hardware-Integration/_index.md" %}}), source, build, demo |
+| End-to-end validation | Telemetry persistence, lifecycle, physical execution | [Testing Workshop]({{% relref "5-Workshop/5.8-End-to-End-Testing/_index.md" %}}), [Demo Video]({{% relref "8-References/8.2-demo-video/_index.md" %}}) |
+| CloudWatch monitoring | Logs, metrics, dashboard, five alarms | [CloudWatch Workshop]({{% relref "5-Workshop/5.9-CloudWatch-Monitoring/_index.md" %}}), screenshots |
+| Bilingual Workshop | Deployment, integration, testing, monitoring, handover | [Workshop]({{% relref "5-Workshop/_index.md" %}}) |
+| Clean-up guide | Inventory, cost, security, dependency-aware removal | [Cost, Security, Clean-up]({{% relref "5-Workshop/5.10-Cost-Security-Cleanup/_index.md" %}}) |
+| Reference set | Source, demo, documents, technical links | [References]({{% relref "8-References/_index.md" %}}) |
+
+Public project links:
+
+- [Project source code](https://github.com/toniminhkhoi/aws-iot-dashboard/tree/main)
+- [End-to-end demo video](https://drive.google.com/file/d/1T97dUY58hbT2ppxvg7ESR12Jg9BA828W/view?usp=sharing)

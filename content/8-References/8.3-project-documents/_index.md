@@ -17,5 +17,3 @@ The following documents support project deployment, operation, and handover:
 | Architecture diagram | AWS deployment architecture | [Open diagram](https://github.com/toniminhkhoi/aws-iot-dashboard/blob/main/diagrams/aws-iot-dashboard-architecture.png) |
 | Workshop | End-to-end deployment guide | [Open Workshop]({{% relref "5-Workshop/_index.md" %}}) |
 | Clean-up guide | Remove the AWS resources created by the Workshop | [Open guide]({{% relref "5-Workshop/5.10-Cost-Security-Cleanup/_index.md" %}}) |
-
-Before handover, verify that every external link is accessible to the intended reviewer.

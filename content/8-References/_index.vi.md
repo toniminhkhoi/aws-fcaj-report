@@ -10,10 +10,8 @@ Phần này tập hợp các tài nguyên phục vụ việc kiểm tra, trình 
 
 Các tài nguyên bao gồm:
 
-- Source code của FastAPI backend, React + Vite frontend và firmware YOLO UNO
-- Video demo hoạt động end-to-end
-- Tài liệu triển khai và hướng dẫn sử dụng
-- Sơ đồ kiến trúc và nội dung Workshop
-- Hướng dẫn kiểm thử, giám sát và clean-up tài nguyên AWS
-
-> Các liên kết công khai phải được kiểm tra bằng cửa sổ ẩn danh trước khi nộp bài.
+- [Source code dự án](https://github.com/toniminhkhoi/aws-iot-dashboard/tree/main)
+- [Video demo hoạt động end-to-end](https://drive.google.com/file/d/1T97dUY58hbT2ppxvg7ESR12Jg9BA828W/view?usp=sharing)
+- [Tài liệu triển khai và hướng dẫn sử dụng (README)](https://github.com/toniminhkhoi/aws-iot-dashboard/blob/main/README.vi.md)
+- [Sơ đồ kiến trúc](https://github.com/toniminhkhoi/aws-iot-dashboard/blob/main/diagrams/aws-iot-dashboard-architecture.png) và [nội dung Workshop]({{% relref "5-Workshop/_index.vi.md" %}})
+- [Hướng dẫn kiểm thử]({{% relref "5-Workshop/5.8-End-to-End-Testing/_index.vi.md" %}}), [giám sát]({{% relref "5-Workshop/5.9-CloudWatch-Monitoring/_index.vi.md" %}}) và [clean-up tài nguyên AWS]({{% relref "5-Workshop/5.10-Cost-Security-Cleanup/_index.vi.md" %}})

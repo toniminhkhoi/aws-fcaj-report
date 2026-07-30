@@ -27,7 +27,7 @@ pre: " <b> 4.2. </b> "
 ## Nội dung chính
 
 1. **Từ First Cloud AI Journey đến Đối tác AWS**
-   - Hành trình sự nghiệp bao gồm 8 bước được xác định rõ: Sự tò mò của sinh viên (Student Curiosity), First Cloud Journey, Hội thảo & Cộng đồng, Thực hành thực tế (Hands-on Labs), Dự án trường học, Hồ sơ năng lực (Portfolio), Đối tác AWS, và Chia sẻ lại (Share Back).
+   - Hành trình sự nghiệp bao gồm 8 bước được xác định rõ: Sự tò mò của sinh viên (Student Curiosity), First Cloud AI Journey, Hội thảo & Cộng đồng, Thực hành thực tế (Hands-on Labs), Dự án trường học, Hồ sơ năng lực (Portfolio), Đối tác AWS, và Chia sẻ lại (Share Back).
    - Việc tham gia vào các cộng đồng như AWS Student Builder Group và AWS Community Builder Program mang lại một môi trường vững chắc để học hỏi từ người khác và rèn luyện các kỹ năng thực tế.
 
 2. **Thực tế của nghề Kỹ sư DevOps**

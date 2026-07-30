@@ -6,22 +6,24 @@ chapter: false
 pre: " <b> 5. </b> "
 ---
 
-This hands-on workshop builds the documented end-to-end path for one physical device, `room_01`: YOLO UNO reads a DHT20 and an analog light sensor, FastAPI stores telemetry and commands in Amazon RDS for PostgreSQL, React displays the data and creates commands, and the device acknowledges completed fan, light, and curtain actions.
+This hands-on workshop guides learners through building an AWS-connected Smart Room identified by `device_id=room_01`. YOLO UNO collects temperature, humidity, and analog light readings; the FastAPI backend on Amazon EC2 processes requests and stores telemetry and command states in Amazon RDS for PostgreSQL; and the React dashboard displays data and sends device-control commands. After executing a command, the firmware sends an ACK so the backend can record its final state.
 
-## Objectives and final result
+## Objectives and Expected Outcomes
 
 By the end of the workshop, you will be able to:
 
-- deploy a FastAPI backend on Amazon EC2 with an EBS root volume;
-- connect EC2 privately to Amazon RDS for PostgreSQL in a DB Subnet Group;
-- integrate YOLO UNO telemetry, command polling, execution, and ACK;
-- connect a local React + Vite + TypeScript dashboard;
-- validate `Pending` to `Executed` command transitions; and
-- collect EC2, RDS, and backend operational evidence in CloudWatch.
+- prepare the VPC, Security Groups, Amazon EC2, Amazon EBS, and Amazon RDS for PostgreSQL resources used by the project;
+- deploy FastAPI on EC2 as a `systemd` service and verify its database connection;
+- build and upload the PlatformIO firmware for YOLO UNO;
+- collect telemetry and control the fan, light, and curtain through 8 supported firmware commands;
+- use the React + Vite dashboard to view current data, review history, and send commands;
+- validate the command lifecycle from `Pending` to `Executed` through device ACK;
+- inspect backend logs, EC2/RDS metrics, and alarm states in Amazon CloudWatch; and
+- complete end-to-end testing, troubleshooting, resource clean-up, and project handover.
 
-The expected result is a reproducible prototype for `room_01`, not an enterprise BMS. Allow **8-12 focused hours** for the workshop after the application source and AWS account are ready.
+The final outcome is a reproducible Smart Room prototype for `device_id=room_01`, supported by source code, deployment instructions, test records, AWS screenshots, and a hardware demonstration.
 
-## Workshop map
+## Workshop Contents
 
 1. [5.1 Workshop Overview](5.1-Workshop-overview/)
 2. [5.2 Prerequisites](5.2-Prerequisites/)
@@ -36,12 +38,19 @@ The expected result is a reproducible prototype for `room_01`, not an enterprise
 11. [5.11 Results, Challenges and Future Improvements](5.11-Results-Challenges-Future/)
 12. [5.12 Project Handover](5.12-Project-Handover/)
 
-## Architecture
+## Architecture and Operating Flow
 
 ![AWS IoT Monitoring and Control Dashboard architecture](/images/5-Workshop/5.3-architecture/aws-iot-dashboard-architecture.png)
 
-*Figure 5-1. The source-repository architecture places the local dashboard user, React frontend, and YOLO UNO outside AWS; EC2 and RDS inside the VPC; and IAM and CloudWatch as AWS account/regional services outside the VPC boundary.*
+*Figure 5-1. Project architecture showing the local React dashboard and YOLO UNO communicating with the FastAPI backend on Amazon EC2, while Amazon RDS for PostgreSQL stores telemetry and command data and Amazon CloudWatch provides operational monitoring.*
 
-The deployed AWS services are **Amazon EC2, Amazon EBS, Amazon RDS for PostgreSQL, Amazon VPC, subnets, Security Groups, an AWS IAM Role, Amazon CloudWatch, and CloudWatch Alarms**. AWS IoT Core, Lambda, API Gateway, S3, SNS, ECS/ECR, Cognito, CloudFront, and DynamoDB are not part of the current architecture.
+The system operates through four main flows:
 
-Start with [Workshop Overview](5.1-Workshop-overview/).
+1. YOLO UNO reads the sensors and submits telemetry to FastAPI over HTTP.
+2. FastAPI validates and stores telemetry in Amazon RDS for PostgreSQL.
+3. The dashboard retrieves current and historical data, creates commands, and displays their states.
+4. YOLO UNO polls for commands, controls the corresponding actuator, and sends an ACK; CloudWatch collects the related operational logs and metrics.
+
+The AWS environment consists of **Amazon VPC, subnets, Security Groups, Amazon EC2 with an Amazon EBS root volume, Amazon RDS for PostgreSQL, an IAM Role attached to EC2, Amazon CloudWatch, and CloudWatch Alarms**.
+
+Begin with [Workshop Overview](5.1-Workshop-overview/).

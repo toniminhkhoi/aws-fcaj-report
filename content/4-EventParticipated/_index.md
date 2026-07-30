@@ -10,7 +10,7 @@ During my learning journey, I participated in three events. Each one was a memor
 
 ### [Event 1](4.1-Event1/)
 
-&emsp;**Event Name:** First Cloud Journey Community Day
+&emsp;**Event Name:** First Cloud AI Journey Community Day
 
 &emsp;**Date:** June 06, 2026
 

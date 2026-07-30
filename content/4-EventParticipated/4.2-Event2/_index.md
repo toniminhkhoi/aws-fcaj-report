@@ -27,7 +27,7 @@ pre: " <b> 4.2. </b> "
 ## Main Content
 
 1. **From First Cloud AI Journey to AWS Partner**
-   - The career journey consists of 8 defined steps: Student Curiosity, First Cloud Journey, Workshop & Community, Hands-on Labs, School Projects, Portfolio, AWS Partner, and Share Back.
+   - The career journey consists of 8 defined steps: Student Curiosity, First Cloud AI Journey, Workshop & Community, Hands-on Labs, School Projects, Portfolio, AWS Partner, and Share Back.
    - Participating in communities like the AWS Student Builder Group and AWS Community Builder Program provides a strong environment to learn from others and build practical skills.
 
 2. **The Reality of DevOps Engineering**

@@ -10,7 +10,7 @@ Trong suốt quá trình học tập, tôi đã tham gia ba sự kiện. Mỗi s
 
 ### [Sự kiện 1](4.1-Event1/)
 
-&emsp;**Tên sự kiện:** First Cloud Journey Community Day
+&emsp;**Tên sự kiện:** First Cloud AI Journey Community Day
 
 &emsp;**Thời gian:** 06/06/2026
 

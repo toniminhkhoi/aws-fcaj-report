@@ -6,7 +6,7 @@ chapter: false
 pre: " <b> 4.1. </b> "
 ---
 
-# Report on “First Cloud Journey Community Day”
+# Report on “First Cloud AI Journey Community Day”
 
 ### Purpose of the Event
 
