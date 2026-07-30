@@ -17,15 +17,14 @@ pre: " <b> 1.7. </b> "
 
 ## Work completed
 
-| Period | Activity | Recorded outcome |
+| Workstream | Work completed | Result/Evidence |
 | :--- | :--- | :--- |
-| 13 July | Prepared the React, Vite, TypeScript, and Tailwind CSS project and installed dependencies | Ran the dashboard locally |
-| 14 July | Configured the Vite proxy for relative `/api` requests | Centralized the EC2 target instead of repeating it across components |
-| 15 July | Connected latest, history, and backend health endpoints | Powered telemetry cards, charts, and connection status with API data |
-| 16–17 July | Implemented fan, light, curtain, and Auto/Manual controls | Sent valid commands and displayed the command ID and server-side state |
-| 18 July | Reviewed real/simulated data handling and light labels | Distinguished simulated data and avoided presenting raw ADC values as Lux |
-| 19 July | Used DevTools Network to inspect routes, payloads, responses, and failures | Produced checks for duplicate requests, `Pending` state, and backend errors |
-
+| Frontend setup | Prepared React, Vite, TypeScript, Tailwind CSS, and required dependencies | Dashboard ran reliably in the local environment |
+| API connectivity | Used a Vite proxy for relative `/api` requests and centralized the backend URL | Frontend reached EC2 without duplicating the URL across components |
+| Telemetry display | Connected health, latest, and history and built telemetry cards and charts | Displayed latest data, history, and connection status |
+| Device controls | Built fan, light, curtain, and Auto/Manual controls and displayed command ID/state | UI sent valid commands and exposed backend responses for tracking |
+| Data and label review | Distinguished real/simulated data and reviewed the description of light values | Simulated data was identifiable and raw ADC values were not presented as Lux |
+| Integration and debugging | Used DevTools Network to inspect routes, payloads, responses, duplicate requests, and `Pending` state | Resolved frontend–backend issues before end-to-end validation |
 ## Weekly outcomes
 
 - Displayed latest and historical `room_01` data.

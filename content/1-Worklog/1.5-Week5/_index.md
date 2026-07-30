@@ -17,14 +17,13 @@ pre: " <b> 1.5. </b> "
 
 ## Work completed
 
-| Period | Activity | Recorded outcome |
+| Workstream | Work completed | Result/Evidence |
 | :--- | :--- | :--- |
-| 29–30 June | Matched the Pydantic telemetry schema to the firmware's camelCase payload | Accepted `deviceId` and `lightIntensity` and mapped them to the data model |
-| 1 July | Completed `POST /api/telemetry` | A valid `room_01` payload created a `telemetry_logs` record |
-| 2 July | Completed latest and history endpoints | Enabled the dashboard to request `/latest` and `/history` by `device_id` |
-| 3–4 July | Completed command creation, pending-command polling, and ACK endpoints | Stored new commands as `Pending` and changed the matching ID to `Executed` after ACK |
-| 5 July | Reviewed OpenAPI, ran controlled `curl` requests, and compared SQL records | Matched routes, JSON responses, and database state |
-
+| Data contract | Matched the Pydantic schema to the firmware camelCase payload and mapped `deviceId` and `lightIntensity` to the data model | Consistent contract across firmware, FastAPI, and PostgreSQL |
+| Telemetry ingestion | Completed and tested `POST /api/telemetry` with `room_01` as the `device_id` value | Valid telemetry created a new `telemetry_logs` row |
+| Latest and history | Completed latest-data and history APIs by `device_id` | Supplied data for dashboard telemetry cards and charts |
+| Command lifecycle | Completed command creation, pending-command polling, and ACK APIs | Stored commands as `Pending` and changed the same ID to `Executed` after ACK |
+| API/database validation | Reviewed OpenAPI, sent controlled `curl` requests, and compared SQL records | Routes, JSON responses, and database state matched |
 ## Weekly outcomes
 
 - Completed telemetry, latest, history, command polling, and ACK flows.

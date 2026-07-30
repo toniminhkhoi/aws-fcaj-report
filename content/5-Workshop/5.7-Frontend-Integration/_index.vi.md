@@ -8,11 +8,11 @@ pre: " <b> 5.7. </b> "
 
 ## Tổng quan và mục tiêu
 
-Chạy dashboard React + Vite + TypeScript + Tailwind CSS trên máy cục bộ, chuyển các yêu cầu API tới EC2, hiển thị telemetry, lịch sử và trạng thái máy chủ, đồng thời tạo các lệnh có thể theo dõi mà không bị gửi trùng.
+Chạy React + Vite frontend trên máy cục bộ, kết nối với FastAPI trên EC2 qua HTTP REST, đồng thời hiển thị telemetry được làm mới định kỳ, bảng điều khiển, đề xuất dựa trên luật và lịch sử của phòng mẫu có `device_id = room_01`.
 
-## Bước 1 - Kiểm tra và chạy dự án
+## Bước 1 - Cấu hình React frontend
 
-Mã nguồn đã kiểm tra sử dụng React 19.2.7, Vite 8.1.1, TypeScript 6.0.2, Tailwind CSS 3.4.19, Axios, Recharts và Framer Motion. Từ Windows PowerShell:
+Dự án sử dụng React, Vite, TypeScript, Tailwind CSS, Axios và Recharts. Từ Windows PowerShell:
 
 ```powershell
 git clone <REPOSITORY_URL>
@@ -21,11 +21,11 @@ npm install
 npm run dev
 ```
 
-Dùng phiên bản Node phù hợp với `package.json` và lockfile. Giữ nguyên lockfile; không chỉnh file này chỉ để xử lý khác biệt phiên bản trên máy cá nhân. Mã nguồn tải telemetry mới nhất và lịch sử sau mỗi 3 giây.
+Sử dụng phiên bản Node theo `package.json` và giữ nguyên lockfile của repository. Frontend chạy cục bộ ngoài AWS.
 
-## Bước 2 - Cấu hình Vite proxy
+## Bước 2 - Kết nối frontend với FastAPI backend
 
-Dùng đường dẫn tương đối `/api` trong các component. Proxy của môi trường phát triển giúp tập trung URL EC2 tại một nơi:
+Dùng đường dẫn tương đối `/api` với Vite development proxy:
 
 ```ts
 // vite.config.ts
@@ -45,78 +45,84 @@ export default defineConfig({
 });
 ```
 
-Khởi động lại `npm run dev` sau khi thay đổi cấu hình Vite. Nếu dự án dùng `VITE_API_BASE_URL`, hãy định nghĩa biến trong `.env.local` đã được loại khỏi Git và đọc qua `import.meta.env`; không viết cứng URL trong nhiều thành phần.
+Khởi động lại Vite sau khi đổi cấu hình. Nếu dự án dùng `VITE_API_BASE_URL`, lưu biến trong `.env.local` đã được loại khỏi Git thay vì lặp URL EC2 trong nhiều component.
 
-File `vite.config.ts` được rà soát hiện chứa địa chỉ EC2 thật. Điều này gây rủi ro bảo mật và khó bảo trì; cần thay địa chỉ bằng giá trị giữ chỗ hoặc cách cấu hình ở trên, đồng thời không đưa địa chỉ thật vào báo cáo hay ảnh bằng chứng.
-
-## Bước 3 - Kết nối với API đã tài liệu hóa
-
-Với `deviceId = "room_01"`, UI dùng:
+Các request chính gồm:
 
 ```text
+GET  /api/health
 GET  /api/devices/room_01/latest
 GET  /api/devices/room_01/history
 POST /api/devices/room_01/commands
 ```
 
-Dùng `/openapi.json` để tạo hoặc đối chiếu kiểu dữ liệu TypeScript. Ánh xạ các trường từ máy chủ nhưng không gọi giá trị ánh sáng analog là Lux. Thẻ dữ liệu mới nhất và biểu đồ lịch sử phải hiển thị rõ trạng thái đang tải, lỗi có thể thử lại và thời điểm cập nhật gần nhất.
+Badge **LIVE AWS** phải dựa trên phản hồi backend/API thành công, không chỉ dựa vào việc trang React đã tải.
 
-Chỉ báo **Live AWS status** phải dựa trên health check hoặc phản hồi API thực tế, không chỉ dựa vào việc ứng dụng React đã tải xong.
+## Bước 3 - Hiển thị telemetry gần thời gian thực
 
-## Bước 4 - Xây dựng bảng điều khiển
+Hiển thị ba card nhiệt độ, độ ẩm và cường độ ánh sáng. Frontend làm mới dữ liệu định kỳ bằng REST polling, vì vậy dashboard được mô tả là **gần thời gian thực**, không phải hệ thống thời gian thực có độ trễ cố định. Khi phù hợp, giao diện cần có trạng thái đang tải, lỗi có thể thử lại và thời điểm cập nhật gần nhất.
 
-Hiển thị các nút:
+## Bước 4 - Hiển thị bảng điều khiển từ xa
+
+Bảng điều khiển hỗ trợ:
 
 - `FAN_ON` / `FAN_OFF`;
-- `LIGHT_ON` / `LIGHT_OFF`; và
-- `CURTAIN_OPEN` / `CURTAIN_CLOSE`.
+- `LIGHT_ON` / `LIGHT_OFF`;
+- `CURTAIN_OPEN` / `CURTAIN_CLOSE`; và
+- chuyển giữa `MODE_MANUAL` và `MODE_AUTO`.
 
-Mã nguồn hiện bắt lỗi khi gửi lệnh qua API nhưng vẫn cập nhật trạng thái mô phỏng và báo thành công. Giao diện cũng chưa chặn yêu cầu đang gửi hoặc lệnh đang chờ. Cần sửa các hành vi này trước khi dùng giao diện làm bằng chứng nghiệm thu:
+Vô hiệu hóa nút đang gửi request, tránh tạo command trùng đang chờ và phân biệt việc backend nhận command với việc phần cứng thực thi. ID/trạng thái do backend trả về được dùng để theo dõi thay vì chỉ dựa vào trạng thái cục bộ của UI.
 
-1. vô hiệu hóa nút điều khiển đang chọn trong khi gửi POST;
-2. chặn yêu cầu trùng khi một lệnh cùng loại vẫn đang chờ;
-3. trả về thất bại khi POST lỗi thay vì cập nhật trạng thái mô phỏng của thiết bị;
-4. hiển thị ID và trạng thái lệnh do máy chủ trả về;
-5. làm mới lệnh/telemetry đến khi thấy ACK; và
-6. hiển thị lỗi mà không tuyên bố thiết bị vật lý đã hoạt động.
+<p align="center">
+  <img src="/images/5-Workshop/5.7-frontend/dashboard-overview-control-panel.png"
+       alt="React Vite IoT dashboard hiển thị telemetry và bảng điều khiển thiết bị"
+       width="100%" />
+</p>
 
-Sau khi tải lại trình duyệt, trạng thái phải được khôi phục từ backend, không lấy từ nút chuyển chế độ cục bộ.
+*Hình 13. React + Vite dashboard hiển thị telemetry gần thời gian thực và bảng điều khiển quạt, đèn và rèm cho phòng mẫu có `device_id = room_01`.*
 
-## Bước 5 - Ý nghĩa của chế độ và đề xuất
+Hình 13 cho thấy giao diện React + Vite chạy cục bộ, nhãn stack EC2 FastAPI/RDS PostgreSQL/React Vite, ba telemetry card có badge **LIVE AWS**, cùng bảng điều khiển quạt, đèn, rèm và chế độ. UI có thể hiển thị Manual Override hoặc Auto tùy trạng thái hiện tại.
 
-Nút chuyển chế độ gửi `MODE_AUTO` hoặc `MODE_MANUAL`. Chế độ tự động của firmware mới là nơi thực hiện điều khiển theo ngưỡng đã mô tả ở 5.6. Các đề xuất trên frontend chỉ là luật `if/else` định sẵn; vì vậy nhãn **AI Auto Control** không chính xác và nên đổi thành **Automatic rule-based control**.
+## Bước 5 - Hiển thị phân tích dựa trên luật và lịch sử
 
-Giao diện hiện chỉ lưu chế độ trên máy người dùng, trong khi API chưa có endpoint trả về chế độ của firmware. Vì vậy, sau khi tải lại trang hoặc khi yêu cầu gặp lỗi, trạng thái trên giao diện có thể khác với thiết bị. Chỉ xem trạng thái nút chuyển là dữ liệu cục bộ cho đến khi API xác nhận chế độ thực tế của firmware.
+### Phân tích và đề xuất dựa trên luật
 
-Khi không lấy được dữ liệu thật, `iotEngine.ts` chuyển sang dữ liệu mô phỏng được tạo ngẫu nhiên và gắn nhãn `SIMULATED`, trong khi giao diện lại dùng cụm “FAIL-PROOF.” Cần phân biệt rõ dữ liệu mô phỏng và không dùng dữ liệu này làm bằng chứng vận hành. Nhãn “không thể lỗi” nên được thay bằng cách mô tả đúng chế độ dự phòng hoặc demo. Đồng thời, cần đổi nhãn **Lux** thành **Analog light value** cho đến khi có phép quy đổi đã hiệu chuẩn.
+Panel đề xuất đánh giá các điều kiện cố định dựa trên nhiệt độ, độ ẩm, ánh sáng và thời gian. Ví dụ trong giao diện gồm đề xuất tắt quạt ngoài giờ làm việc, thông báo độ ẩm trong khoảng phù hợp và đề xuất điều chỉnh rèm khi ánh sáng cao. Đây là phân tích xác định trước bằng luật/ngưỡng, không phải machine learning, predictive analytics hoặc mô hình đã được huấn luyện.
 
-## Bước 6 - Xác minh lưu lượng trên trình duyệt
+Các biểu đồ lịch sử hiển thị nhiệt độ, độ ẩm và ánh sáng được truy xuất từ Amazon RDS qua endpoint:
 
-Mở DevTools → **Network**:
+```text
+GET /api/devices/room_01/history
+```
 
-1. tải lại trang và xem các yêu cầu dữ liệu mới nhất/lịch sử;
-2. tạo một lệnh;
-3. kiểm tra phương thức, route số nhiều, nội dung yêu cầu, mã trạng thái và phản hồi JSON;
-4. quan sát `Pending`, sau đó là trạng thái `Executed` do ACK; và
-5. mô phỏng lỗi backend và xác nhận UI hiển thị lỗi rõ ràng, vẫn cho phép người dùng thử lại.
+<p align="center">
+  <img src="/images/5-Workshop/5.7-frontend/dashboard-analysis-history.png"
+       alt="Đề xuất dựa trên luật và biểu đồ lịch sử telemetry"
+       width="100%" />
+</p>
 
-## Kết quả mong đợi
+*Hình 14. Panel phân tích theo luật và biểu đồ lịch sử nhiệt độ, độ ẩm và ánh sáng được truy xuất từ Amazon RDS.*
 
-Telemetry và lịch sử được hiển thị, trạng thái AWS phản ánh yêu cầu backend thật, bảng điều khiển tạo đúng một lệnh có thể theo dõi và giao diện phân biệt rõ việc máy chủ nhận yêu cầu với việc thiết bị vật lý thực thi. Dữ liệu mô phỏng có nhãn rõ ràng; yêu cầu POST lỗi không được báo là đã điều khiển thành công.
+## Bước 6 - Kết quả mong đợi
 
-<!-- TODO IMAGE: /images/5-Workshop/5.7-frontend/dashboard-overview.png — Dashboard hiển thị latest telemetry, history, nguồn dữ liệu real/simulated rõ ràng và Analog light value; che địa chỉ EC2. -->
-<!-- TODO IMAGE: /images/5-Workshop/5.7-frontend/control-panel-api-request.png — Bảng điều khiển cùng thẻ Network của DevTools hiển thị một yêu cầu POST tới route số nhiều, ID lệnh và trạng thái máy chủ; che tên máy/địa chỉ IP. -->
+- React + Vite frontend tải thành công trên máy cục bộ.
+- Badge **LIVE AWS** phản ánh một request backend/API thành công.
+- Telemetry của `device_id = room_01` xuất hiện trên ba card.
+- Các nút quạt, đèn, rèm và chế độ được hiển thị.
+- Biểu đồ lịch sử nhận bản ghi từ history endpoint.
+- Nội dung đề xuất được mô tả là dựa trên luật/ngưỡng, không phải machine learning.
+- Telemetry được mô tả là gần thời gian thực qua REST polling, không kèm tuyên bố độ trễ thiếu bằng chứng.
 
 ## Xử lý sự cố
 
 | Hiện tượng | Nội dung cần kiểm tra |
 | :--- | :--- |
-| Vite proxy 404 | Proxy key/target, plural path, restart Vite |
-| Lỗi CORS | Yêu cầu có được chuyển qua proxy hay không và chính sách CORS của backend đã đầy đủ chưa |
-| Biểu đồ trống | Cấu trúc phản hồi, timestamp và cách xử lý lịch sử rỗng |
-| Trạng thái luôn báo online | Liên kết trạng thái với `/api/health`, không dựa vào lúc component được gắn |
-| Lệnh bị lặp | Vô hiệu hóa nút đang gửi và kiểm tra lệnh/trạng thái đang chờ |
-| Giao diện báo thành công quá sớm | Hiển thị `Pending` cho đến khi backend ghi nhận ACK/`Executed` |
-| Mất kết nối sau khi EC2 khởi động lại | Cập nhật IP công khai mới hoặc dùng endpoint ổn định trong tương lai |
+| Vite proxy trả 404 | Kiểm tra proxy key, target, route API số nhiều và khởi động lại Vite |
+| Trình duyệt báo CORS | Xác nhận request đi qua proxy hoặc rà chính sách CORS của backend |
+| Telemetry card trống | Kiểm tra `/api/health`, cấu trúc latest response, `device_id` và cách xử lý loading/error |
+| Biểu đồ lịch sử trống | Kiểm tra history response, timestamp và cách xử lý mảng rỗng |
+| Trạng thái luôn online | Liên kết badge với health/API response thực, không dựa vào thời điểm component được gắn |
+| Command bị lặp | Vô hiệu hóa nút đang gửi và kiểm tra command cùng loại còn `Pending` hay không |
+| UI báo thành công quá sớm | Tách trạng thái backend nhận request khỏi ACK/`Executed` và phản ứng vật lý |
 
-Tiếp theo: [chạy xác minh end-to-end](../5.8-End-to-End-Testing/).
+Tiếp theo: [chạy kiểm thử end-to-end](../5.8-End-to-End-Testing/).

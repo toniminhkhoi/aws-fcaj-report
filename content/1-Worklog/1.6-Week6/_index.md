@@ -17,15 +17,14 @@ pre: " <b> 1.6. </b> "
 
 ## Work completed
 
-| Period | Activity | Recorded outcome |
+| Workstream | Work completed | Result/Evidence |
 | :--- | :--- | :--- |
-| 6 July | Reviewed GPIO definitions in `hardware/src/main.cpp` and connected the DHT20, light sensor, fan, light/relay, servo, and LCD1602 | Used the running firmware as the wiring source of truth; the servo used D11/GPIO38 |
-| 7 July | Reviewed power delivery, common ground, and safe actuator states | Avoided powering the fan or servo directly from a GPIO pin |
-| 8 July | Configured PlatformIO, the ESP32-S3 board definition, and local `secrets.h` | Kept Wi-Fi credentials, the backend URL, and `room_01` out of Git |
-| 9 July | Tested the DHT20, raw analog light input, fan, light, 0°/90° servo positions, and LCD | Confirmed sensor and actuator behavior against firmware logic |
-| 10–11 July | Sent telemetry every five seconds and polled commands every two seconds before execution and ACK | Connected YOLO UNO to FastAPI over HTTP and handled the eight supported commands |
-| 12 July | Built the firmware, reviewed Serial Monitor output, and recorded the demo | Generated `firmware.bin` and captured physical hardware operation |
-
+| Wiring and power safety | Reviewed GPIO definitions in `hardware/src/main.cpp`, connected the DHT20, light sensor, fan, light/relay, servo, and LCD1602, and checked common ground/power | Wiring followed the firmware; the fan and servo were not powered directly from GPIO |
+| Firmware environment | Configured PlatformIO, the ESP32-S3 board definition, and local `secrets.h` | Kept Wi-Fi credentials and the backend URL out of Git |
+| Sensors and display | Read DHT20 and raw analog light values and updated the LCD1602 | Serial Monitor/LCD displayed sensor data and state |
+| Actuator control | Tested the fan, light/relay, and servo at 0° closed/90° open | Actuators responded according to firmware logic |
+| REST API integration | Sent periodic telemetry, polled commands, executed them, and returned ACK | YOLO UNO communicated bidirectionally with FastAPI over HTTP |
+| Build and evidence | Built the firmware, reviewed Serial Monitor, and recorded the demo | PlatformIO generated `firmware.bin`; video captured physical operation |
 ## Weekly outcomes
 
 - Sent `room_01` telemetry and received backend commands on YOLO UNO.

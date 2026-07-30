@@ -17,14 +17,13 @@ pre: " <b> 1.2. </b> "
 
 ## Work completed
 
-| Period | Activity | Recorded outcome |
+| Workstream | Work completed | Result/Evidence |
 | :--- | :--- | :--- |
-| 8–9 June | Compared EC2/RDS with managed serverless and IoT alternatives | Selected EC2, EBS, RDS, VPC, IAM Role, and CloudWatch; documented that Lambda, API Gateway, DynamoDB, S3, and AWS IoT Core were not implemented |
-| 10 June | Designed a VPC with a public subnet for EC2 and private database subnets | Kept RDS private and allowed PostgreSQL connectivity from EC2 only |
-| 11 June | Designed Security Group rules for administrative SSH, the demo API, and EC2-to-RDS traffic | Restricted SSH by administrator IP and scoped RDS port 5432 to the EC2 Security Group |
-| 12 June | Defined the EC2 IAM Role required by CloudWatch Agent | Used temporary role credentials instead of hard-coded AWS access keys |
-| 13–14 June | Mapped the architecture to API calls, database operations, and metric/log paths | Assigned a source, destination, port, identity, and evidence requirement to each connection |
-
+| Infrastructure selection | Identified the components required for the Smart Room and selected EC2, EBS, RDS, VPC, IAM Role, and CloudWatch | Service list with the responsibility of each component |
+| Network design | Designed the VPC, a public subnet for EC2, and a DB Subnet Group from database subnets | Network diagram placing EC2 and RDS within the intended connectivity boundaries |
+| Security Groups | Defined rules for administrative SSH, the demo API, and EC2 → RDS traffic on PostgreSQL 5432 | Rule table restricting SSH by administrator IP and RDS by the EC2 Security Group |
+| IAM and monitoring | Defined the EC2 IAM Role and permissions required for CloudWatch Agent logs and metrics | Temporary-role access model without hard-coded AWS access keys |
+| System-flow review | Mapped API, database, network ports, identity, and monitoring paths | Checklist of source, destination, port, and required evidence for each connection |
 ## Weekly outcomes
 
 - Completed the AWS architecture and service boundaries.

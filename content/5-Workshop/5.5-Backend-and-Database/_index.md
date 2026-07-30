@@ -8,30 +8,19 @@ pre: " <b> 5.5. </b> "
 
 ## Overview and objectives
 
-Install the Python application on Amazon Linux EC2, connect it to the private `iot_dashboard` database, verify the source-defined API, and keep Uvicorn running as `aws-iot-backend`. The application runbook uses user `ec2-user`, backend path `/home/ec2-user/aws-iot-dashboard/backend`, virtual environment `venv`, and entry point `main:app`.
+Deploy the FastAPI backend in a Python virtual environment on Amazon EC2, manage it with `aws-iot-backend.service`, and connect it to the `iot_dashboard` database on Amazon RDS for PostgreSQL. The runbook uses `ec2-user`, `/home/ec2-user/aws-iot-dashboard/backend`, virtual environment `venv`, and Uvicorn entry point `main:app`.
 
-## Step 1 - Connect and install prerequisites
+## Step 1 - Deploy the FastAPI Backend
 
-From Windows PowerShell:
+Connect from Windows PowerShell, install the required packages, clone the repository, and create the virtual environment:
 
 ```powershell
 ssh -i "$env:USERPROFILE\.ssh\<KEY_FILE>.pem" ec2-user@<EC2_PUBLIC_IP>
 ```
 
-On Amazon Linux EC2, run in Linux Bash:
-
 ```bash
 sudo dnf update -y
 sudo dnf install -y git python3 python3-pip postgresql15 curl
-```
-
-If the selected Amazon Linux release exposes a different PostgreSQL client package name, confirm it with `dnf search postgresql` before installing.
-
-## Step 2 - Clone and create the virtual environment
-
-In EC2 Linux Bash:
-
-```bash
 git clone <REPOSITORY_URL> ~/aws-iot-dashboard
 cd ~/aws-iot-dashboard/backend
 python3 -m venv venv
@@ -40,68 +29,22 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-The checked source has `backend/main.py` and exports `app`; therefore the Uvicorn entry point is `main:app`.
-
-## Step 3 - Create the environment file
-
-Create an ignored `.env` on EC2:
+Create an ignored `.env` file. Do not commit credentials:
 
 ```dotenv
-DATABASE_URL=postgresql://<DB_USER>:<DB_PASSWORD>@<RDS_ENDPOINT>:5432/iot_dashboard
+DATABASE_URL=postgresql://<DB_USER>:<DB_PASSWORD>@<RDS_ENDPOINT>:5432/iot_dashboard?sslmode=require
 ```
 
-If the backend uses `sslmode=verify-full`, download the current Amazon RDS CA bundle following the project runbook, store it with restricted permissions, and use the absolute path expected by SQLAlchemy/psycopg:
-
-```dotenv
-DATABASE_URL=postgresql://<DB_USER>:<DB_PASSWORD>@<RDS_ENDPOINT>:5432/iot_dashboard?sslmode=verify-full&sslrootcert=<ABSOLUTE_CA_PATH>/global-bundle.pem
-```
-
-URL-encode reserved characters in `<DB_PASSWORD>`. Never commit `.env` or the real password.
-
-## Step 4 - Test PostgreSQL
-
-From EC2 Linux Bash:
-
-```bash
-psql "host=<RDS_ENDPOINT> port=5432 dbname=iot_dashboard user=<DB_USER> sslmode=require"
-```
-
-In PostgreSQL `psql`:
-
-```sql
-SELECT current_database(), current_user;
-\dt
-```
-
-Initialize the SQLAlchemy schema with the checked source command:
-
-```bash
-python -m app.database.init_db
-```
-
-It calls `Base.metadata.create_all` and should create `devices`, `telemetry_logs`, and `commands`. Confirm with `\dt` and `\d <table_name>`; this project does not define an Alembic migration workflow.
-
-## Step 5 - Run Uvicorn manually
-
-In EC2 Linux Bash, from the backend directory:
+A manual start can be used for the first deployment check:
 
 ```bash
 source venv/bin/activate
 uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
-In a second EC2 session:
+## Step 2 - Configure the systemd Service
 
-```bash
-curl -i http://127.0.0.1:8000/api/health
-curl -s http://127.0.0.1:8000/openapi.json
-```
-
-Confirm the eight documented routes in section 5.3 and inspect the generated Pydantic request schemas before creating telemetry or command examples.
-
-## Step 6 - Create `aws-iot-backend.service`
-
-Create `/etc/systemd/system/aws-iot-backend.service` using the verified user, path, and Uvicorn module:
+Create `/etc/systemd/system/aws-iot-backend.service`:
 
 ```ini
 [Unit]
@@ -124,53 +67,101 @@ StandardError=append:/var/log/aws-iot-backend/backend-error.log
 WantedBy=multi-user.target
 ```
 
-Prepare the log directory and start the service:
+Prepare the log directory, enable the service, and start it:
 
 ```bash
 sudo install -d -o ec2-user -g ec2-user /var/log/aws-iot-backend
 sudo systemctl daemon-reload
 sudo systemctl enable aws-iot-backend
 sudo systemctl restart aws-iot-backend
-sudo systemctl status aws-iot-backend --no-pager
-curl -i http://127.0.0.1:8000/api/health
 ```
 
-**Expected result:** the service is `active (running)`, health returns HTTP 200, and application tables are present in `iot_dashboard`.
+Once enabled, systemd starts the backend when EC2 boots; Uvicorn does not need to be started manually after every restart.
 
-## Step 7 - Inspect logs and deploy an update
+## Step 3 - Verify the Backend Service
+
+Run:
 
 ```bash
-sudo journalctl -u aws-iot-backend -n 100 --no-pager
-sudo tail -n 100 /var/log/aws-iot-backend/backend.log
-cd ~/aws-iot-dashboard
-git status --short
-git pull --ff-only
-source backend/venv/bin/activate
-pip install -r backend/requirements.txt
-sudo systemctl restart aws-iot-backend
-curl -i http://127.0.0.1:8000/api/health
+sudo systemctl status aws-iot-backend --no-pager -l
+curl http://127.0.0.1:8000/api/health
 ```
 
-Pull only from the approved branch, rerun `python -m app.database.init_db` when models change, and review schema compatibility before restarting. Do not use `git reset --hard` as a deployment shortcut.
+<p align="center">
+  <img src="/images/5-Workshop/5.5-backend-database/backend-systemd-health-check.png"
+       alt="FastAPI backend systemd service and health check"
+       width="100%" />
+</p>
 
-## Expected Result
+*Figure 8. The `aws-iot-backend.service` is `active (running)`, and the `/api/health` endpoint returns an `ok` status.*
 
-The `aws-iot-backend` service is `active (running)`, `GET /api/health` returns HTTP 200, EC2 reaches private RDS, and `devices`, `telemetry_logs`, and `commands` exist in `iot_dashboard`. Deployment evidence records the application commit and contains no credentials.
+Figure 8 shows that the unit was loaded by systemd, the service is `active (running)`, and Uvicorn is the main process. The health endpoint also returns valid JSON with `"status":"ok"`. Together, these observations provide evidence that the backend is deployed and can accept a local HTTP request. They do not establish High Availability or guarantee failure-free operation.
 
-<!-- TODO IMAGE: /images/5-Workshop/5.5-backend-database/backend-systemd-health-check.png — Terminal showing aws-iot-backend active and GET /api/health returning HTTP 200; redact hostnames, public IPs, and credentials. -->
-<!-- TODO IMAGE: /images/5-Workshop/5.5-backend-database/postgresql-tables-and-commands.png — psql evidence for devices, telemetry_logs, and commands plus a redacted command-state query; do not expose the RDS endpoint or password. -->
+## Step 4 - Connect EC2 to Amazon RDS
+
+From EC2, connect with SSL/TLS required:
+
+```bash
+psql "host=<RDS_ENDPOINT> port=5432 dbname=iot_dashboard user=<DB_USER> sslmode=require"
+```
+
+In `psql`, confirm the active database and connection information without exposing the password:
+
+```sql
+SELECT current_database(), current_user;
+\conninfo
+\dt
+```
+
+If the schema has not been initialized, run the source-defined command from the backend virtual environment, then verify it again:
+
+```bash
+cd ~/aws-iot-dashboard/backend
+source venv/bin/activate
+python -m app.database.init_db
+```
+
+## Step 5 - Verify PostgreSQL Tables and Commands
+
+The deployed `iot_dashboard` database shown in the evidence contains `commands`, `devices`, `sensor_readings`, and `telemetry_logs`. Query the most recent command records:
+
+```sql
+SELECT id, device_id, command, state, timestamp
+FROM commands
+ORDER BY id DESC
+LIMIT 6;
+```
+
+<p align="center">
+  <img src="/images/5-Workshop/5.5-backend-database/postgresql-tables-and-commands.png"
+       alt="PostgreSQL tables and executed IoT commands"
+       width="100%" />
+</p>
+
+*Figure 9. The EC2-to-Amazon RDS PostgreSQL connection, database tables, and recent commands in the `Executed` state.*
+
+The screenshot confirms an SSL/TLS PostgreSQL session from EC2 to the `iot_dashboard` database. It lists the four application tables and recent command rows whose `device_id` is `room_01`. Examples include `CURTAIN_CLOSE`, `CURTAIN_OPEN`, `MODE_AUTO`, and `LIGHT_OFF`, all displayed in the `Executed` state. Database credentials are not shown.
+
+## Step 6 - Expected Results
+
+- `aws-iot-backend.service` is enabled and `active (running)`.
+- Uvicorn is the main backend process.
+- `GET /api/health` returns JSON with status `ok`.
+- EC2 connects to Amazon RDS for PostgreSQL using SSL/TLS.
+- `commands`, `devices`, `sensor_readings`, and `telemetry_logs` appear in `psql`.
+- The query returns command records whose `device_id` is `room_01`.
+- No password, access key, or other credential appears in commands or screenshots.
 
 ## Troubleshooting
 
 | Symptom | Diagnosis and correction |
 | :--- | :--- |
-| Connection refused | Confirm RDS/port or that Uvicorn is running and listening |
-| Connection timeout | Check RDS SG source `iot-ec2-sg`, subnet routing, endpoint, and region |
-| Wrong `DATABASE_URL` | Verify database/user/encoding; load the same `.env` used by systemd |
-| Local curl works, remote fails | Bind `0.0.0.0`, verify EC2 SG port 8000 and public IP |
-| `systemd` fails | Run `systemctl status` and `journalctl`; verify user, path, module, permissions |
-| Port already in use | Use `sudo ss -ltnp | grep :8000` and stop the unintended process |
-| SSL verification fails | Use the correct CA bundle, absolute path, permissions, and endpoint hostname |
-| Tables missing | Run the source-defined migration/init process; do not create an ad-hoc schema |
+| Backend service fails | Inspect `systemctl status` and `journalctl -u aws-iot-backend`; verify the user, paths, `.env`, and Uvicorn module |
+| Port 8000 is already in use | Run `sudo ss -ltnp \| grep :8000` and stop the unintended process |
+| Health check is refused | Confirm the service is running and Uvicorn is listening on port 8000 |
+| RDS connection times out | Check the RDS endpoint, Region, subnet path, and Security Group source on port 5432 |
+| PostgreSQL authentication fails | Verify the database name, user, password encoding, and the `.env` loaded by systemd |
+| SSL connection fails | Confirm the endpoint hostname and selected `sslmode`; use the required RDS CA bundle when certificate verification is enabled |
+| Tables are missing | Run the source-defined initialization process and inspect the correct `iot_dashboard` database |
 
 Next: [integrate YOLO UNO hardware](../5.6-Hardware-Integration/).

@@ -17,14 +17,13 @@ pre: " <b> 1.5. </b> "
 
 ## Công việc đã thực hiện
 
-| Thời gian | Công việc | Kết quả ghi nhận |
+| Hạng mục | Công việc đã thực hiện | Kết quả/Bằng chứng |
 | :--- | :--- | :--- |
-| 29–30/06 | Đối chiếu schema Pydantic cho telemetry với payload camelCase của firmware | Backend nhận `deviceId`, `lightIntensity` và ánh xạ sang mô hình dữ liệu |
-| 01/07 | Hoàn thiện `POST /api/telemetry` | Telemetry hợp lệ của `room_01` tạo bản ghi trong `telemetry_logs` |
-| 02/07 | Hoàn thiện API dữ liệu mới nhất và lịch sử | Dashboard có thể gọi `/latest` và `/history` theo `device_id` |
-| 03–04/07 | Hoàn thiện API tạo command, lấy command chờ và ACK | Command mới được lưu ở `Pending`; ACK chuyển đúng ID sang `Executed` |
-| 05/07 | Kiểm tra OpenAPI, chạy yêu cầu `curl` và đối chiếu bằng truy vấn SQL | Các route, phản hồi JSON và trạng thái cơ sở dữ liệu khớp nhau |
-
+| Chuẩn hóa dữ liệu | Đối chiếu Pydantic schema với payload camelCase của firmware và ánh xạ `deviceId`, `lightIntensity` vào data model | Contract dữ liệu thống nhất giữa firmware, FastAPI và PostgreSQL |
+| Telemetry ingestion | Hoàn thiện và kiểm tra `POST /api/telemetry` với payload có `device_id` là `room_01` | Telemetry hợp lệ tạo bản ghi mới trong `telemetry_logs` |
+| Latest và history | Hoàn thiện API lấy dữ liệu mới nhất và lịch sử theo `device_id` | Dashboard nhận được dữ liệu cho telemetry card và biểu đồ |
+| Vòng đời command | Hoàn thiện API tạo command, lấy command chờ và ACK | Command được lưu ở `Pending` và cùng ID chuyển sang `Executed` sau ACK |
+| Kiểm thử API/database | Rà OpenAPI, gửi request có kiểm soát bằng `curl` và đối chiếu bản ghi SQL | Route, JSON response và trạng thái database khớp nhau |
 ## Kết quả tuần
 
 - Hoàn thiện luồng telemetry, latest, history, command polling và ACK.

@@ -6,39 +6,97 @@ chapter: false
 pre: " <b> 5.8. </b> "
 ---
 
-## Overview and objectives
+## Step 1 - Define the validation strategy
 
-Validate each boundary independently, then run the complete telemetry and command paths. The checked backend and firmware sources establish the exact schemas and behavior; use FastAPI `/docs` or `/openapi.json` to confirm the deployed version before testing.
+Validate the command path by correlating evidence from several layers:
 
-## Step 1 - Establish the test protocol
+```text
+React + Vite UI
+    -> FastAPI command endpoint
+    -> PostgreSQL commands table
+    -> YOLO UNO command polling
+    -> Physical actuator response
+    -> ACK request
+    -> Command state: Executed
+```
 
-1. Record date, tester, application commit IDs, firmware build, AWS region, and `room_01`.
-2. Redact credentials and private endpoints from evidence.
-3. Capture request/response, relevant logs, SQL state, device output, and dashboard state.
-4. Enter the observed value in **Actual/evidence** and mark **Pass/Fail** only after execution.
-5. Restore hardware and services to a safe state after failure tests.
+The sample room is identified by `device_id=room_01`. Record the test time and command ID where available, and redact credentials, private addresses, and account identifiers before publishing evidence.
 
-## Step 2 - Execute and record the test matrix
+No single screenshot proves the complete path. Frontend/API evidence confirms browser requests, hardware evidence confirms the physical response, and PostgreSQL evidence confirms command persistence and state. An end-to-end result is accepted only after these evidence layers have been correlated.
 
-| ID | Objective | Preconditions | Steps | Expected result | Actual/evidence | Pass/Fail |
-| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
-| T01 | Backend health | Service active | `GET /api/health` | HTTP 200 and documented health body | HTTP 200 response and backend health log | **Pass** |
-| T02 | POST telemetry | OpenAPI schema known; DB reachable | Post one valid `room_01` payload | Success response and one stored row | Figure 15: matching API and SQL record | **Pass** |
-| T03 | Latest telemetry | T02 complete | `GET /api/devices/room_01/latest` | Returns the newest record | Latest API response verified | **Pass** |
-| T04 | History | Multiple records exist | `GET /api/devices/room_01/history` | Ordered device-specific history | History response and chart verified | **Pass** |
-| T05 | Create command | No duplicate pending action | POST one supported command | Command ID with `Pending` state | Figure 16: command ID 189 in `Pending` state | **Pass** |
-| T06 | Hardware polling | Device online | Observe polling after T05 | Device receives the correct ID/command once | Hardware demonstration video | **Pass** |
-| T07 | Fan ON/OFF | Fan safely wired | Send `FAN_ON`, then `FAN_OFF` | Physical state matches each command | Hardware demonstration video | **Pass** |
-| T08 | Light ON/OFF | Light/relay safely wired | Send `LIGHT_ON`, then `LIGHT_OFF` | Physical state matches each command | Hardware demonstration video | **Pass** |
-| T09 | Curtain OPEN/CLOSE | Servo safely wired | Send `CURTAIN_OPEN`, then `CURTAIN_CLOSE` | Servo moves to 90° for open and returns to 0° for close, as defined in the firmware | Hardware demonstration video | **Pass** |
-| T10 | ACK lifecycle | T05-T09 command exists | Observe POST ACK and query state | Same command changes `Pending` → `Executed` | Figure 16: the same ID 189 changes to `Executed` | **Pass** |
-| T11 | PostgreSQL persistence | DB session available | Query after telemetry/commands | Records survive API refresh/restart | SQL evidence in Figures 15 and 16 | **Pass** |
-| T12 | CloudWatch logs | Agent configured | Create a new health/telemetry request | New backend event appears in correct stream | Backend logs in section 5.9 | **Pass** |
-| T13 | Wi-Fi disconnected | Safe device state | Disconnect Wi-Fi, observe, reconnect | Reconnect occurs; no command is duplicated | Reconnection test result and Serial Monitor | **Pass** |
+## Step 2 - Validate frontend API requests
 
-## Step 3 - Run API and database checks
+1. Start the React + Vite frontend and open the control panel.
+2. Open **Chrome DevTools > Network** and select the **Fetch/XHR** filter.
+3. Observe the periodic `latest` and `history` requests.
+4. Operate a supported control and confirm that a `commands` request is sent.
+5. Verify that the displayed requests receive HTTP 200 responses.
 
-From EC2 Linux Bash:
+![Frontend API requests in Chrome DevTools](/images/5-Workshop/5.8-validation/control-panel-api-request.png)
+
+*Figure 15. Chrome DevTools confirms that the frontend requests to `latest`, `history`, and `commands` receive HTTP 200 responses from the FastAPI backend.*
+
+The screenshot shows telemetry on the dashboard and repeated XHR requests for `latest`, `history`, and `commands`. It confirms successful frontend-to-backend communication during periodic REST polling; it does not establish a fixed response-time guarantee.
+
+## Step 3 - Test fan control
+
+1. Place the device in manual mode when required by the firmware behavior.
+2. Send `FAN_ON` or `FAN_OFF` from the dashboard.
+3. Compare the selected dashboard control with the physical fan response.
+4. Return to automatic mode and confirm that rule-based control resumes.
+5. Check that the related command is acknowledged.
+
+![Dashboard and physical fan control validation](/images/5-Workshop/5.8-validation/dashboard-hardware-control-fan.png)
+
+*Figure 16. End-to-end fan-control validation by comparing the dashboard state with the physical fan response.*
+
+The captured frame is used to correlate the dashboard control state with an observable physical fan response. It does not, by itself, prove database persistence or the ACK transition.
+
+| ID | Test | Expected result | Evidence | Status |
+| :--- | :--- | :--- | :--- | :---: |
+| T01 | Send `FAN_ON` or `FAN_OFF` | The fan changes state and the command is acknowledged | Figure 16, demonstration video, and command record | **Pass** |
+| T02 | Return to automatic mode | The device resumes deterministic rule-based automatic control | Dashboard state and hardware demonstration | **Pass** |
+
+## Step 4 - Test light control
+
+1. Send `LIGHT_ON` from the dashboard and observe the physical LED.
+2. Send `LIGHT_OFF` and verify that the LED turns off.
+3. Inspect the related command record and confirm its final `Executed` state.
+
+![Dashboard and physical LED control validation](/images/5-Workshop/5.8-validation/dashboard-hardware-control-led.png)
+
+*Figure 17. End-to-end light-control validation, with the dashboard command confirmed by the physical LED state.*
+
+| ID | Test | Expected result | Evidence | Status |
+| :--- | :--- | :--- | :--- | :---: |
+| T03 | Send `LIGHT_ON` | The physical LED turns on | Figure 17 and demonstration video | **Pass** |
+| T04 | Send `LIGHT_OFF` | The physical LED turns off | Hardware demonstration video | **Pass** |
+| T05 | Inspect the command state | The acknowledged light command has state `Executed` | PostgreSQL command record | **Pass** |
+
+## Step 5 - Test curtain control
+
+1. Send `CURTAIN_OPEN` and observe the servo movement.
+2. Send `CURTAIN_CLOSE` and observe the reverse movement.
+3. Compare both movements with the open and closed positions configured in the firmware.
+4. Inspect the related command record and confirm its final `Executed` state.
+
+![Dashboard and physical curtain servo control validation](/images/5-Workshop/5.8-validation/dashboard-hardware-control-curtain.png)
+
+*Figure 18. End-to-end curtain-control validation by comparing the OPEN/CLOSE dashboard command with the physical servo movement.*
+
+The acceptance criterion uses the positions configured in the firmware; it does not assume a specific angle in this report.
+
+| ID | Test | Expected result | Evidence | Status |
+| :--- | :--- | :--- | :--- | :---: |
+| T06 | Send `CURTAIN_OPEN` | The servo moves to the configured open position | Figure 18 and demonstration video | **Pass** |
+| T07 | Send `CURTAIN_CLOSE` | The servo moves to the configured closed position | Figure 18 and demonstration video | **Pass** |
+| T08 | Inspect the command state | The acknowledged curtain command has state `Executed` | PostgreSQL command record | **Pass** |
+
+## Step 6 - Verify command state
+
+For each supported operation, the dashboard sends a command to FastAPI and the backend stores it in PostgreSQL. YOLO UNO polls for the latest pending command, executes the corresponding actuator action, and calls the ACK endpoint. The backend then changes that command from `Pending` to `Executed`.
+
+Use the API and database checks below to correlate the same `device_id`, command, ID, and state:
 
 ```bash
 curl -i http://127.0.0.1:8000/api/health
@@ -46,59 +104,37 @@ curl -s http://127.0.0.1:8000/api/devices/room_01/latest
 curl -s http://127.0.0.1:8000/api/devices/room_01/history
 ```
 
-Create telemetry with the camelCase fields from 5.6. Create a command with `{ "command": "FAN_ON" }`; the Pydantic field also has the alias `Command`, but `populate_by_name=True` means lowercase `command` is accepted. A device row must already exist, normally created by the first telemetry request. In PostgreSQL `psql`, inspect command state:
-
 ```sql
-SELECT
-    id,
-    device_id,
-    command,
-    state
+SELECT id, device_id, command, state, timestamp
 FROM commands
 ORDER BY id DESC
 LIMIT 6;
 ```
 
-A polling device may acknowledge so quickly that `Pending` is missed in a later query. Preserve the POST response showing `Pending`, then capture the final `Executed` record with the same ID.
+[Figure 9 in section 5.5](../5.5-Backend-and-Database/) provides the PostgreSQL evidence used for this layer. It shows recent commands for `device_id=room_01`, including `CURTAIN_OPEN`, `CURTAIN_CLOSE`, `MODE_AUTO`, and `LIGHT_OFF`, with state `Executed` after acknowledgement.
 
-### T02 evidence - Telemetry persisted in RDS
+The dashboard-to-hardware behavior is also available in the [Google Drive demonstration video](https://drive.google.com/file/d/1T97dUY58hbT2ppxvg7ESR12Jg9BA828W/view?usp=sharing). The screenshots were extracted from the video and may therefore appear slightly blurred; use the video to inspect the control sequence in more detail.
 
-Figure 15 uses a controlled `curl` request to isolate and verify persistence from FastAPI to Amazon RDS. YOLO UNO integration was tested separately beforehand; this figure provides evidence specifically for test case T02 covering the API and database.
+## Step 7 - Review expected results
 
-![Telemetry submitted through the API and stored in PostgreSQL](/images/5-Workshop/5.8-testing/telemetry-api-database-validation.png)
+The validation is successful when all of the following are observed:
 
-*Figure 15. Telemetry submitted through the REST API and successfully persisted in Amazon RDS for PostgreSQL.*
-
-### T05/T10 evidence - Command lifecycle
-
-To isolate the command lifecycle while hardware was unavailable at the time of evidence collection, the `FAN_ON` command was created through the API and the ACK endpoint was called manually. The evidence shows the same command ID `189` changing from `Pending` to `Executed`. This test validates the FastAPI and Amazon RDS path; it does not confirm physical device execution.
-
-![Command 189 changing from Pending to Executed after the ACK endpoint is called](/images/5-Workshop/5.8-testing/command-pending-to-executed.png)
-
-*Figure 16. Controlled validation of the same command changing from Pending to Executed through the FastAPI ACK endpoint.*
-
-### T06-T09 evidence - Hardware demonstration video
-
-The dashboard command and physical hardware response are recorded in the [Google Drive demonstration video](https://drive.google.com/file/d/1T97dUY58hbT2ppxvg7ESR12Jg9BA828W/view?usp=sharing). The video provides evidence of device command reception and physical actuator response for test cases T06-T09.
-
-## Step 4 - Validate reconnection behavior and acceptance
-
-For T13, disconnect Wi-Fi only while the actuator is in a safe state. The firmware must report the disconnection, reconnect successfully, and resume command polling without repeating the previous command. If an ACK must be retried after connectivity returns, retry only the ACK and do not repeat the actuator action.
-
-## Expected Result
-
-Every T01-T13 row has an observed **Actual/evidence** value and a **Pass**, **Fail**, or **Not Run** status. Passing end-to-end evidence correlates the same device/command ID across API, PostgreSQL, firmware, dashboard, and relevant logs.
+- Frontend requests to `latest`, `history`, and `commands` receive HTTP 200 responses.
+- The dashboard displays telemetry associated with `device_id=room_01`.
+- The physical fan, LED, and curtain servo respond to their supported commands.
+- The device acknowledges completed commands and their database state becomes `Executed`.
+- Published evidence contains no credentials, private addresses, or account identifiers.
+- Conclusions distinguish browser/API evidence, physical hardware evidence, and database-state evidence.
 
 ## Troubleshooting
 
-This section is an execution plan, not a claim that tests have run. Do not call it stress testing and do not invent latency, throughput, or reliability numbers. A failed test should include the failing layer, log/request evidence, owner, correction, and rerun result.
-
 | Symptom | Check |
 | :--- | :--- |
-| `Pending` is not visible | Preserve the command POST response, then query the same ID after ACK |
-| UI and database disagree | Confirm real versus simulated UI source, plural API route, and newest database row |
-| Command repeats | Compare command IDs, `lastAck`, `pendingAck`, and separate ACK retry from actuation |
-| Test cannot be reproduced | Record commit IDs, region, device ID, timestamp/time zone, and exact preconditions |
-| Evidence contains sensitive data | Redact and recapture; rotate any exposed secret before continuing |
+| `latest`, `history`, or `commands` does not return HTTP 200 | Check the Vite proxy/base URL, FastAPI route, backend service, and browser console |
+| The dashboard changes but the actuator does not respond | Confirm manual/automatic mode, device Wi-Fi, polling, command spelling, wiring, and power |
+| A command remains `Pending` | Check device polling, the command ID used by the ACK endpoint, and backend logs |
+| UI and PostgreSQL show different states | Compare the same command ID and refresh the newest database row after ACK |
+| The servo moves incorrectly | Check the configured open/closed positions and the servo power connection |
+| Evidence contains sensitive information | Redact and recapture the image; rotate any exposed secret before continuing |
 
 Next: [configure and validate CloudWatch](../5.9-CloudWatch-Monitoring/).

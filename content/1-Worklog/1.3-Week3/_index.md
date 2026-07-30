@@ -17,14 +17,13 @@ pre: " <b> 1.3. </b> "
 
 ## Work completed
 
-| Period | Activity | Recorded outcome |
+| Workstream | Work completed | Result/Evidence |
 | :--- | :--- | :--- |
-| 15 June | Selected `ap-southeast-1` and reviewed the VPC, routes, and DB Subnet Group | Kept EC2 and RDS in the same Region and intended network boundaries |
-| 16 June | Created `iot-backend-sg`, `ec2-rds-1`, and `rds-ec2-1` | Used port 8000 for the demo API and restricted PostgreSQL 5432 to EC2-to-RDS traffic |
-| 17–18 June | Launched the `t3.micro` `iot-backend-server` with a 10 GiB `gp3` root volume and `iot-dashboard-cloudwatch-role` | EC2 reached `Running` and passed its status checks |
-| 19–20 June | Created the `db.t4g.micro` `iot-dashboard-db` RDS for PostgreSQL instance | RDS reached `Available`, used the DB Subnet Group, and had Internet access gateway disabled |
-| 21 June | Tested RDS DNS resolution and TCP port 5432 from EC2 | Verified the required route and Security Group path |
-
+| AWS environment preparation | Selected `ap-southeast-1` and reviewed the VPC, routes, subnets, and DB Subnet Group before provisioning | EC2 and RDS placed in the same Region and intended network design |
+| EC2 and EBS deployment | Launched the `t3.micro` `iot-backend-server` with 10 GiB gp3 EBS and `iot-dashboard-cloudwatch-role` | EC2 reached `Running`, passed status checks, and had the role attached |
+| RDS deployment | Created the `db.t4g.micro` `iot-dashboard-db` RDS for PostgreSQL instance | Database reached `Available`, used the DB Subnet Group, and had no public access |
+| Connectivity controls | Created `iot-backend-sg`, `ec2-rds-1`, and `rds-ec2-1` and scoped PostgreSQL 5432 by Security Group | EC2 reached RDS without exposing the database directly to the Internet |
+| Verification and evidence | Checked RDS DNS/port 5432 from EC2 and reviewed EC2, EBS, RDS, IAM Role, and network status | EC2 Running, RDS Available, IAM Role, and Security Group screenshots for the Workshop |
 ## Weekly outcomes
 
 - Prepared EC2, EBS, RDS, IAM, and Security Groups for application deployment.

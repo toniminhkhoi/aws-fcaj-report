@@ -19,19 +19,14 @@ pre: " <b> 1.8. </b> "
 
 ## Công việc đã thực hiện
 
-| Thời gian | Công việc | Kết quả ghi nhận |
+| Hạng mục | Công việc đã thực hiện | Kết quả/Bằng chứng |
 | :--- | :--- | :--- |
-| 20/07 | Ghi phiên bản mã nguồn, firmware, khu vực AWS và điều kiện kiểm thử | Có mốc cấu hình để tái tạo kết quả |
-| 21/07 | Kiểm tra health check, POST telemetry, dữ liệu mới nhất và lịch sử | API và PostgreSQL trả dữ liệu `room_01` nhất quán |
-| 22/07 | Tạo command, ghi nhận `Pending`, gửi ACK và truy vấn lại cùng command ID | Cùng bản ghi chuyển sang `Executed` |
-| 23–24/07 | Kiểm tra `FAN_*`, `LIGHT_*`, `CURTAIN_*` từ dashboard | Video demo ghi lại phản ứng vật lý của quạt, đèn và servo |
-| 25/07 | Gửi payload kiểm soát bằng `curl` và đối chiếu RDS | Xác minh riêng lớp FastAPI → RDS, không dùng ảnh này thay cho bằng chứng phần cứng |
-| 26–27/07 | Cấu hình CloudWatch Agent và log group `/aws/ec2/aws-iot-dashboard/backend` | Backend log được thu thập tập trung |
-| 28/07 | Tạo dashboard `ec2-rds-metrics` cho EC2 CPU/disk và RDS CPU/connections | Có màn hình theo dõi tài nguyên thực tế |
-| 29/07 | Kiểm tra năm alarm EC2/RDS và xử lý trạng thái `Insufficient data` | Ghi rõ memory/disk phụ thuộc agent, namespace, dimension và IAM |
-| 30/07 | Rà IAM Role, Security Group, RDS public access, secrets và chi phí | Xác định kiểm soát hiện tại cùng các hạn chế HTTPS, xác thực và High Availability |
-| 31/07 | Rà Workshop Anh–Việt, README, caption, test matrix, video và checklist bàn giao | Tài liệu cuối khớp với prototype `room_01` và bằng chứng đã thu thập |
-
+| Chuẩn bị kiểm thử | Ghi phiên bản mã nguồn, firmware, Region AWS và điều kiện kiểm thử; xác nhận health check | Có baseline cấu hình để tái tạo và đối chiếu kết quả |
+| Kiểm thử telemetry | Gửi telemetry từ YOLO UNO, kiểm tra latest/history, PostgreSQL và dashboard; thực hiện thêm một request `curl` có kiểm soát | Dữ liệu `room_01` nhất quán; ảnh API/database chứng minh riêng luồng FastAPI → RDS |
+| Kiểm thử command và actuator | Tạo command, theo dõi cùng ID từ `Pending` đến `Executed`, kiểm tra quạt, đèn và rèm từ dashboard | Ma trận kiểm thử command/ACK đạt; video ghi lại phản ứng vật lý của actuator |
+| CloudWatch | Cấu hình CloudWatch Agent, backend log group, dashboard `ec2-rds-metrics` và năm alarm EC2/RDS | Có log tập trung, metric EC2/RDS và kết quả đánh giá alarm; trạng thái thiếu dữ liệu được ghi chú |
+| Rà soát vận hành | Kiểm tra IAM Role, Security Group, RDS public access, secrets, chi phí và các giới hạn hiện tại | Checklist bảo mật/chi phí và danh sách điểm cần tiếp tục hoàn thiện |
+| Tài liệu và bàn giao | Rà Workshop Anh–Việt, README, caption, test matrix, ảnh, video và checklist | Gói tài liệu cuối khớp với hệ thống đã triển khai và bằng chứng đã thu thập |
 ## Kết quả trong tuần
 
 - Các ca kiểm thử telemetry, history, command, polling, actuator và ACK trong ma trận đều đạt.
@@ -44,9 +39,9 @@ pre: " <b> 1.8. </b> "
 
 Trạng thái `Pending` tồn tại ngắn khi thiết bị polling nhanh, nên nhóm theo dõi cùng command ID trước và sau ACK. Với CloudWatch, `Insufficient data` được kiểm tra ở agent, namespace, dimension và IAM thay vì xem là trạng thái bình thường. Tôi rút ra rằng một kết quả Pass phải gắn với tiêu chí, kết quả thực tế và bằng chứng; tài liệu cũng phải phân biệt rõ phần đã triển khai với hướng phát triển.
 
-## Giới hạn và hướng phát triển
+## Giới hạn hiện tại
 
-Mô hình hiện tại dùng HTTP chưa có TLS, API chưa có xác thực và chỉ chạy trên một EC2 cùng một RDS. HTTPS, xác thực người dùng/thiết bị, AWS IoT Core, hàng đợi, High Availability và mở rộng nhiều thiết bị là các phương án tương lai, chưa được triển khai.
+Mô hình hiện tại dùng HTTP chưa có TLS, API chưa có xác thực và vận hành trên một EC2 cùng một RDS. Các giới hạn này được ghi nhận để nhóm tiếp tục hoàn thiện hệ thống.
 
 ## Liên kết Workshop
 

@@ -17,14 +17,13 @@ pre: " <b> 1.2. </b> "
 
 ## Công việc đã thực hiện
 
-| Thời gian | Công việc | Kết quả ghi nhận |
+| Hạng mục | Công việc đã thực hiện | Kết quả/Bằng chứng |
 | :--- | :--- | :--- |
-| 08–09/06 | So sánh EC2/RDS với các lựa chọn serverless và IoT được quản lý | Chọn EC2, EBS, RDS, VPC, IAM Role và CloudWatch; ghi rõ Lambda, API Gateway, DynamoDB, S3 và AWS IoT Core chưa được sử dụng |
-| 10/06 | Thiết kế VPC, public subnet cho EC2 và DB Subnet Group dùng các subnet riêng | RDS không cần truy cập công khai; EC2 là thành phần được phép kết nối PostgreSQL |
-| 11/06 | Thiết kế Security Group cho SSH, API demo và kết nối EC2 → RDS | SSH giới hạn theo IP quản trị; RDS 5432 chỉ nhận từ EC2 Security Group |
-| 12/06 | Xác định IAM Role cho CloudWatch Agent | EC2 dùng quyền tạm thời thay vì hard-code AWS access key |
-| 13–14/06 | Đối chiếu sơ đồ với luồng API, cơ sở dữ liệu và metric/log | Mỗi kết nối có nguồn, đích, cổng, danh tính và bằng chứng cần thu thập |
-
+| Lựa chọn hạ tầng | Xác định các thành phần cần thiết cho Smart Room và thống nhất sử dụng EC2, EBS, RDS, VPC, IAM Role và CloudWatch | Danh sách dịch vụ và vai trò của từng thành phần trong kiến trúc |
+| Thiết kế mạng | Thiết kế VPC, public subnet cho EC2 và DB Subnet Group từ các subnet dành cho database | Sơ đồ mạng đặt EC2 và RDS trong đúng ranh giới kết nối |
+| Security Group | Xác định quy tắc cho SSH quản trị, API demo và luồng EC2 → RDS qua PostgreSQL 5432 | Bảng rule giới hạn SSH theo IP quản trị và RDS theo Security Group của EC2 |
+| IAM và giám sát | Xác định IAM Role cho EC2 và quyền cần thiết để CloudWatch Agent gửi log/metric | Mô hình dùng quyền tạm thời, không hard-code AWS access key |
+| Rà luồng hệ thống | Đối chiếu API, database, cổng mạng, danh tính và dữ liệu giám sát trên sơ đồ | Checklist nguồn, đích, cổng và bằng chứng cần thu thập cho từng kết nối |
 ## Kết quả tuần
 
 - Hoàn thành sơ đồ kiến trúc và ranh giới dịch vụ AWS.

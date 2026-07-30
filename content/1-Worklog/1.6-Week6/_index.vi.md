@@ -17,15 +17,14 @@ pre: " <b> 1.6. </b> "
 
 ## Công việc đã thực hiện
 
-| Thời gian | Công việc | Kết quả ghi nhận |
+| Hạng mục | Công việc đã thực hiện | Kết quả/Bằng chứng |
 | :--- | :--- | :--- |
-| 06/07 | Đối chiếu GPIO trong `hardware/src/main.cpp` và nối DHT20, cảm biến ánh sáng, quạt, đèn/relay, servo và LCD1602 | Sơ đồ đấu nối lấy firmware đang chạy làm nguồn chuẩn; servo dùng D11/GPIO38 |
-| 07/07 | Kiểm tra nguồn, nối chung mass và trạng thái an toàn của thiết bị chấp hành | Không cấp dòng trực tiếp cho quạt hoặc servo từ GPIO |
-| 08/07 | Cấu hình PlatformIO, board ESP32-S3 và file `secrets.h` cục bộ | Wi-Fi, URL backend và `room_01` không bị đưa vào Git |
-| 09/07 | Đọc DHT20 và giá trị ánh sáng analog; kiểm tra quạt, đèn, servo 0°/90° và LCD | Cảm biến và thiết bị chấp hành phản hồi theo logic firmware |
-| 10–11/07 | Gửi telemetry mỗi 5 giây; thăm dò command mỗi 2 giây; thực thi lệnh và gửi ACK | YOLO UNO giao tiếp với FastAPI qua HTTP và xử lý tám command được hỗ trợ |
-| 12/07 | Biên dịch firmware, theo dõi Serial Monitor và ghi lại video demo | PlatformIO tạo `firmware.bin`; video thể hiện mô hình phần cứng hoạt động |
-
+| Đấu nối và an toàn nguồn | Đối chiếu GPIO trong `hardware/src/main.cpp`, nối DHT20, cảm biến ánh sáng, quạt, đèn/relay, servo, LCD1602 và kiểm tra mass/nguồn | Sơ đồ đấu nối bám theo firmware; quạt và servo không lấy dòng trực tiếp từ GPIO |
+| Môi trường firmware | Cấu hình PlatformIO, board ESP32-S3 và `secrets.h` cục bộ | Wi-Fi credential và backend URL không được đưa vào Git |
+| Cảm biến và hiển thị | Đọc DHT20, giá trị ánh sáng analog và cập nhật LCD1602 | Serial Monitor/LCD hiển thị được dữ liệu cảm biến và trạng thái |
+| Điều khiển actuator | Kiểm tra quạt, đèn/relay và servo tại góc đóng 0°/mở 90° | Các thiết bị chấp hành phản hồi đúng logic firmware |
+| Tích hợp REST API | Gửi telemetry theo chu kỳ, thăm dò command, thực thi và gửi ACK | YOLO UNO giao tiếp hai chiều với FastAPI qua HTTP |
+| Build và bằng chứng | Biên dịch firmware, theo dõi Serial Monitor và ghi video demo | PlatformIO tạo `firmware.bin`; video ghi nhận mô hình phần cứng hoạt động |
 ## Kết quả tuần
 
 - YOLO UNO gửi được telemetry của `room_01` và nhận command từ backend.

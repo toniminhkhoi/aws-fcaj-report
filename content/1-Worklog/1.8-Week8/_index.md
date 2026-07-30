@@ -19,19 +19,14 @@ pre: " <b> 1.8. </b> "
 
 ## Work completed
 
-| Period | Activity | Recorded result |
+| Workstream | Work completed | Result/Evidence |
 | :--- | :--- | :--- |
-| 20 Jul | Recorded source, firmware, AWS Region, and test conditions | Established a reproducible configuration baseline |
-| 21 Jul | Checked health, POST telemetry, latest data, and history | The API and PostgreSQL returned consistent `room_01` data |
-| 22 Jul | Created a command, observed `Pending`, sent ACK, and queried the same ID | The same row changed to `Executed` |
-| 23–24 Jul | Tested `FAN_*`, `LIGHT_*`, and `CURTAIN_*` from the dashboard | The demo video captured the fan, light, and servo responses |
-| 25 Jul | Sent a controlled payload with `curl` and compared it with RDS | Isolated FastAPI → RDS validation without presenting it as hardware evidence |
-| 26–27 Jul | Configured CloudWatch Agent and `/aws/ec2/aws-iot-dashboard/backend` | Centralized backend logs |
-| 28 Jul | Built `ec2-rds-metrics` for EC2 CPU/disk and RDS CPU/connections | Created an operational view of deployed resources |
-| 29 Jul | Checked five EC2/RDS alarms and investigated `Insufficient data` | Documented the agent, namespace, dimension, and IAM dependencies for memory/disk |
-| 30 Jul | Reviewed IAM Role, Security Groups, RDS public access, secrets, and cost | Recorded current controls and HTTPS, authentication, and High Availability gaps |
-| 31 Jul | Reviewed bilingual Workshop pages, READMEs, captions, test matrix, video, and handover checklist | Aligned the final material with the `room_01` prototype and collected evidence |
-
+| Test preparation | Recorded source, firmware, AWS Region, and test conditions and confirmed health | Reproducible baseline for comparing results |
+| Telemetry validation | Sent YOLO UNO telemetry, checked latest/history, PostgreSQL, and the dashboard, and ran one controlled `curl` request | Consistent `room_01` data; API/database image isolated FastAPI → RDS evidence |
+| Command and actuator validation | Created commands, followed the same ID from `Pending` to `Executed`, and tested fan, light, and curtain controls | Command/ACK matrix passed; video captured physical actuator responses |
+| CloudWatch | Configured CloudWatch Agent, the backend log group, `ec2-rds-metrics`, and five EC2/RDS alarms | Centralized logs, EC2/RDS metrics, and evaluated alarm states with missing-data notes |
+| Operational review | Reviewed the IAM Role, Security Groups, RDS public access, secrets, cost, and current limitations | Security/cost checklist and items for continued improvement |
+| Documentation and handover | Reviewed bilingual Workshop pages, READMEs, captions, test matrix, images, video, and checklists | Final package aligned with the deployed system and collected evidence |
 ## Weekly outcomes
 
 - All telemetry, history, command, polling, actuator, and ACK cases in the test matrix passed.
@@ -44,9 +39,9 @@ pre: " <b> 1.8. </b> "
 
 The `Pending` state was short-lived when the device polled quickly, so the team followed the same command ID before and after ACK. For CloudWatch, `Insufficient data` required checking the agent, namespace, dimensions, and IAM instead of treating it as normal. I learned that every Pass result needs aligned criteria, actual behavior, and evidence, and that documentation must distinguish implemented work from future options.
 
-## Limitations and future work
+## Current limitations
 
-The current model uses HTTP without TLS, has no API authentication, and runs on one EC2 instance with one RDS database. HTTPS, user/device authentication, AWS IoT Core, queueing, High Availability, and multi-device scaling remain future options and were not deployed.
+The current model uses HTTP without TLS, has no API authentication, and runs on one EC2 instance with one RDS database. These limitations were recorded for continued system improvement.
 
 ## Workshop references
 

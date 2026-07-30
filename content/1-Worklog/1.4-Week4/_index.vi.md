@@ -17,14 +17,13 @@ pre: " <b> 1.4. </b> "
 
 ## Công việc đã thực hiện
 
-| Thời gian | Công việc | Kết quả ghi nhận |
+| Hạng mục | Công việc đã thực hiện | Kết quả/Bằng chứng |
 | :--- | :--- | :--- |
-| 22/06 | Cài Git, Python, PostgreSQL client và công cụ cần thiết trên Amazon Linux | EC2 có đủ công cụ để chạy và kiểm tra backend |
-| 23/06 | Sao chép kho mã nguồn, tạo môi trường ảo `venv` và cài `requirements.txt` | Điểm vào Uvicorn được xác nhận là `main:app` |
-| 24/06 | Tạo `.env` cục bộ với `DATABASE_URL` đã che thông tin bí mật | Backend có cấu hình kết nối RDS mà không đưa mật khẩu vào Git |
-| 25–26/06 | Chạy `app.database.init_db` và kiểm tra PostgreSQL | Tạo ba bảng `devices`, `telemetry_logs` và `commands` bằng SQLAlchemy `create_all` |
-| 27–28/06 | Tạo dịch vụ `aws-iot-backend`, cấu hình file log và kiểm tra `/api/health` | Dịch vụ ở trạng thái `active (running)` và health check trả HTTP 200 |
-
+| Chuẩn bị EC2 | Cài Git, Python, PostgreSQL client và các công cụ cần thiết trên Amazon Linux | EC2 có đủ môi trường để chạy và chẩn đoán backend |
+| Triển khai ứng dụng | Sao chép repository, tạo `venv`, cài `requirements.txt` và xác nhận entry point `main:app` | FastAPI chạy được bằng Uvicorn trên EC2 |
+| Quản lý cấu hình | Tạo `.env` cục bộ với `DATABASE_URL` và loại trừ thông tin bí mật khỏi Git | Backend kết nối RDS mà không hard-code credential trong mã nguồn |
+| Khởi tạo database | Chạy `app.database.init_db` và kiểm tra schema bằng PostgreSQL client | Các bảng `devices`, `telemetry_logs` và `commands` được tạo bằng SQLAlchemy `create_all` |
+| Vận hành backend | Tạo service `aws-iot-backend`, cấu hình log, khởi động lại dịch vụ và kiểm tra `/api/health` | Service ở trạng thái `active (running)` và health check trả HTTP 200 |
 ## Kết quả tuần
 
 - FastAPI chạy ổn định trên EC2 dưới sự quản lý của `systemd`.

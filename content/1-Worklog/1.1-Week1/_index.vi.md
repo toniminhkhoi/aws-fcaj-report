@@ -17,14 +17,13 @@ pre: " <b> 1.1. </b> "
 
 ## Công việc đã thực hiện
 
-| Thời gian | Công việc | Kết quả ghi nhận |
+| Hạng mục | Công việc đã thực hiện | Kết quả/Bằng chứng |
 | :--- | :--- | :--- |
-| 01–02/06 | Phân tích nhu cầu giám sát nhiệt độ, độ ẩm, ánh sáng và điều khiển quạt, đèn, rèm cho một phòng mẫu | Chốt phạm vi nghiệm thu là thiết bị `room_01`, không mô tả dự án như một BMS đa chi nhánh |
-| 03/06 | Xác định người học AWS, người vận hành phòng, người bảo trì và người đánh giá FCAJ là các nhóm sử dụng chính | Mỗi nhóm có nhu cầu và giá trị nhận được được mô tả rõ |
-| 04–05/06 | Xây dựng yêu cầu chức năng cho telemetry, dữ liệu mới nhất, lịch sử, command và ACK | Có danh sách đầu ra quan sát được cho từng chức năng |
-| 06/06 | Thống nhất vai trò AWS/Hardware, Backend, Frontend/Integration và Documentation/QA | Có bảng phân công để truy vết đóng góp của từng thành viên |
-| 07/06 | Phác thảo kiến trúc gồm YOLO UNO, FastAPI trên EC2, RDS PostgreSQL, dashboard React và CloudWatch | Hình thành kiến trúc ban đầu và danh sách rủi ro cần xử lý |
-
+| Phân tích yêu cầu | Cùng nhóm xác định nhu cầu giám sát nhiệt độ, độ ẩm, ánh sáng và điều khiển quạt, đèn, rèm trong Smart Room | Danh sách chức năng telemetry, latest/history, command và ACK |
+| Xác định phạm vi | Thống nhất sử dụng `room_01` làm `device_id` để định danh phòng mẫu | Phạm vi và tiêu chí nghiệm thu được ghi trong Proposal |
+| Xác định người dùng | Phân tích nhu cầu của người học AWS, người vận hành phòng, người bảo trì và người đánh giá FCAJ | Danh sách đối tượng sử dụng và giá trị nhận được của từng nhóm |
+| Thiết kế kiến trúc | Phác thảo luồng YOLO UNO → FastAPI trên EC2 → RDS PostgreSQL → React Dashboard, kết hợp CloudWatch | Sơ đồ kiến trúc ban đầu và luồng dữ liệu hai chiều |
+| Phân công và lập kế hoạch | Xác định trách nhiệm AWS/Hardware, Backend, Frontend/Integration và Documentation/QA; chia dự án thành 8 tuần | Bảng phân công, timeline 01/06–31/07 và danh sách rủi ro ban đầu |
 ## Kết quả tuần
 
 - Hoàn thành phạm vi, phân công và kiến trúc ban đầu của dự án.
@@ -33,7 +32,7 @@ pre: " <b> 1.1. </b> "
 
 ## Khó khăn và bài học
 
-Khó khăn ban đầu là phạm vi dễ bị mô tả quá lớn so với một mô hình một phòng. Bài học rút ra là phải tách rõ mục tiêu học tập, chức năng đã triển khai và các hướng mở rộng trong tương lai.
+Khó khăn ban đầu là chuyển ý tưởng Smart Room thành các yêu cầu và tiêu chí kiểm thử cụ thể. Bài học rút ra là mỗi chức năng cần có đầu ra quan sát được để nhóm có thể kiểm tra và thu thập bằng chứng.
 
 ## Liên kết Workshop
 

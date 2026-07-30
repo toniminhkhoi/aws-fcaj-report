@@ -6,39 +6,97 @@ chapter: false
 pre: " <b> 5.8. </b> "
 ---
 
-## Tổng quan và mục tiêu
+## Bước 1 - Xác định chiến lược kiểm thử
 
-Trước tiên, xác minh độc lập từng lớp kết nối; sau đó kiểm tra toàn bộ luồng telemetry và lệnh. Mã nguồn backend và firmware đã được rà soát để xác định đúng lược đồ và hành vi. Trước khi kiểm thử, hãy dùng FastAPI `/docs` hoặc `/openapi.json` để đối chiếu với phiên bản đang triển khai.
+Luồng lệnh được xác minh bằng cách đối chiếu bằng chứng từ nhiều lớp:
 
-## Bước 1 - Thiết lập quy trình kiểm thử
+```text
+Giao diện React + Vite
+    -> Endpoint lệnh của FastAPI
+    -> Bảng commands trong PostgreSQL
+    -> YOLO UNO thăm dò lệnh
+    -> Phản ứng của thiết bị chấp hành vật lý
+    -> Yêu cầu ACK
+    -> Trạng thái lệnh: Executed
+```
 
-1. Ghi ngày, người kiểm thử, mã commit ứng dụng, phiên bản firmware, khu vực AWS và thiết bị `room_01`.
-2. Che thông tin xác thực và endpoint riêng trong bằng chứng.
-3. Thu thập yêu cầu/phản hồi, log liên quan, trạng thái SQL, đầu ra của thiết bị và trạng thái dashboard.
-4. Ghi kết quả quan sát vào cột **Thực tế/bằng chứng**; chỉ đánh dấu **Đạt/Không đạt** sau khi đã thực hiện phép kiểm thử.
-5. Đưa phần cứng và dịch vụ về trạng thái an toàn sau các phép kiểm thử lỗi.
+Phòng mẫu được định danh bằng `device_id=room_01`. Khi có thể, cần ghi lại thời điểm kiểm thử và ID lệnh; đồng thời che thông tin xác thực, địa chỉ riêng và mã tài khoản trước khi công bố bằng chứng.
 
-## Bước 2 - Thực thi và ghi ma trận kiểm thử
+Không có ảnh chụp đơn lẻ nào chứng minh được toàn bộ luồng. Bằng chứng frontend/API xác nhận các yêu cầu từ trình duyệt, bằng chứng phần cứng xác nhận phản ứng vật lý, còn bằng chứng PostgreSQL xác nhận việc lưu lệnh và trạng thái của lệnh. Chỉ kết luận kiểm thử đầu cuối đạt khi đã đối chiếu các lớp bằng chứng này với nhau.
 
-| ID | Mục tiêu | Điều kiện trước | Các bước | Kết quả mong đợi | Thực tế/bằng chứng | Đạt/Không đạt |
-| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
-| T01 | Sức khỏe backend | Dịch vụ đang hoạt động | `GET /api/health` | HTTP 200 và nội dung kiểm tra sức khỏe đúng định nghĩa | Phản hồi HTTP 200 và log sức khỏe backend | **Đạt** |
-| T02 | POST telemetry | Biết schema OpenAPI; DB truy cập được | Gửi một payload `room_01` hợp lệ | Phản hồi thành công và lưu một bản ghi | Hình 15: API và bản ghi SQL khớp nhau | **Đạt** |
-| T03 | Telemetry mới nhất | Hoàn tất T02 | `GET /api/devices/room_01/latest` | Trả bản ghi mới nhất | Phản hồi API mới nhất đã được đối chiếu | **Đạt** |
-| T04 | Lịch sử | Có nhiều bản ghi | `GET /api/devices/room_01/history` | Trả lịch sử đúng thiết bị và đúng thứ tự | Phản hồi lịch sử và biểu đồ đã được đối chiếu | **Đạt** |
-| T05 | Tạo lệnh | Không có thao tác trùng đang chờ | POST một lệnh được hỗ trợ | ID lệnh có trạng thái `Pending` | Hình 16: lệnh ID 189 ở trạng thái `Pending` | **Đạt** |
-| T06 | Phần cứng thăm dò lệnh | Thiết bị trực tuyến | Quan sát quá trình thăm dò sau T05 | Thiết bị nhận đúng ID/lệnh đúng một lần | Video demo phần cứng | **Đạt** |
-| T07 | Bật/tắt quạt | Quạt được đấu nối an toàn | Gửi `FAN_ON`, rồi `FAN_OFF` | Trạng thái vật lý đúng với từng lệnh | Video demo phần cứng | **Đạt** |
-| T08 | Bật/tắt đèn | Đèn/relay được đấu nối an toàn | Gửi `LIGHT_ON`, rồi `LIGHT_OFF` | Trạng thái vật lý đúng với từng lệnh | Video demo phần cứng | **Đạt** |
-| T09 | Mở/đóng rèm | Servo được đấu nối an toàn | Gửi `CURTAIN_OPEN`, rồi `CURTAIN_CLOSE` | Servo quay đến 90° khi mở và trở về 0° khi đóng, đúng với giá trị được định nghĩa trong firmware | Video demo phần cứng | **Đạt** |
-| T10 | Vòng đời ACK | Có lệnh từ T05-T09 | Quan sát POST ACK và truy vấn trạng thái | Cùng một lệnh đổi `Pending` → `Executed` | Hình 16: cùng ID 189 chuyển sang `Executed` | **Đạt** |
-| T11 | Khả năng lưu trữ bền vững của PostgreSQL | Có phiên kết nối DB | Truy vấn sau khi gửi telemetry/lệnh | Bản ghi vẫn còn sau khi tải lại hoặc khởi động lại API | Bằng chứng SQL trong Hình 15 và Hình 16 | **Đạt** |
-| T12 | Log CloudWatch | Agent đã cấu hình | Tạo yêu cầu sức khỏe/telemetry mới | Sự kiện backend mới xuất hiện đúng luồng log | Log backend trong mục 5.9 | **Đạt** |
-| T13 | Mất kết nối Wi-Fi | Thiết bị ở trạng thái an toàn | Ngắt Wi-Fi, quan sát, kết nối lại | Kết nối lại thành công; không lặp lệnh | Kết quả kiểm thử kết nối lại và Serial Monitor | **Đạt** |
+## Bước 2 - Xác minh các yêu cầu API từ frontend
 
-## Bước 3 - Kiểm tra API và cơ sở dữ liệu
+1. Khởi động frontend React + Vite và mở trạm điều khiển.
+2. Mở **Chrome DevTools > Network**, sau đó chọn bộ lọc **Fetch/XHR**.
+3. Quan sát các yêu cầu `latest` và `history` được gửi định kỳ.
+4. Thực hiện một thao tác điều khiển được hỗ trợ và xác nhận có yêu cầu `commands`.
+5. Kiểm tra các yêu cầu hiển thị đều nhận phản hồi HTTP 200.
 
-Từ EC2 Linux Bash:
+![Các yêu cầu API của frontend trong Chrome DevTools](/images/5-Workshop/5.8-validation/control-panel-api-request.png)
+
+*Hình 15. Chrome DevTools xác nhận các request `latest`, `history` và `commands` từ frontend nhận phản hồi HTTP 200 từ FastAPI backend.*
+
+Ảnh cho thấy telemetry trên dashboard cùng các yêu cầu XHR lặp lại đến `latest`, `history` và `commands`. Bằng chứng này xác nhận frontend giao tiếp thành công với backend trong quá trình thăm dò REST định kỳ; không dùng ảnh này để khẳng định một mức độ trễ cố định.
+
+## Bước 3 - Kiểm thử điều khiển quạt
+
+1. Chuyển thiết bị sang chế độ thủ công nếu hành vi firmware yêu cầu.
+2. Gửi `FAN_ON` hoặc `FAN_OFF` từ dashboard.
+3. Đối chiếu nút điều khiển đã chọn trên dashboard với phản ứng của quạt vật lý.
+4. Chuyển lại chế độ tự động và xác nhận cơ chế điều khiển dựa trên luật tiếp tục hoạt động.
+5. Kiểm tra lệnh liên quan đã được xác nhận bằng ACK.
+
+![Đối chiếu điều khiển quạt trên dashboard với quạt vật lý](/images/5-Workshop/5.8-validation/dashboard-hardware-control-fan.png)
+
+*Hình 16. Kiểm thử điều khiển quạt end-to-end: trạng thái trên dashboard được đối chiếu với phản ứng của quạt vật lý.*
+
+Khung hình được dùng để đối chiếu trạng thái điều khiển trên dashboard với phản ứng quan sát được của quạt. Riêng ảnh này không chứng minh việc lưu lệnh trong cơ sở dữ liệu hoặc quá trình chuyển trạng thái sau ACK.
+
+| ID | Phép kiểm thử | Kết quả mong đợi | Bằng chứng | Trạng thái |
+| :--- | :--- | :--- | :--- | :---: |
+| T01 | Gửi `FAN_ON` hoặc `FAN_OFF` | Quạt thay đổi trạng thái và lệnh được xác nhận | Hình 16, video demo và bản ghi lệnh | **Đạt** |
+| T02 | Chuyển lại chế độ tự động | Thiết bị tiếp tục cơ chế điều khiển tự động dựa trên luật xác định | Trạng thái dashboard và video phần cứng | **Đạt** |
+
+## Bước 4 - Kiểm thử điều khiển đèn
+
+1. Gửi `LIGHT_ON` từ dashboard và quan sát đèn LED vật lý.
+2. Gửi `LIGHT_OFF` và xác nhận đèn LED tắt.
+3. Kiểm tra bản ghi lệnh tương ứng và xác nhận trạng thái cuối là `Executed`.
+
+![Đối chiếu điều khiển đèn trên dashboard với đèn LED vật lý](/images/5-Workshop/5.8-validation/dashboard-hardware-control-led.png)
+
+*Hình 17. Kiểm thử điều khiển đèn end-to-end: lệnh trên dashboard được xác nhận bằng trạng thái LED vật lý.*
+
+| ID | Phép kiểm thử | Kết quả mong đợi | Bằng chứng | Trạng thái |
+| :--- | :--- | :--- | :--- | :---: |
+| T03 | Gửi `LIGHT_ON` | Đèn LED vật lý bật | Hình 17 và video demo | **Đạt** |
+| T04 | Gửi `LIGHT_OFF` | Đèn LED vật lý tắt | Video demo phần cứng | **Đạt** |
+| T05 | Kiểm tra trạng thái lệnh | Lệnh điều khiển đèn sau ACK có trạng thái `Executed` | Bản ghi lệnh trong PostgreSQL | **Đạt** |
+
+## Bước 5 - Kiểm thử điều khiển rèm
+
+1. Gửi `CURTAIN_OPEN` và quan sát chuyển động của servo.
+2. Gửi `CURTAIN_CLOSE` và quan sát chuyển động theo chiều ngược lại.
+3. Đối chiếu hai chuyển động với vị trí mở và đóng được cấu hình trong firmware.
+4. Kiểm tra bản ghi lệnh tương ứng và xác nhận trạng thái cuối là `Executed`.
+
+![Đối chiếu điều khiển rèm trên dashboard với servo vật lý](/images/5-Workshop/5.8-validation/dashboard-hardware-control-curtain.png)
+
+*Hình 18. Kiểm thử điều khiển rèm end-to-end: lệnh MỞ/ĐÓNG trên dashboard được đối chiếu với chuyển động của servo vật lý.*
+
+Tiêu chí nghiệm thu sử dụng các vị trí được cấu hình trong firmware; báo cáo không giả định một góc quay cụ thể.
+
+| ID | Phép kiểm thử | Kết quả mong đợi | Bằng chứng | Trạng thái |
+| :--- | :--- | :--- | :--- | :---: |
+| T06 | Gửi `CURTAIN_OPEN` | Servo di chuyển đến vị trí mở đã cấu hình | Hình 18 và video demo | **Đạt** |
+| T07 | Gửi `CURTAIN_CLOSE` | Servo di chuyển đến vị trí đóng đã cấu hình | Hình 18 và video demo | **Đạt** |
+| T08 | Kiểm tra trạng thái lệnh | Lệnh điều khiển rèm sau ACK có trạng thái `Executed` | Bản ghi lệnh trong PostgreSQL | **Đạt** |
+
+## Bước 6 - Xác minh trạng thái lệnh
+
+Với mỗi thao tác được hỗ trợ, dashboard gửi lệnh đến FastAPI và backend lưu lệnh vào PostgreSQL. YOLO UNO thăm dò lệnh đang chờ, thực thi thao tác tương ứng trên thiết bị chấp hành rồi gọi endpoint ACK. Sau đó, backend chuyển trạng thái của lệnh từ `Pending` sang `Executed`.
+
+Dùng các lệnh kiểm tra API và cơ sở dữ liệu dưới đây để đối chiếu cùng `device_id`, tên lệnh, ID và trạng thái:
 
 ```bash
 curl -i http://127.0.0.1:8000/api/health
@@ -46,59 +104,37 @@ curl -s http://127.0.0.1:8000/api/devices/room_01/latest
 curl -s http://127.0.0.1:8000/api/devices/room_01/history
 ```
 
-Tạo telemetry bằng các trường camelCase ở mục 5.6. Tạo lệnh với `{ "command": "FAN_ON" }`. Trường Pydantic cũng có alias `Command`, nhưng do `populate_by_name=True`, tên viết thường `command` vẫn được chấp nhận. Bản ghi thiết bị phải tồn tại trước và thường được tạo bởi yêu cầu telemetry đầu tiên. Trong PostgreSQL `psql`, kiểm tra trạng thái lệnh:
-
 ```sql
-SELECT
-    id,
-    device_id,
-    command,
-    state
+SELECT id, device_id, command, state, timestamp
 FROM commands
 ORDER BY id DESC
 LIMIT 6;
 ```
 
-Thiết bị có thể kiểm tra lệnh và gửi ACK nhanh đến mức truy vấn sau đó không còn thấy trạng thái `Pending`. Vì vậy, hãy lưu phản hồi của lệnh POST khi còn ở `Pending`, rồi chụp bản ghi `Executed` có cùng ID.
+[Hình 9 trong mục 5.5](../5.5-Backend-and-Database/) là bằng chứng PostgreSQL cho lớp kiểm tra này. Ảnh hiển thị các lệnh gần nhất của `device_id=room_01`, gồm `CURTAIN_OPEN`, `CURTAIN_CLOSE`, `MODE_AUTO` và `LIGHT_OFF`, với trạng thái `Executed` sau khi được xác nhận.
 
-### Bằng chứng T02 - Telemetry được lưu vào RDS
+Có thể xem thêm quá trình dashboard điều khiển phần cứng trong [video demo trên Google Drive](https://drive.google.com/file/d/1T97dUY58hbT2ppxvg7ESR12Jg9BA828W/view?usp=sharing). Các ảnh minh họa được cắt từ video nên có thể hơi mờ; video cung cấp đầy đủ hơn trình tự thao tác điều khiển.
 
-Hình 15 sử dụng một yêu cầu `curl` có kiểm soát để xác minh riêng luồng ghi dữ liệu từ FastAPI vào Amazon RDS. Việc tích hợp YOLO UNO đã được kiểm thử riêng trước đó; hình này chỉ cung cấp bằng chứng cho test case T02 về API và cơ sở dữ liệu.
+## Bước 7 - Đối chiếu kết quả mong đợi
 
-![Telemetry được gửi qua API và lưu trong PostgreSQL](/images/5-Workshop/5.8-testing/telemetry-api-database-validation.png)
+Phép kiểm thử được xem là đạt khi quan sát được đầy đủ các kết quả sau:
 
-*Hình 15. Telemetry được gửi qua REST API và lưu thành công trong Amazon RDS for PostgreSQL.*
-
-### Bằng chứng T05/T10 - Vòng đời của lệnh
-
-Để kiểm tra riêng vòng đời lệnh khi không có phần cứng tại thời điểm thu thập ảnh, lệnh `FAN_ON` được tạo qua API và endpoint ACK được gọi thủ công. Bằng chứng cho thấy cùng lệnh ID `189` chuyển từ `Pending` sang `Executed`. Phép kiểm tra này xác minh luồng FastAPI và Amazon RDS, không xác nhận thiết bị vật lý đã thực thi lệnh.
-
-![Lệnh 189 chuyển từ Pending sang Executed sau khi gọi endpoint ACK](/images/5-Workshop/5.8-testing/command-pending-to-executed.png)
-
-*Hình 16. Kiểm tra có kiểm soát vòng đời của cùng một lệnh từ Pending sang Executed thông qua endpoint ACK của FastAPI.*
-
-### Bằng chứng T06-T09 - Video demo phần cứng
-
-Quá trình dashboard gửi lệnh và phần cứng thực thi được ghi lại trong [video demo trên Google Drive](https://drive.google.com/file/d/1T97dUY58hbT2ppxvg7ESR12Jg9BA828W/view?usp=sharing). Video được dùng làm bằng chứng cho quá trình thiết bị nhận lệnh và phản ứng vật lý trong các test case T06-T09.
-
-## Bước 4 - Xác minh khả năng kết nối lại và nghiệm thu
-
-Trong T13, chỉ ngắt Wi-Fi khi thiết bị chấp hành đang ở trạng thái an toàn. Firmware phải báo mất kết nối, kết nối lại thành công và tiếp tục thăm dò lệnh mà không thực thi lại lệnh trước đó. Nếu cần gửi lại ACK sau khi mạng phục hồi, thiết bị chỉ được gửi lại ACK, không được lặp lại thao tác điều khiển.
-
-## Kết quả mong đợi
-
-Mọi dòng T01-T13 phải có giá trị quan sát trong cột **Thực tế/bằng chứng** và trạng thái **Đạt**, **Không đạt** hoặc **Chưa chạy**. Một phép kiểm thử đầu cuối chỉ được xem là đạt khi liên kết được cùng ID thiết bị/lệnh qua API, PostgreSQL, firmware, dashboard và log liên quan.
+- Các yêu cầu `latest`, `history` và `commands` từ frontend nhận phản hồi HTTP 200.
+- Dashboard hiển thị telemetry gắn với `device_id=room_01`.
+- Quạt, đèn LED và servo rèm vật lý phản ứng với các lệnh được hỗ trợ.
+- Thiết bị gửi ACK sau khi thực thi và trạng thái lệnh trong cơ sở dữ liệu chuyển thành `Executed`.
+- Bằng chứng công bố không chứa thông tin xác thực, địa chỉ riêng hoặc mã tài khoản.
+- Kết luận phân biệt rõ bằng chứng trình duyệt/API, bằng chứng phần cứng vật lý và bằng chứng trạng thái cơ sở dữ liệu.
 
 ## Xử lý sự cố
 
-Đây là kế hoạch kiểm thử, không phải bằng chứng cho thấy các phép kiểm thử đã được thực hiện. Không gọi đây là kiểm thử tải và không tự tạo số liệu về độ trễ, thông lượng hoặc độ tin cậy. Với mỗi phép kiểm thử không đạt, cần ghi rõ lớp xảy ra lỗi, log hoặc yêu cầu làm bằng chứng, người phụ trách, cách khắc phục và kết quả sau khi chạy lại.
-
 | Hiện tượng | Nội dung cần kiểm tra |
 | :--- | :--- |
-| Không thấy `Pending` | Lưu phản hồi của yêu cầu POST tạo lệnh, sau đó truy vấn cùng ID sau ACK |
-| Giao diện và cơ sở dữ liệu không khớp | Xác nhận nguồn dữ liệu thật/mô phỏng, route API số nhiều và bản ghi cơ sở dữ liệu mới nhất |
-| Lệnh bị lặp | So sánh ID lệnh, `lastAck`, `pendingAck` và tách việc gửi lại ACK khỏi việc điều khiển thiết bị |
-| Không tái tạo được phép kiểm thử | Ghi mã commit, khu vực, ID thiết bị, timestamp/múi giờ và điều kiện ban đầu chính xác |
-| Bằng chứng có dữ liệu nhạy cảm | Che thông tin và chụp lại; thay mới bí mật đã lộ trước khi tiếp tục |
+| `latest`, `history` hoặc `commands` không trả HTTP 200 | Kiểm tra Vite proxy/base URL, route FastAPI, dịch vụ backend và console của trình duyệt |
+| Dashboard thay đổi nhưng thiết bị chấp hành không phản ứng | Kiểm tra chế độ thủ công/tự động, Wi-Fi của thiết bị, quá trình thăm dò lệnh, chính tả tên lệnh, dây nối và nguồn điện |
+| Lệnh vẫn ở trạng thái `Pending` | Kiểm tra quá trình thăm dò của thiết bị, ID lệnh dùng cho endpoint ACK và log backend |
+| Giao diện và PostgreSQL hiển thị khác trạng thái | Đối chiếu cùng một ID lệnh và tải lại bản ghi mới nhất sau ACK |
+| Servo di chuyển không đúng | Kiểm tra vị trí mở/đóng được cấu hình và nguồn cấp cho servo |
+| Bằng chứng chứa thông tin nhạy cảm | Che thông tin rồi chụp lại; thay mới bí mật đã lộ trước khi tiếp tục |
 
 Tiếp theo: [cấu hình và xác minh CloudWatch](../5.9-CloudWatch-Monitoring/).

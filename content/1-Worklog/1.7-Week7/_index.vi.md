@@ -17,15 +17,14 @@ pre: " <b> 1.7. </b> "
 
 ## Công việc đã thực hiện
 
-| Thời gian | Công việc | Kết quả ghi nhận |
+| Hạng mục | Công việc đã thực hiện | Kết quả/Bằng chứng |
 | :--- | :--- | :--- |
-| 13/07 | Chuẩn bị dự án React + Vite + TypeScript + Tailwind CSS và cài dependencies | Dashboard chạy trên máy cục bộ |
-| 14/07 | Cấu hình Vite proxy cho đường dẫn tương đối `/api` | URL EC2 được tập trung tại cấu hình thay vì lặp trong nhiều component |
-| 15/07 | Kết nối `/latest`, `/history` và health check của backend | Telemetry card, biểu đồ lịch sử và trạng thái kết nối dùng dữ liệu API |
-| 16–17/07 | Xây dựng nút điều khiển quạt, đèn, rèm và chế độ Auto/Manual | UI gửi đúng command và hiển thị ID/trạng thái do backend trả về |
-| 18/07 | Rà soát nguồn dữ liệu thật/mô phỏng và nhãn ánh sáng | Dữ liệu mô phỏng được phân biệt; giá trị ADC không được khẳng định là Lux |
-| 19/07 | Dùng DevTools Network để kiểm tra route, payload, phản hồi và lỗi | Có checklist cho yêu cầu trùng, trạng thái `Pending` và lỗi backend |
-
+| Chuẩn bị frontend | Thiết lập React, Vite, TypeScript, Tailwind CSS và các dependencies cần thiết | Dashboard chạy ổn định trên môi trường cục bộ |
+| Cấu hình kết nối API | Dùng Vite proxy cho đường dẫn tương đối `/api` và tập trung backend URL trong cấu hình | Frontend kết nối EC2 mà không lặp URL trong nhiều component |
+| Hiển thị telemetry | Kết nối health, latest và history; xây dựng telemetry card và biểu đồ | Dashboard hiển thị dữ liệu mới nhất, lịch sử và trạng thái kết nối |
+| Điều khiển thiết bị | Xây dựng nút quạt, đèn, rèm và chế độ Auto/Manual; hiển thị command ID/trạng thái | UI gửi đúng command và cho phép theo dõi phản hồi backend |
+| Rà dữ liệu và nhãn | Phân biệt dữ liệu thật/mô phỏng và kiểm tra cách mô tả giá trị ánh sáng | Dữ liệu mô phỏng được nhận diện; giá trị ADC không bị ghi nhầm thành Lux |
+| Tích hợp và sửa lỗi | Dùng DevTools Network kiểm tra route, payload, response, request trùng và trạng thái `Pending` | Checklist tích hợp và các lỗi frontend–backend được xử lý trước kiểm thử end-to-end |
 ## Kết quả tuần
 
 - Dashboard hiển thị dữ liệu mới nhất và lịch sử của `room_01`.

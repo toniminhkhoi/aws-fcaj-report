@@ -17,14 +17,13 @@ pre: " <b> 1.1. </b> "
 
 ## Work completed
 
-| Period | Activity | Recorded outcome |
+| Workstream | Work completed | Result/Evidence |
 | :--- | :--- | :--- |
-| 1–2 June | Analyzed the need to monitor temperature, humidity, and light and to control a fan, light, and curtain for a sample room | Limited acceptance scope to `room_01`; the project was not presented as a multi-site BMS |
-| 3 June | Identified AWS learners, room operators, maintainers, and FCAJ reviewers as the primary users | Documented the need and expected value for each user group |
-| 4–5 June | Defined functional requirements for telemetry, latest data, history, commands, and ACK | Produced an observable output for each function |
-| 6 June | Agreed on AWS/Hardware, Backend, Frontend/Integration, and Documentation/QA roles | Established an ownership matrix for contribution traceability |
-| 7 June | Drafted an architecture with YOLO UNO, FastAPI on EC2, RDS PostgreSQL, a React dashboard, and CloudWatch | Produced the initial architecture and risk list |
-
+| Requirements analysis | Worked with the team to define temperature, humidity, and light monitoring plus fan, light, and curtain control for the Smart Room | Functional list covering telemetry, latest/history, commands, and ACK |
+| Scope definition | Used `room_01` as the `device_id` for the sample room | Scope and acceptance criteria recorded in the Proposal |
+| User analysis | Analyzed the needs of AWS learners, room operators, maintainers, and FCAJ reviewers | Target-user list and expected value for each group |
+| Architecture design | Drafted YOLO UNO → FastAPI on EC2 → RDS PostgreSQL → React Dashboard with CloudWatch | Initial architecture and two-way data-flow diagram |
+| Ownership and planning | Assigned AWS/Hardware, Backend, Frontend/Integration, and Documentation/QA responsibilities and divided delivery into eight weeks | Ownership table, 1 June–31 July timeline, and initial risk list |
 ## Weekly outcomes
 
 - Completed the initial scope, ownership model, and system architecture.
@@ -33,7 +32,7 @@ pre: " <b> 1.1. </b> "
 
 ## Challenges and lessons learned
 
-The initial scope could easily be described as larger than a one-room prototype. The main lesson was to separate learning objectives, implemented behavior, and future scaling options.
+The initial challenge was translating the Smart Room idea into specific requirements and test criteria. The main lesson was that each function needs an observable output so the team can validate it and collect evidence.
 
 ## Workshop references
 
