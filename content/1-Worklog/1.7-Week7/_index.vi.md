@@ -1,30 +1,42 @@
 ---
-title: "Worklog Tuần 7"
-date: "2026-07-27"
+title: "Tuần 7 - Phát triển frontend dashboard"
+date: "2026-07-13"
 weight: 7
 chapter: false
 pre: " <b> 1.7. </b> "
 ---
 
-### Mục tiêu tuần 7:
+> **Thời gian:** 13/07/2026 – 19/07/2026
+> **Vai trò:** Hỗ trợ kết nối frontend với endpoint EC2; phối hợp kiểm tra dashboard và luồng điều khiển.
 
-- Triển khai trực quan hóa dữ liệu lịch sử trên Frontend Dashboard.
-- Phát triển và tích hợp giao diện điều khiển thiết bị từ xa (Control Panel) cho quản trị viên.
-- Đảm bảo quản trị viên có thể xem xu hướng dữ liệu và gửi lệnh trực tiếp từ giao diện (UI) xuống backend.
+## Mục tiêu
 
-### Công việc thực hiện trong tuần này:
+- Hiển thị telemetry mới nhất, lịch sử và trạng thái backend.
+- Tạo bảng điều khiển quạt, đèn và rèm.
+- Theo dõi command từ lúc gửi đến khi backend ghi nhận ACK.
 
-| Day | Task | Start Date | Completion Date | Reference Material |
-| :-- | :--- | :--------- | :-------------- | :----------------- |
-| 1   | **Chuẩn bị Trực quan hóa dữ liệu:** Đánh giá yêu cầu vẽ biểu đồ dữ liệu nhiệt độ và độ ẩm lịch sử. | 27/07/2026 | 28/07/2026 | Tài liệu Chart.js/Recharts |
-| 2   | **Thiết kế Control Panel:** Đánh giá yêu cầu xây dựng các công tắc bật/tắt (toggle switches) trên giao diện. | 29/07/2026 | 29/07/2026 | Tài liệu React UI |
-| 3   | **Triển khai Biểu đồ & Bảng điều khiển:** <br> - **Data Visualization:** Tích hợp thư viện Chart.js/Recharts để vẽ biểu đồ nhiệt độ và độ ẩm. <br> - **Control Panel:** Xây dựng các công tắc bật/tắt (toggle) cho Quạt, Đèn và Rèm trên UI. | 30/07/2026 | 01/08/2026 | Tài liệu Frontend Framework |
-| 4   | **Gửi lệnh & Đồng bộ trạng thái:** <br> - **Command Dispatch:** Liên kết các công tắc UI với request Axios POST gửi tới endpoint `/command`. <br> - **State Synchronization:** Triển khai trạng thái "đang tải" (loading state) trên UI để chờ thiết bị IoT xác nhận. | 31/07/2026 | 01/08/2026 | Tài liệu Axios & React State |
-| 5   | **Tinh chỉnh Trải nghiệm người dùng (UX):** Trau chuốt lại giao diện Dashboard để đảm bảo mang lại cảm giác của một hệ thống "Enterprise BMS" chuyên nghiệp. | 02/08/2026 | 02/08/2026 | Hướng dẫn Thiết kế UI/UX |
+## Công việc đã thực hiện
 
-### Thành tựu Tuần 7:
+| Thời gian | Công việc | Kết quả ghi nhận |
+| :--- | :--- | :--- |
+| 13/07 | Chuẩn bị dự án React + Vite + TypeScript + Tailwind CSS và cài dependencies | Dashboard chạy trên máy cục bộ |
+| 14/07 | Cấu hình Vite proxy cho đường dẫn tương đối `/api` | URL EC2 được tập trung tại cấu hình thay vì lặp trong nhiều component |
+| 15/07 | Kết nối `/latest`, `/history` và health check của backend | Telemetry card, biểu đồ lịch sử và trạng thái kết nối dùng dữ liệu API |
+| 16–17/07 | Xây dựng nút điều khiển quạt, đèn, rèm và chế độ Auto/Manual | UI gửi đúng command và hiển thị ID/trạng thái do backend trả về |
+| 18/07 | Rà soát nguồn dữ liệu thật/mô phỏng và nhãn ánh sáng | Dữ liệu mô phỏng được phân biệt; giá trị ADC không được khẳng định là Lux |
+| 19/07 | Dùng DevTools Network để kiểm tra route, payload, phản hồi và lỗi | Có checklist cho yêu cầu trùng, trạng thái `Pending` và lỗi backend |
 
-- **Dashboard Phân tích:** Tích hợp thành công biểu đồ (Chart.js/Recharts) để trực quan hóa xu hướng dữ liệu viễn trắc lịch sử.
-- **Bảng điều khiển Tương tác:** Xây dựng Control Panel hoạt động đầy đủ, cho phép admin bật/tắt Quạt, Đèn, Rèm.
-- **Tích hợp API Điều khiển:** Kết nối các thành phần UI với API `/command` của backend thông qua Axios POST requests.
-- **Cải thiện UX:** Triển khai trạng thái loading đồng bộ khi chờ thiết bị phản hồi và hoàn thiện giao diện chuẩn "Enterprise BMS".
+## Kết quả tuần
+
+- Dashboard hiển thị dữ liệu mới nhất và lịch sử của `room_01`.
+- Bảng điều khiển tạo command có thể truy vết qua backend.
+- Ghi nhận các hạn chế cần tiếp tục xử lý: chế độ trên UI còn mang tính cục bộ và không được dùng dữ liệu mô phỏng làm bằng chứng vận hành.
+
+## Khó khăn và bài học
+
+Phản hồi HTTP thành công chỉ chứng minh backend đã nhận command, chưa chứng minh thiết bị vật lý đã thực thi. Giao diện phải chờ ACK/`Executed` hoặc chỉ rõ trạng thái đang chờ.
+
+## Liên kết Workshop
+
+- [5.7 Tích hợp frontend](../../5-workshop/5.7-frontend-integration/)
+- [5.8 Kiểm thử đầu cuối](../../5-workshop/5.8-end-to-end-testing/)

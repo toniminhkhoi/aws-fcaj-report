@@ -1,31 +1,41 @@
 ---
-title: "Week 2 Worklog"
-date: "2026-06-22"
+title: "Week 2 - AWS Architecture and Network Foundation"
+date: "2026-06-08"
 weight: 2
 chapter: false
 pre: " <b> 1.2. </b> "
 ---
 
-### Week 2 Objectives:
+> **Period:** 8–14 June 2026
+> **Role:** Led the AWS, networking, and IAM design and coordinated API and data-flow boundaries with the backend team.
 
-- Provision PostgreSQL on AWS RDS.
-- Initialize the FastAPI backend structure.
+## Objectives
 
-### Tasks to be carried out this week:
+- Select AWS services that matched the source code and Workshop scope.
+- Design the VPC, subnets, Security Groups, and IAM Role according to least privilege.
+- Define the telemetry, command, ACK, and monitoring flows.
 
-| Day | Task | Start Date | Completion Date |
-| :-- | :--- | :--------- | :-------------- |
-| 1 | **Database Schema:** Design relational tables for Buildings, Telemetry History, and Commands. | 22/06/2026 | 22/06/2026 |
-| 2 | **AWS RDS Setup:** Deploy PostgreSQL RDS instance in private subnet, configure inbound rules from EC2 only. | 23/06/2026 | 24/06/2026 |
-| 3 | **FastAPI Init:** Backend Engineer initializes FastAPI project, configures SQLAlchemy and Pydantic schemas. | 25/06/2026 | 26/06/2026 |
-| 4 | **Database Migration:** Set up Alembic for schema migrations and execute first migration to RDS. | 25/06/2026 | 27/06/2026 |
-| 5 | **CI/CD Draft:** Draft deployment scripts to pull code and restart systemctl services on EC2. | 28/06/2026 | 28/06/2026 |
+## Work completed
 
-### Week 2 Achievements:
+| Period | Activity | Recorded outcome |
+| :--- | :--- | :--- |
+| 8–9 June | Compared EC2/RDS with managed serverless and IoT alternatives | Selected EC2, EBS, RDS, VPC, IAM Role, and CloudWatch; documented that Lambda, API Gateway, DynamoDB, S3, and AWS IoT Core were not implemented |
+| 10 June | Designed a VPC with a public subnet for EC2 and private database subnets | Kept RDS private and allowed PostgreSQL connectivity from EC2 only |
+| 11 June | Designed Security Group rules for administrative SSH, the demo API, and EC2-to-RDS traffic | Restricted SSH by administrator IP and scoped RDS port 5432 to the EC2 Security Group |
+| 12 June | Defined the EC2 IAM Role required by CloudWatch Agent | Used temporary role credentials instead of hard-coded AWS access keys |
+| 13–14 June | Mapped the architecture to API calls, database operations, and metric/log paths | Assigned a source, destination, port, identity, and evidence requirement to each connection |
 
-- Database schema deployed.
-- Backend server actively running on EC2.
+## Weekly outcomes
 
----
+- Completed the AWS architecture and service boundaries.
+- Produced a network, Security Group, and IAM plan suitable for the prototype.
+- Clearly separated the current operational model from future options such as Auto Scaling, SQS, and event-driven architecture.
 
-👉 **Outcome:** After Week 2, the relational database and foundational REST API structure are successfully established, preparing the system for data ingestion in Week 3.
+## Challenges and lessons learned
+
+An architecture diagram is useful only when every arrow maps to an actual connection or permission. A smaller service set made the solution easier to deploy, test, and explain.
+
+## Workshop references
+
+- [5.3 Architecture and Service Design](../../5-workshop/5.3-architecture-and-service-design/)
+- [5.4 AWS Infrastructure Setup](../../5-workshop/5.4-aws-infrastructure-setup/)

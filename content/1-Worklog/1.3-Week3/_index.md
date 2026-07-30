@@ -1,32 +1,41 @@
 ---
-title: "Week 3 Worklog"
-date: "2026-06-29"
+title: "Week 3 - Amazon EC2 and Amazon RDS Deployment"
+date: "2026-06-15"
 weight: 3
 chapter: false
 pre: " <b> 1.3. </b> "
 ---
 
-### Week 3 Objectives:
+> **Period:** 15–21 June 2026
+> **Role:** Provisioned and verified the AWS infrastructure.
 
-- Build and test the telemetry ingestion API endpoints for the Enterprise IoT Cloud Dashboard.
-- Design and implement RESTful API endpoints for telemetry data ingestion using FastAPI.
-- Establish robust data validation mechanisms using Pydantic to reject malformed data payloads.
-- Enable historical data retrieval with pagination.
-- Ensure API reliability through comprehensive Postman testing and CloudWatch monitoring.
+## Objectives
 
-### Tasks to be carried out this week:
+- Create the networking and AWS resources required by the backend.
+- Launch EC2 with EBS storage and the approved IAM Role.
+- Create a private RDS for PostgreSQL database and verify EC2 connectivity.
 
-| Day | Task | Start Date | Completion Date | Reference Material |
-| :-- | :--- | :--------- | :-------------- | :----------------- |
-| 1   | **POST /telemetry:** Develop endpoint to receive temperature, humidity, light, and device status. | 29/06/2026 | 30/06/2026 | Backend API Docs |
-| 2   | **Data Validation:** Implement Pydantic validators to reject malformed data payloads. | 01/07/2026 | 01/07/2026 | FastAPI & Pydantic Docs |
-| 3   | **GET /telemetry:** Develop endpoints to retrieve latest status and historical data with pagination. | 02/07/2026 | 03/07/2026 | Backend API Docs |
-| 4   | **Postman Testing:** Write and execute comprehensive Postman test suites for the API. | 04/07/2026 | 04/07/2026 | Postman Test Suite |
-| 5   | **CloudWatch Logs:** Cloud Engineer integrates AWS CloudWatch to monitor API error rates. | 05/07/2026 | 05/07/2026 | AWS CloudWatch Docs |
+## Work completed
 
-### Week 3 Achievements:
+| Period | Activity | Recorded outcome |
+| :--- | :--- | :--- |
+| 15 June | Selected `ap-southeast-1` and reviewed the VPC, routes, and DB Subnet Group | Kept EC2 and RDS in the same Region and intended network boundaries |
+| 16 June | Created `iot-backend-sg`, `ec2-rds-1`, and `rds-ec2-1` | Used port 8000 for the demo API and restricted PostgreSQL 5432 to EC2-to-RDS traffic |
+| 17–18 June | Launched the `t3.micro` `iot-backend-server` with a 10 GiB `gp3` root volume and `iot-dashboard-cloudwatch-role` | EC2 reached `Running` and passed its status checks |
+| 19–20 June | Created the `db.t4g.micro` `iot-dashboard-db` RDS for PostgreSQL instance | RDS reached `Available`, used the DB Subnet Group, and had Internet access gateway disabled |
+| 21 June | Tested RDS DNS resolution and TCP port 5432 from EC2 | Verified the required route and Security Group path |
 
-- **API Development:** Backend successfully receives and validates JSON data.
-- **Database Integration:** Validated JSON data is accurately stored in the PostgreSQL database.
-- **Data Validation:** Implemented strict Pydantic schemas, successfully filtering out malformed IoT payloads.
-- **Testing & Monitoring:** Completed API test suites in Postman and integrated AWS CloudWatch for real-time error rate tracking.
+## Weekly outcomes
+
+- Prepared EC2, EBS, RDS, IAM, and Security Groups for application deployment.
+- Kept RDS private and did not expose PostgreSQL to `0.0.0.0/0`.
+- Collected sanitized evidence for EC2, RDS, the IAM Role, and Security Group rules.
+
+## Challenges and lessons learned
+
+Connectivity failures must be separated into network and authentication failures. A successful TCP test confirms routing and Security Groups, but not valid PostgreSQL credentials.
+
+## Workshop references
+
+- [5.4 AWS Infrastructure Setup](../../5-workshop/5.4-aws-infrastructure-setup/)
+- [5.10 Cost, Security, and Cleanup](../../5-workshop/5.10-cost-security-cleanup/)

@@ -1,30 +1,42 @@
 ---
-title: "Week 5 Worklog"
-date: "2026-07-13"
+title: "Week 5 - Telemetry and Command API Development"
+date: "2026-06-29"
 weight: 5
 chapter: false
 pre: " <b> 1.5. </b> "
 ---
 
-### Week 5 Objectives:
+> **Period:** 29 June–5 July 2026
+> **Role:** Coordinated the backend API contract with the hardware and infrastructure requirements.
 
-- Enable the backend to receive command requests from the Dashboard.
-- Develop mechanisms for IoT edge devices to fetch and execute pending commands.
-- Establish full bi-directional communication between the Python Simulator and the Cloud architecture.
+## Objectives
 
-### Tasks to be carried out this week:
+- Complete the telemetry ingestion and retrieval APIs.
+- Build command creation, polling, and acknowledgement APIs.
+- Verify persistent data in PostgreSQL.
 
-| Day | Task | Start Date | Completion Date | Reference Material |
-| :-- | :--- | :--------- | :-------------- | :----------------- |
-| 1   | **POST /command:** Create API endpoint for Dashboard to send commands (e.g., Fan ON/OFF, Curtain OPEN). | 13/07/2026 | 14/07/2026 | FastAPI Docs |
-| 2   | **Command Queue:** Implement logic in PostgreSQL to queue pending commands for specific devices. | 15/07/2026 | 15/07/2026 | PostgreSQL Docs |
-| 3   | **Device Polling:** Update Python Simulator to GET pending commands periodically and acknowledge execution. | 16/07/2026 | 17/07/2026 | Python Requests Docs |
-| 4   | **Command Logging:** Ensure all executed commands are logged in CloudWatch for audit trails. | 18/07/2026 | 19/07/2026 | AWS CloudWatch Docs |
-| 5   | **System Review:** Team sync to ensure backend is robust before frontend integration. | 18/07/2026 | 19/07/2026 | System Architecture Docs |
+## Work completed
 
-### Week 5 Achievements:
+| Period | Activity | Recorded outcome |
+| :--- | :--- | :--- |
+| 29–30 June | Matched the Pydantic telemetry schema to the firmware's camelCase payload | Accepted `deviceId` and `lightIntensity` and mapped them to the data model |
+| 1 July | Completed `POST /api/telemetry` | A valid `room_01` payload created a `telemetry_logs` record |
+| 2 July | Completed latest and history endpoints | Enabled the dashboard to request `/latest` and `/history` by `device_id` |
+| 3–4 July | Completed command creation, pending-command polling, and ACK endpoints | Stored new commands as `Pending` and changed the matching ID to `Executed` after ACK |
+| 5 July | Reviewed OpenAPI, ran controlled `curl` requests, and compared SQL records | Matched routes, JSON responses, and database state |
 
-- **Bi-directional Communication:** Full bi-directional communication established between Simulator and Cloud.
-- **Command Endpoints:** Successfully created API endpoints for remote device control operations (Fan, Curtain).
-- **Queue Mechanism:** Designed a reliable PostgreSQL queuing logic for managing pending IoT device commands.
-- **Audit Logging:** Integrated CloudWatch to maintain complete audit trails for all executed commands.
+## Weekly outcomes
+
+- Completed telemetry, latest, history, command polling, and ACK flows.
+- Verified the command lifecycle by following one command ID through the API and PostgreSQL.
+- Documented current limitations: command values were not strictly enum-validated, and ACK ownership was not checked against the route device.
+
+## Challenges and lessons learned
+
+`Pending` can be short-lived when the device polls frequently. Reliable evidence must preserve the command-creation response and then query the same ID after acknowledgement.
+
+## Workshop references
+
+- [5.3 API Specification and Data Flow](../../5-workshop/5.3-architecture-and-service-design/)
+- [5.5 Backend and Database](../../5-workshop/5.5-backend-and-database/)
+- [5.8 End-to-End Testing and Validation](../../5-workshop/5.8-end-to-end-testing/)

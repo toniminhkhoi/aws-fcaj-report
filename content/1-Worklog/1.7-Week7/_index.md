@@ -1,30 +1,42 @@
 ---
-title: "Week 7 Worklog"
-date: "2026-07-27"
+title: "Week 7 - Frontend Dashboard Development"
+date: "2026-07-13"
 weight: 7
 chapter: false
 pre: " <b> 1.7. </b> "
 ---
 
-### Week 7 Objectives:
+> **Period:** 13–19 July 2026
+> **Role:** Supported frontend-to-EC2 connectivity and collaborated on dashboard and control-flow validation.
 
-- Implement historical data visualization within the Frontend Dashboard.
-- Develop and integrate remote device control interfaces (Control Panel) for administrators.
-- Ensure administrators can view trends and dispatch commands directly from the UI to the backend.
+## Objectives
 
-### Tasks to be carried out this week:
+- Display latest telemetry, history, and backend status.
+- Provide controls for the fan, light, and curtain.
+- Track a command from submission until backend acknowledgement.
 
-| Day | Task | Start Date | Completion Date | Reference Material |
-| :-- | :--- | :--------- | :-------------- | :----------------- |
-| 1   | **Data Visualization Setup:** Review requirements for plotting historical temperature and humidity data. | 27/07/2026 | 28/07/2026 | Chart.js/Recharts Docs |
-| 2   | **Control Panel Design:** Review requirements for building remote toggle switches in the UI. | 29/07/2026 | 29/07/2026 | React UI Components |
-| 3   | **Data Visualization & Control Panel Implementation:** <br> - **Data Visualization:** Integrated Chart.js/Recharts to plot historical temperature and humidity data. <br> - **Control Panel:** Built toggle switches for Fan, Lights, and Curtains in the UI. | 30/07/2026 | 01/08/2026 | Frontend Framework Docs |
-| 4   | **Command Dispatch & State Sync:** <br> - **Command Dispatch:** Bound UI toggles to Axios POST requests to the `/command` endpoint. <br> - **State Synchronization:** Implemented UI loading states to wait for IoT device acknowledgment. | 31/07/2026 | 01/08/2026 | Axios & React State Docs |
-| 5   | **UX Refinement:** Polished dashboard aesthetics to ensure an "Enterprise BMS" look and feel. | 02/08/2026 | 02/08/2026 | UI/UX Design Guidelines |
+## Work completed
 
-### Week 7 Achievements:
+| Period | Activity | Recorded outcome |
+| :--- | :--- | :--- |
+| 13 July | Prepared the React, Vite, TypeScript, and Tailwind CSS project and installed dependencies | Ran the dashboard locally |
+| 14 July | Configured the Vite proxy for relative `/api` requests | Centralized the EC2 target instead of repeating it across components |
+| 15 July | Connected latest, history, and backend health endpoints | Powered telemetry cards, charts, and connection status with API data |
+| 16–17 July | Implemented fan, light, curtain, and Auto/Manual controls | Sent valid commands and displayed the command ID and server-side state |
+| 18 July | Reviewed real/simulated data handling and light labels | Distinguished simulated data and avoided presenting raw ADC values as Lux |
+| 19 July | Used DevTools Network to inspect routes, payloads, responses, and failures | Produced checks for duplicate requests, `Pending` state, and backend errors |
 
-- **Analytics Dashboard:** Successfully integrated charts (Chart.js/Recharts) to visualize historical telemetry trends.
-- **Interactive Control Panel:** Built a fully functional control panel allowing admins to toggle Fan, Lights, and Curtains.
-- **Command Integration:** Connected UI components to the backend `/command` API using Axios POST requests.
-- **Enhanced UX:** Implemented synchronous loading states while waiting for device acknowledgment and refined the overall "Enterprise BMS" aesthetic.
+## Weekly outcomes
+
+- Displayed latest and historical `room_01` data.
+- Created commands that could be traced through the backend.
+- Documented remaining limitations: the UI mode was local state, and simulated data could not be used as operational evidence.
+
+## Challenges and lessons learned
+
+A successful HTTP response proves that the backend accepted a command, not that physical hardware executed it. The UI must wait for ACK/`Executed` or clearly show a pending state.
+
+## Workshop references
+
+- [5.7 Frontend Integration](../../5-workshop/5.7-frontend-integration/)
+- [5.8 End-to-End Testing](../../5-workshop/5.8-end-to-end-testing/)

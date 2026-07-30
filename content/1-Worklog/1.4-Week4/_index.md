@@ -1,30 +1,41 @@
 ---
-title: "Week 4 Worklog"
-date: "2026-07-06"
+title: "Week 4 - Backend and Database Foundation"
+date: "2026-06-22"
 weight: 4
 chapter: false
 pre: " <b> 1.4. </b> "
 ---
 
-### Week 4 Objectives:
+> **Period:** 22–28 June 2026
+> **Role:** Managed the EC2 runtime and service operations and supported the backend member with PostgreSQL connectivity.
 
-- Develop the **Python Simulator** to act as the YOLO Uno/ESP32 edge devices for the Enterprise IoT Cloud Dashboard.
-- Establish a reliable mechanism to generate and transmit simulated telemetry data directly to the EC2 backend.
-- Ensure system robustness through multi-threading, error handling, and end-to-end integration testing.
+## Objectives
 
-### Tasks to be carried out this week:
+- Prepare the Python environment and deploy the FastAPI structure on EC2.
+- Connect the backend to the `iot_dashboard` database.
+- Operate Uvicorn reliably through `systemd`.
 
-| Day | Task | Start Date | Completion Date | Reference Material |
-| :-- | :--- | :--------- | :-------------- | :----------------- |
-| 1   | **Simulator Design** <br> - **Data Generation:** IoT Engineer created Python scripts to generate randomized, realistic sensor data. | 06/07/2026 | 07/07/2026 | Python `random` Docs |
-| 2   | **HTTP Client Setup** <br> - **API Communication:** Implemented the Python `requests` library to POST JSON data to the FastAPI public IP on EC2. | 08/07/2026 | 08/07/2026 | Python `requests` Docs |
-| 3   | **Multi-Building Simulation** <br> - **Scaling:** Scaled the simulator script using threading to simulate traffic from HN, DN, and HCM buildings simultaneously. | 09/07/2026 | 10/07/2026 | Python `threading` Docs |
-| 4   | **Error Handling** <br> - **Network Resilience:** Added retry logic and exception handling to gracefully manage dropped network connections during transmission. | 11/07/2026 | 11/07/2026 | System Architecture Docs |
-| 5   | **Integration Test** <br> - **End-to-End Verification:** Verified that telemetry data from all simulated buildings successfully and accurately appears in the PostgreSQL database. | 12/07/2026 | 12/07/2026 | PostgreSQL Docs |
+## Work completed
 
-### Week 4 Achievements:
+| Period | Activity | Recorded outcome |
+| :--- | :--- | :--- |
+| 22 June | Installed Git, Python, the PostgreSQL client, and required utilities on Amazon Linux | Prepared EC2 to run and diagnose the backend |
+| 23 June | Cloned the application repository, created `venv`, and installed `requirements.txt` | Confirmed the Uvicorn entry point as `main:app` |
+| 24 June | Created a local `.env` with a sanitized `DATABASE_URL` | Connected to RDS without committing credentials |
+| 25–26 June | Ran `app.database.init_db` and inspected PostgreSQL | Created `devices`, `telemetry_logs`, and `commands` through SQLAlchemy `create_all` |
+| 27–28 June | Created `aws-iot-backend.service`, configured log files, and tested `/api/health` | The service reached `active (running)` and the health check returned HTTP 200 |
 
-- **IoT Simulation Success:** Python scripts are reliably generating and sending telemetry data to the EC2 backend.
-- **Scalability Achieved:** Successfully simulated concurrent data streams from multiple building locations (HN, DN, HCM) using threading.
-- **System Reliability:** Improved the simulator's stability by implementing robust error handling and retry logic for network drops.
-- **Verified Data Flow:** Confirmed full integration where simulated sensor data is properly stored in the backend PostgreSQL database.
+## Weekly outcomes
+
+- Operated FastAPI on EC2 under `systemd`.
+- Connected the backend to the private RDS database.
+- Confirmed that the project did not use Alembic migrations and avoided documenting Alembic as implemented.
+
+## Challenges and lessons learned
+
+Linux user names, paths, environment files, and the Uvicorn module must match between the shell and service unit. `journalctl`, application logs, and the health endpoint provide complementary diagnostic evidence.
+
+## Workshop references
+
+- [5.5 Backend Deployment and Database Integration](../../5-workshop/5.5-backend-and-database/)
+- [5.12 Project Handover](../../5-workshop/5.12-project-handover/)

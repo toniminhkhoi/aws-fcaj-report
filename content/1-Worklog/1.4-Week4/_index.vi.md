@@ -1,30 +1,41 @@
 ---
-title: "Worklog Tuần 4"
-date: "2026-07-06"
+title: "Tuần 4 - Xây dựng nền tảng backend và cơ sở dữ liệu"
+date: "2026-06-22"
 weight: 4
 chapter: false
 pre: " <b> 1.4. </b> "
 ---
 
-### Mục tiêu tuần 4:
+> **Thời gian:** 22/06/2026 – 28/06/2026
+> **Vai trò:** Phụ trách môi trường EC2 và vận hành dịch vụ; phối hợp với thành viên backend để kết nối PostgreSQL.
 
-- Phát triển **Python Simulator** để đóng vai trò như các thiết bị edge YOLO Uno/ESP32 cho hệ thống Enterprise IoT Cloud Dashboard.
-- Thiết lập cơ chế đáng tin cậy để tạo và truyền dữ liệu viễn trắc (telemetry) mô phỏng trực tiếp đến backend trên EC2.
-- Đảm bảo độ bền bỉ của hệ thống thông qua xử lý đa luồng (multi-threading), bắt lỗi và kiểm thử tích hợp toàn trình.
+## Mục tiêu
 
-### Công việc thực hiện trong tuần này:
+- Chuẩn bị môi trường Python và triển khai cấu trúc FastAPI trên EC2.
+- Kết nối backend với cơ sở dữ liệu `iot_dashboard`.
+- Chạy Uvicorn ổn định bằng `systemd`.
 
-| Day | Task | Start Date | Completion Date | Reference Material |
-| :-- | :--- | :--------- | :-------------- | :----------------- |
-| 1   | **Thiết kế Simulator** <br> - **Tạo dữ liệu:** Kỹ sư IoT (IoT Engineer) tạo các script Python để sinh ra dữ liệu cảm biến ngẫu nhiên, sát với thực tế. | 06/07/2026 | 07/07/2026 | Tài liệu Python `random` |
-| 2   | **Thiết lập HTTP Client** <br> - **Giao tiếp API:** Triển khai thư viện `requests` để gửi dữ liệu JSON (POST) đến public IP của FastAPI backend. | 08/07/2026 | 08/07/2026 | Tài liệu Python `requests` |
-| 3   | **Mô phỏng đa tòa nhà (Multi-Building)** <br> - **Mở rộng quy mô:** Sử dụng threading (đa luồng) để script có thể mô phỏng đồng thời lưu lượng dữ liệu từ các tòa nhà ở HN, ĐN và HCM. | 09/07/2026 | 10/07/2026 | Tài liệu Python `threading` |
-| 4   | **Xử lý lỗi (Error Handling)** <br> - **Khả năng chịu lỗi mạng:** Thêm logic thử lại (retry) và bắt ngoại lệ (exception handling) cho các trường hợp rớt kết nối mạng. | 11/07/2026 | 11/07/2026 | Tài liệu Kiến trúc Hệ thống |
-| 5   | **Kiểm thử Tích hợp (Integration Test)** <br> - **Xác minh toàn trình:** Kiểm tra và xác nhận dữ liệu từ tất cả các tòa nhà mô phỏng đã xuất hiện thành công trong cơ sở dữ liệu PostgreSQL. | 12/07/2026 | 12/07/2026 | Tài liệu PostgreSQL |
+## Công việc đã thực hiện
 
-### Thành tựu Tuần 4:
+| Thời gian | Công việc | Kết quả ghi nhận |
+| :--- | :--- | :--- |
+| 22/06 | Cài Git, Python, PostgreSQL client và công cụ cần thiết trên Amazon Linux | EC2 có đủ công cụ để chạy và kiểm tra backend |
+| 23/06 | Sao chép kho mã nguồn, tạo môi trường ảo `venv` và cài `requirements.txt` | Điểm vào Uvicorn được xác nhận là `main:app` |
+| 24/06 | Tạo `.env` cục bộ với `DATABASE_URL` đã che thông tin bí mật | Backend có cấu hình kết nối RDS mà không đưa mật khẩu vào Git |
+| 25–26/06 | Chạy `app.database.init_db` và kiểm tra PostgreSQL | Tạo ba bảng `devices`, `telemetry_logs` và `commands` bằng SQLAlchemy `create_all` |
+| 27–28/06 | Tạo dịch vụ `aws-iot-backend`, cấu hình file log và kiểm tra `/api/health` | Dịch vụ ở trạng thái `active (running)` và health check trả HTTP 200 |
 
-- **Mô phỏng IoT thành công:** Các script Python hoạt động ổn định trong việc tạo và gửi dữ liệu viễn trắc về backend EC2.
-- **Khả năng mở rộng:** Đã mô phỏng thành công các luồng dữ liệu đồng thời từ nhiều vị trí tòa nhà (HN, ĐN, HCM) bằng kỹ thuật đa luồng.
-- **Độ tin cậy của hệ thống:** Cải thiện tính ổn định của bộ mô phỏng bằng cách triển khai cơ chế bắt lỗi và thử lại khi rớt mạng.
-- **Luồng dữ liệu được xác minh:** Xác nhận tích hợp thành công, dữ liệu cảm biến mô phỏng được lưu trữ chính xác vào cơ sở dữ liệu PostgreSQL.
+## Kết quả tuần
+
+- FastAPI chạy ổn định trên EC2 dưới sự quản lý của `systemd`.
+- Backend kết nối được với RDS PostgreSQL riêng.
+- Xác nhận dự án chưa có quy trình migration bằng Alembic; không ghi nhận Alembic như thành phần đã triển khai.
+
+## Khó khăn và bài học
+
+Đường dẫn, tài khoản Linux, file môi trường và module Uvicorn phải khớp chính xác giữa terminal và service file. `journalctl`, file log và health check là ba nguồn quan trọng để chẩn đoán lỗi khởi động.
+
+## Liên kết Workshop
+
+- [5.5 Triển khai backend và tích hợp cơ sở dữ liệu](../../5-workshop/5.5-backend-and-database/)
+- [5.12 Bàn giao dự án](../../5-workshop/5.12-project-handover/)

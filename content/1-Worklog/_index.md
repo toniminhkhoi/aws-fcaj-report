@@ -1,31 +1,26 @@
 ---
 title: "Worklog"
-date: "2026-06-15"
+date: "2026-06-01"
 weight: 1
 chapter: false
 pre: " <b> 1. </b> "
 ---
 
-**On this page**, you will need to introduce your worklog. **How** did you complete it? How many weeks did you take to complete the program? **What** did you do in those weeks?
+This worklog records the implementation of the **AWS IoT Monitoring and Control Dashboard** during the internship from **1 June 2026 to 31 July 2026**. It follows the Proposal timeline and the technical evidence documented in the Workshop.
 
-Typically, and as a standard, a worklog is carried out over exactly 10 weeks with weekly contents as follows:
+The period covers 8 weeks and 5 days. The worklog is organized into eight phases: the first seven are seven-day weeks, while Week 8 runs from 20 to 31 July and includes the remaining integration, monitoring, documentation, and handover work. This structure covers the complete internship without creating a Week 9.
 
-**Week 1:** [System Architecture & Cloud Infrastructure Foundation](1.1-week1/)
+This was a team project. Each weekly page distinguishes my work as the **AWS and Hardware Lead** from tasks completed in collaboration with the backend, frontend, and documentation members.
 
-**Week 2:** [Database Design & Backend Foundation](1.2-week2/)
+| Week | Period | Implementation milestone | Main outcome |
+| :--: | :--- | :----------------------- | :----------- |
+| 1 | 1–7 June | [Requirements analysis and planning](1.1-week1/) | Defined the problem, `room_01` scope, responsibilities, and initial architecture |
+| 2 | 8–14 June | [AWS architecture and networking foundation](1.2-week2/) | Completed VPC, subnet, Security Group, IAM, and data-flow design |
+| 3 | 15–21 June | [Amazon EC2 and Amazon RDS deployment](1.3-week3/) | Started EC2, prepared RDS PostgreSQL, and verified network connectivity |
+| 4 | 22–28 June | [Backend and database foundation](1.4-week4/) | Ran FastAPI under `systemd`, connected RDS, and created application tables |
+| 5 | 29 June–5 July | [Telemetry and command API development](1.5-week5/) | Completed telemetry, latest, history, command polling, and ACK flows |
+| 6 | 6–12 July | [YOLO UNO hardware integration](1.6-week6/) | Read sensors, controlled actuators, connected Wi-Fi, sent telemetry, and processed commands |
+| 7 | 13–19 July | [Frontend dashboard development](1.7-week7/) | Displayed telemetry/history and created traceable commands |
+| 8 | 20–31 July | [Integration, testing, CloudWatch, and handover](1.8-week8/) | Completed end-to-end validation, monitoring, security review, documentation, and the demo |
 
-**Week 3:** [REST API Implementation (Data Ingestion)](1.3-week3/)
-
-**Week 4:** [IoT Device Simulation](1.4-week4/)
-
-**Week 5:** [Command Execution & Two-Way Communication](1.5-week5/)
-
-**Week 6:** [Frontend Development - Dashboard UI](1.6-week6/)
-
-**Week 7:** [Frontend Development Control Panel & Analytics](1.7-week7/)
-
-**Week 8:** [End-to-End System Integration](1.8-week8/)
-
-**[Expected] Week 9:** [System Security & Stress Testing](1.9-week9/)
-
-**[Expected] Week 10** [Final Documentation & Pitch Preparation](1.10-week10/)
+> This worklog reflects the implemented model: one EC2 instance running FastAPI, one RDS for PostgreSQL database, a client-side React dashboard, and one sample device named `room_01`. It does not claim that Auto Scaling, SQS, an event-driven architecture, or a multi-site BMS was deployed.

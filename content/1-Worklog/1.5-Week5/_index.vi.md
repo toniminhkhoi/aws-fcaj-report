@@ -1,30 +1,42 @@
 ---
-title: "Worklog Tuần 5"
-date: "2026-07-13"
+title: "Tuần 5 - Xây dựng API telemetry và command"
+date: "2026-06-29"
 weight: 5
 chapter: false
 pre: " <b> 1.5. </b> "
 ---
 
-### Mục tiêu tuần 5:
+> **Thời gian:** 29/06/2026 – 05/07/2026
+> **Vai trò:** Phối hợp với thành viên backend để đối chiếu API với yêu cầu phần cứng và hạ tầng.
 
-- Cho phép backend nhận các lệnh điều khiển (commands) từ giao diện Dashboard.
-- Xây dựng cơ chế để các thiết bị IoT lấy về và thực thi các lệnh đang chờ xử lý.
-- Thiết lập giao tiếp hai chiều hoàn chỉnh giữa Python Simulator và kiến trúc Cloud.
+## Mục tiêu
 
-### Công việc thực hiện trong tuần này:
+- Hoàn thiện API nhận và truy xuất telemetry.
+- Xây dựng API tạo, thăm dò và xác nhận command.
+- Kiểm tra dữ liệu được lưu đúng trong PostgreSQL.
 
-| Day | Task | Start Date | Completion Date | Reference Material |
-| :-- | :--- | :--------- | :-------------- | :----------------- |
-| 1   | **POST /command:** Tạo API endpoint để Dashboard gửi lệnh điều khiển (VD: Bật/Tắt quạt, Mở rèm). | 13/07/2026 | 14/07/2026 | Tài liệu FastAPI |
-| 2   | **Command Queue:** Triển khai logic trong PostgreSQL để xếp hàng (queue) các lệnh chờ xử lý cho các thiết bị cụ thể. | 15/07/2026 | 15/07/2026 | Tài liệu PostgreSQL |
-| 3   | **Device Polling:** Cập nhật Python Simulator để định kỳ lấy (GET) các lệnh chờ xử lý và xác nhận đã thực thi. | 16/07/2026 | 17/07/2026 | Tài liệu Python Requests |
-| 4   | **Command Logging:** Đảm bảo tất cả các lệnh đã thực thi được ghi log trong CloudWatch để phục vụ kiểm toán (audit trails). | 18/07/2026 | 19/07/2026 | Tài liệu AWS CloudWatch |
-| 5   | **System Review:** Đội ngũ đồng bộ (team sync) để đảm bảo backend hoạt động ổn định trước khi tích hợp với frontend. | 18/07/2026 | 19/07/2026 | Tài liệu Kiến trúc Hệ thống |
+## Công việc đã thực hiện
 
-### Thành tựu Tuần 5:
+| Thời gian | Công việc | Kết quả ghi nhận |
+| :--- | :--- | :--- |
+| 29–30/06 | Đối chiếu schema Pydantic cho telemetry với payload camelCase của firmware | Backend nhận `deviceId`, `lightIntensity` và ánh xạ sang mô hình dữ liệu |
+| 01/07 | Hoàn thiện `POST /api/telemetry` | Telemetry hợp lệ của `room_01` tạo bản ghi trong `telemetry_logs` |
+| 02/07 | Hoàn thiện API dữ liệu mới nhất và lịch sử | Dashboard có thể gọi `/latest` và `/history` theo `device_id` |
+| 03–04/07 | Hoàn thiện API tạo command, lấy command chờ và ACK | Command mới được lưu ở `Pending`; ACK chuyển đúng ID sang `Executed` |
+| 05/07 | Kiểm tra OpenAPI, chạy yêu cầu `curl` và đối chiếu bằng truy vấn SQL | Các route, phản hồi JSON và trạng thái cơ sở dữ liệu khớp nhau |
 
-- **Giao tiếp hai chiều:** Thiết lập thành công giao tiếp hai chiều hoàn chỉnh giữa hệ thống Simulator và Cloud.
-- **Command Endpoints:** Tạo và tích hợp thành công các API endpoint cho phép điều khiển thiết bị từ xa (Quạt, Rèm).
-- **Cơ chế Hàng đợi (Queue):** Thiết kế logic xếp hàng đáng tin cậy trên PostgreSQL để quản lý các lệnh IoT chờ xử lý.
-- **Ghi log kiểm toán:** Tích hợp CloudWatch để duy trì dấu vết kiểm toán (audit trails) cho tất cả các lệnh đã thực thi.
+## Kết quả tuần
+
+- Hoàn thiện luồng telemetry, latest, history, command polling và ACK.
+- Xác minh vòng đời lệnh bằng cùng một command ID trong API và PostgreSQL.
+- Ghi nhận hạn chế: backend chưa kiểm tra chặt enum command và endpoint ACK chưa xác minh command thuộc đúng thiết bị trong route.
+
+## Khó khăn và bài học
+
+Trạng thái `Pending` có thể tồn tại rất ngắn khi thiết bị thăm dò thường xuyên. Cần lưu phản hồi tạo command trước, sau đó truy vấn cùng ID sau ACK để có bằng chứng đầy đủ.
+
+## Liên kết Workshop
+
+- [5.3 Đặc tả API và luồng dữ liệu](../../5-workshop/5.3-architecture-and-service-design/)
+- [5.5 Backend và cơ sở dữ liệu](../../5-workshop/5.5-backend-and-database/)
+- [5.8 Kiểm thử và xác minh đầu cuối](../../5-workshop/5.8-end-to-end-testing/)
