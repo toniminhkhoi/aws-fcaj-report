@@ -142,4 +142,17 @@ The table preserves the agreed assignment and points reviewers to contribution e
 
 <!-- TODO IMAGE: /images/5-Workshop/5.12-handover/repository-handover-checklist.png — Final redacted repository/resource/test handover checklist with commit IDs, owners, open issues, and team sign-off. -->
 
+## Demo and Handover Resources
+
+The final handover package includes:
+
+- Source code repository
+- End-to-end demo video
+- Deployment and operation documentation
+- Bilingual Workshop
+- Architecture diagram
+- AWS resource clean-up instructions
+
+See [References]({{% relref "8-References/_index.md" %}}).
+
 Return to the [Workshop landing page](../).

@@ -142,4 +142,17 @@ Bảng trên giữ nguyên nội dung phân công đã thống nhất và dẫn 
 
 <!-- TODO IMAGE: /images/5-Workshop/5.12-handover/repository-handover-checklist.png — Danh sách kiểm tra bàn giao kho mã nguồn, tài nguyên và kết quả kiểm thử; đã che thông tin nhạy cảm, có mã commit, người phụ trách, vấn đề còn mở và xác nhận của nhóm. -->
 
+## Demo và tài nguyên bàn giao
+
+Gói bàn giao cuối cùng gồm:
+
+- Repository source code
+- Video demo end-to-end
+- Tài liệu triển khai và vận hành
+- Workshop song ngữ
+- Sơ đồ kiến trúc
+- Hướng dẫn clean-up tài nguyên AWS
+
+Xem đầy đủ tại [Tài liệu tham khảo]({{% relref "8-References/_index.vi.md" %}}).
+
 Quay lại [trang Workshop](../).
