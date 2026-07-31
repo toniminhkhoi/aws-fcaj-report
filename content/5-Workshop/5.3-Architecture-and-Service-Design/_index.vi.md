@@ -14,7 +14,7 @@ pre: " <b> 5.3. </b> "
 
 Người dùng dashboard và YOLO UNO nằm ngoài AWS. CloudFront phân phối bản build React + Vite từ S3 private và chuyển request browser `/api/*` đến ALB Internet-facing. YOLO UNO dùng trực tiếp DNS ALB. Trong VPC, ALB định tuyến đến hai FastAPI instance do ASG quản lý tại `ap-southeast-1a` và `ap-southeast-1c`; RDS PostgreSQL Multi-AZ có primary tại `ap-southeast-1c` và standby tại `ap-southeast-1b`. Mỗi backend instance có EBS root volume được mã hóa.
 
-![Luồng dữ liệu trình duyệt, thiết bị, command, ACK và giám sát](/images/5-Workshop/5.3-architecture/architecture-data-flows.svg)
+![Luồng dữ liệu trình duyệt, thiết bị, command, ACK và giám sát](/images/5-Workshop/5.3-architecture/verified-application-flows-v2.png)
 
 *Hình 5-3. Trình duyệt dùng CloudFront, còn YOLO UNO gọi trực tiếp ALB; hai tuyến cùng hội tụ tại mô hình telemetry và command của FastAPI/RDS.*
 
