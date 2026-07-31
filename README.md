@@ -22,24 +22,13 @@ The React + Vite dashboard is built and stored in a private Amazon S3 bucket, se
 
 ## 🏛️ System Architecture
 
-```text
-Browser ──HTTPS──> CloudFront + AWS WAF
-                      ├── Default (*) ──> Private S3 (React + Vite)
-                      └── /api/* ──────> ALB HTTP:80
-                                             │
-YOLO UNO / Simulator ──HTTP──────────────────┤
-                                             ▼
-                                  Target Group HTTP:8000
-                                             │
-                                  ASG: 2 EC2 instances
-                                  EBS · IAM Role · systemd
-                                             │
-                                             ▼
-                              RDS PostgreSQL Multi-AZ
-                              Primary 1c · Standby 1b
-
-CloudWatch monitors ALB, ASG, EC2, RDS, logs, and eight alarms.
-```
+<p align="center">
+  <img
+    src="static/images/2-Proposal/IoT_Dashboard_Architecture.png"
+    alt="AWS IoT Monitoring and Control Dashboard Architecture"
+    width="100%"
+  />
+</p>
 
 ### Main Components
 

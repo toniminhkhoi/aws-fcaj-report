@@ -22,24 +22,13 @@ Dashboard React + Vite được build và lưu trong bucket Amazon S3 riêng tư
 
 ## 🏛️ Kiến trúc hệ thống
 
-```text
-Trình duyệt ──HTTPS──> CloudFront + AWS WAF
-                         ├── Default (*) ──> S3 riêng tư (React + Vite)
-                         └── /api/* ──────> ALB HTTP:80
-                                                │
-YOLO UNO / Simulator ──HTTP─────────────────────┤
-                                                ▼
-                                     Target Group HTTP:8000
-                                                │
-                                     ASG: 2 EC2 instances
-                                     EBS · IAM Role · systemd
-                                                │
-                                                ▼
-                                 RDS PostgreSQL Multi-AZ
-                                 Primary 1c · Standby 1b
-
-CloudWatch giám sát ALB, ASG, EC2, RDS, log và tám cảnh báo.
-```
+<p align="center">
+  <img
+    src="static/images/2-Proposal/IoT_Dashboard_Architecture.png"
+    alt="Kiến trúc AWS IoT Monitoring and Control Dashboard"
+    width="100%"
+  />
+</p>
 
 ### Thành phần chính
 
