@@ -42,8 +42,6 @@ The active `hardware/src/main.cpp` defines this map; it takes precedence over st
 
 The YOLO UNO pinout image has not yet been provided. Do not treat a pinout as a complete wiring diagram; use the verified table below together with the firmware definitions.
 
-<!-- TODO: Add yolo-uno-pinout-gpio-mapping.png -->
-
 ### Hardware Port Mapping
 
 | Device | YOLO UNO Physical Port | Firmware Pin |

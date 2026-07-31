@@ -86,8 +86,6 @@ Bảng dưới đây tổng hợp các tài nguyên dự án đang sử dụng. 
 
 > **Lưu ý:** Không dọn dẹp tài nguyên trước khi lưu đầy đủ ảnh chụp màn hình, log, kết quả kiểm thử, mã nguồn và video minh họa cần thiết. Các volume của instance ASG trong bằng chứng hiện tại đã được mã hóa bằng khóa AWS managed `aws/ebs`.
 
-<!-- TODO: Capture this rendered table as aws-resource-inventory.png -->
-
 ## Bước 4 - Chỉ dọn dẹp tài nguyên thuộc dự án
 
 1. Lưu ảnh chụp màn hình, log, mã nguồn, kết quả kiểm thử và video minh họa; dừng telemetry/lệnh mới và đưa thiết bị chấp hành về trạng thái an toàn.

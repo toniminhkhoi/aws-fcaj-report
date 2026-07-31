@@ -42,8 +42,6 @@ Firmware hiện dùng trong `hardware/src/main.cpp` định nghĩa sơ đồ ch�
 
 Ảnh pinout YOLO UNO chưa được cung cấp. Pinout không thay thế sơ đồ đấu dây hoàn chỉnh; hãy đối chiếu bảng đã xác minh dưới đây với các định nghĩa trong firmware.
 
-<!-- TODO: Add yolo-uno-pinout-gpio-mapping.png -->
-
 ### Ánh xạ cổng phần cứng
 
 | Thiết bị | Cổng vật lý trên YOLO UNO | Chân trong firmware |

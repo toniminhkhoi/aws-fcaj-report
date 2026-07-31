@@ -86,8 +86,6 @@ The following table summarizes the resources currently used by the project. Requ
 
 > **Note:** Do not begin clean-up until all required screenshots, logs, validation results, source code, and demonstration videos have been preserved. The ASG instance volumes shown in the current evidence are encrypted with the AWS managed `aws/ebs` key.
 
-<!-- TODO: Capture this rendered table as aws-resource-inventory.png -->
-
 ## Step 4 - Clean up only project-owned resources
 
 1. Preserve screenshots, logs, source code, test results, and demonstration videos; stop new telemetry/command traffic and place actuators in a safe state.
