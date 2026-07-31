@@ -77,11 +77,11 @@ Dùng cấu trúc file bí mật sau:
 #pragma once
 constexpr char WIFI_SSID[] = "<YOUR_WIFI_SSID>";
 constexpr char WIFI_PASSWORD[] = "<YOUR_WIFI_PASSWORD>";
-constexpr char API_BASE_URL[] = "http://<EC2_PUBLIC_IP>:8000";
+constexpr char API_BASE_URL[] = "http://<ALB_DNS_NAME>";
 constexpr char DEVICE_ID[] = "room_01";
 ```
 
-Không công khai mật khẩu Wi-Fi thật. Nếu EC2 bị dừng rồi khởi động lại, hãy kiểm tra lại `API_BASE_URL`.
+Không công khai mật khẩu Wi-Fi thật. Route thiết bị đã kiểm chứng là HTTP trực tiếp tới DNS của ALB; không đưa IP của EC2 hoặc domain CloudFront của frontend vào firmware, trừ khi có một route thiết bị khác đã được kiểm thử riêng.
 
 ## Bước 3 - Xác minh cảm biến và thiết bị chấp hành tại chỗ
 
@@ -116,6 +116,8 @@ Firmware tạo JSON với đúng các tên trường camelCase mà backend chấ
 ```text
 YOLO UNO đọc cảm biến → tạo JSON → POST /api/telemetry → kiểm tra trạng thái HTTP → chờ đến chu kỳ tiếp theo
 ```
+
+ALB forward các request từ thiết bị tới một FastAPI target Healthy trên cổng 8000. Thiết bị không chọn và không phụ thuộc vào một instance cụ thể trong ASG.
 
 Khi HTTP trả về trạng thái không thành công, hãy ghi lại phản hồi và thử lại sau một khoảng trễ có giới hạn. Việc gửi dữ liệu qua mạng không được chặn vô thời hạn logic an toàn của thiết bị chấp hành.
 
@@ -195,7 +197,7 @@ PlatformIO biên dịch thành công môi trường `yolo_uno` và tạo `firmwa
 | Giá trị ánh sáng kẹt min/max | Khả năng ADC của pin, dải điện áp, dây |
 | Bo mạch khởi động lại khi bật thiết bị chấp hành | Nguồn ngoài, dòng tiêu thụ, diode bảo vệ và nối chung mass |
 | Wi-Fi lặp lại quá trình kết nối | SSID/mật khẩu, cường độ tín hiệu, khoảng trễ chặn và thời gian chờ giữa các lần thử |
-| HTTP hết thời gian chờ | IP công khai, cổng 8000, EC2 SG, địa chỉ bind của Uvicorn và mạng máy khách |
+| HTTP hết thời gian chờ | DNS ALB, Wi-Fi/DNS, listener HTTP:80, target health, backend SG và địa chỉ bind của Uvicorn |
 | Lệnh bị lặp | So sánh ID lệnh và tách việc thực thi thiết bị khỏi việc gửi lại ACK |
 | Lệnh giữ trạng thái `Pending` | URL/ID/nội dung ACK, phản hồi HTTP và log backend |
 | Lệnh không được hỗ trợ | Ghi log và từ chối; không ACK thành `Executed` |

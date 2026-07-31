@@ -8,7 +8,7 @@ pre: " <b> 5.4. </b> "
 
 ## Tổng quan và mục tiêu
 
-Xây dựng nền tảng mạng, quyền truy cập, tài nguyên tính toán, lưu trữ và cơ sở dữ liệu cho mô hình thử nghiệm. Trong ghi chú và ảnh chụp, hãy dùng giá trị giữ chỗ; không công khai ID tài khoản, mật khẩu, endpoint riêng tư hoặc khóa.
+Xây dựng nền tảng mạng, bảo mật biên, cân bằng tải, Auto Scaling, lưu trữ và cơ sở dữ liệu cho hệ thống đang vận hành. Trong ghi chú và ảnh chụp, hãy dùng giá trị giữ chỗ; không công khai ID tài khoản, mật khẩu, endpoint riêng tư hoặc khóa.
 
 ## Bước 1 - Chọn khu vực và lập kế hoạch địa chỉ
 
@@ -20,34 +20,58 @@ Trong AWS Console, chọn khu vực đã thống nhất cho dự án. Workshop d
 
 1. Mở **VPC → Your VPCs**, tạo hoặc chọn VPC của dự án.
 2. Bật DNS resolution và DNS hostnames.
-3. Tạo/chọn public subnet cho EC2.
+3. Tạo/chọn hai public application subnet ở `ap-southeast-1a` và `ap-southeast-1c` cho ALB và Auto Scaling Group.
 4. Gắn Internet Gateway vào VPC.
-5. Thêm `0.0.0.0/0 → Internet Gateway` vào route table của public subnet.
-6. Tạo hoặc chọn hai subnet cơ sở dữ liệu ở hai Availability Zone. Không thêm route tới Internet Gateway cho các DB subnet private.
+5. Thêm `0.0.0.0/0 → Internet Gateway` vào route table của các application subnet.
+6. Tạo hoặc chọn các subnet cơ sở dữ liệu private ở ít nhất hai Availability Zone; cấu hình đã kiểm chứng dùng primary tại `ap-southeast-1c` và standby tại `ap-southeast-1b`. Không thêm route tới Internet Gateway cho các DB subnet.
 7. Trong **RDS → Subnet groups**, tạo DB Subnet Group chứa cả hai DB subnet.
 
-**Kết quả mong đợi:** EC2 có thể nhận địa chỉ IPv4 công khai, trong khi các subnet cơ sở dữ liệu vẫn nằm trong mạng riêng.
+**Kết quả mong đợi:** ALB trải trên hai application subnet, ASG duy trì hai backend ở hai Availability Zone và các subnet cơ sở dữ liệu vẫn nằm trong mạng riêng.
+
+## Bước 2A - Cấu hình S3 private, CloudFront và WAF
+
+1. Build frontend React + Vite và tải các artifact trong `dist` lên bucket S3 của dự án.
+2. Bật **Block all public access** cho bucket.
+3. Tạo CloudFront Origin Access Control (OAC) và chỉ cho distribution đọc các object S3 cần thiết.
+4. Cấu hình hai CloudFront origin: bucket S3 private cho static file và `iot-backend-alb` cho API.
+5. Giữ default behavior `*` trỏ tới S3 origin với managed optimized caching.
+6. Tạo behavior `/api/*` có độ ưu tiên cao hơn cho ALB origin, tắt cache, chuyển tiếp các viewer value cần thiết ngoại trừ header `Host` và cho phép các HTTP method mà API sử dụng.
+7. Gắn web ACL do CloudFront tạo. Ba managed rule group hiện chạy ở **Count/Monitor mode**, nên chỉ quan sát request và chưa chặn request.
+
+CloudFront cung cấp HTTPS cho trình duyệt. Trong cấu hình đã kiểm chứng, CloudFront kết nối đến ALB origin qua HTTP và YOLO UNO cũng gọi trực tiếp ALB qua HTTP; không mô tả hai tuyến này là TLS đầu cuối.
+
+![Hai CloudFront origin cho frontend S3 private và ALB API](/images/5-Workshop/5.4-aws-infrastructure/cloudfront-distribution-origins.png)
+*Hình 3a. Distribution có hai origin riêng cho S3 private và ALB.*
+
+![Hai CloudFront behavior cho static content và API](/images/5-Workshop/5.4-aws-infrastructure/cloudfront-behaviors.png)
+*Hình 3b. Default behavior phục vụ nội dung S3; `/api/*` có ưu tiên cao hơn và dùng ALB origin.*
+
+![Bucket S3 private với Block Public Access và CloudFront OAC](/images/5-Workshop/5.4-aws-infrastructure/s3-private-oac.png)
+*Hình 3c. Bucket frontend vẫn private và chỉ cho CloudFront distribution đọc object qua OAC.*
+
+![AWS WAF web ACL có ba managed rule group](/images/5-Workshop/5.4-aws-infrastructure/waf-web-acl-three-rules.png)
+*Hình 3d. Ba AWS managed rule group được gắn với distribution và đang ở Count mode.*
 
 ## Bước 3 - Tạo Security Group
 
-Tạo các Security Group của EC2 và RDS trong cùng VPC. Môi trường đã triển khai dùng `iot-backend-sg` cho lưu lượng backend, `ec2-rds-1` cho kết nối từ EC2 tới RDS và `rds-ec2-1` cho quy tắc phía RDS.
+Tạo các Security Group của ALB, backend và RDS trong cùng VPC. Môi trường đã triển khai dùng ALB Security Group cho lưu lượng HTTP công khai, `iot-backend-sg` cho backend, `ec2-rds-1` cho kết nối từ EC2 tới RDS và `rds-ec2-1` cho quy tắc phía RDS.
 
 | Security Group | Loại | Nguồn | Mục đích |
 | :--- | :---: | :--- | :--- |
+| ALB Security Group | HTTP 80 | `0.0.0.0/0` | Nhận request từ CloudFront và thiết bị YOLO UNO |
+| `iot-backend-sg` | Custom TCP 8000 | ALB Security Group | Chỉ nhận FastAPI traffic từ ALB |
 | `iot-backend-sg` | SSH 22 | `<ADMIN_IP>/32` | Quản trị có giới hạn |
-| `iot-backend-sg` | Custom TCP 8000 | `0.0.0.0/0` trong Workshop hiện tại | Truy cập FastAPI trực tiếp để demo |
-| `iot-backend-sg` | HTTP 80 | Quy tắc đang tồn tại trong group | Không tuyên bố đã triển khai Nginx hoặc reverse proxy |
 | `ec2-rds-1` → `rds-ec2-1` | PostgreSQL 5432 | Tham chiếu EC2 Security Group | Chỉ EC2 tới RDS |
 
-Trong Workshop, cổng 8000 được mở để frontend và YOLO UNO truy cập FastAPI backend. Khi đưa vào môi trường production, cần giới hạn nguồn truy cập, dùng HTTPS, reverse proxy và cơ chế xác thực. Quy tắc cổng 80 trong ảnh không chứng minh Nginx hoặc một reverse proxy khác đang chạy. RDS không mở trực tiếp cổng PostgreSQL 5432 cho `0.0.0.0/0`; cơ sở dữ liệu chỉ nhận kết nối từ EC2 Security Group.
+Backend không còn công khai trực tiếp cổng 8000. Trình duyệt gọi `/api/*` qua CloudFront, còn YOLO UNO dùng DNS của ALB theo đúng route đã kiểm chứng. ALB forward tới target group trên cổng 8000. RDS không mở PostgreSQL 5432 cho `0.0.0.0/0`; cơ sở dữ liệu chỉ nhận kết nối từ EC2 Security Group.
 
 Hai ảnh dưới đây tách riêng quy tắc phía EC2 và quan hệ Security Group phía RDS, đồng thời đã che IP quản trị cùng các định danh nhạy cảm.
 
-![Quy tắc inbound và outbound của EC2 Security Group](/images/5-Workshop/5.4-aws-infrastructure/security-group-rules-EC2.png)
-*Hình 7a. Các quy tắc EC2 Security Group của `iot-backend-server`: SSH chỉ cho phép địa chỉ quản trị `/32`; cổng 80 và 8000 được mở cho Workshop; lưu lượng PostgreSQL trên cổng 5432 đi tới RDS Security Group.*
+![Chuỗi Security Group từ ALB tới backend và RDS](/images/5-Workshop/5.4-aws-infrastructure/security-group-chain.png)
+*Hình 7a. Chuỗi Security Group giới hạn luồng `Internet/CloudFront → ALB:80 → backend:8000 → RDS:5432`.*
 
-![Quan hệ giữa RDS Security Group và EC2 Security Group](/images/5-Workshop/5.4-aws-infrastructure/security-group-rules-DB.png)
-*Hình 7b. Phần kết nối RDS hiển thị `rds-ec2-1` là VPC Security Group của cơ sở dữ liệu và `ec2-rds-1` là EC2 Security Group liên kết, qua đó xác nhận quan hệ giữa hai Security Group.*
+![RDS chỉ cho phép PostgreSQL từ backend Security Group](/images/5-Workshop/5.4-aws-infrastructure/rds-security-group.png)
+*Hình 7b. RDS Security Group cho phép TCP 5432 từ Security Group của backend, không mở cơ sở dữ liệu ra Internet.*
 
 ## Bước 4 - Tạo EC2 IAM Role
 
@@ -60,26 +84,45 @@ Không tạo access key dài hạn. Role đang dùng AWS-managed policy `CloudWa
 
 Trang Security của EC2 và phần chi tiết IAM Role xác nhận role đã được gắn cùng AWS-managed policy.
 
-![IAM Role và CloudWatchAgentServerPolicy được gắn với EC2](/images/5-Workshop/5.4-aws-infrastructure/ec2-iam-role-cloudwatch.png)
+![IAM Role và CloudWatchAgentServerPolicy được gắn với EC2](/images/5-Workshop/5.4-aws-infrastructure/ec2-iam-role.png)
 *Hình 5. EC2 được gắn IAM Role `iot-dashboard-cloudwatch-role`, và role này sử dụng `CloudWatchAgentServerPolicy` để CloudWatch Agent gửi log và metric mà không cần hard-code AWS access key.*
 
-## Bước 5 - Khởi chạy EC2 và cấu hình EBS
+## Bước 5 - Chuẩn bị AMI, Launch Template, ASG và EBS
 
-1. Khởi chạy `iot-backend-server` từ Linux AMI đã duyệt, dùng loại instance `t3.micro`.
-2. Đặt instance trong public subnet và bật IPv4 công khai để phục vụ demo.
-3. Gắn các EC2 Security Group đã triển khai, key pair và IAM instance profile.
-4. Cấu hình ổ đĩa gốc EBS loại `gp3` với dung lượng 10 GiB.
-5. Thêm tag cho dự án, người sở hữu, môi trường và ngày dọn dẹp.
-6. Chờ EC2 chuyển sang **Running** và vượt qua `3/3` status checks hiển thị trên Console.
+1. Xác minh instance nguồn chạy FastAPI ổn định trước khi tạo AMI.
+2. Tạo AMI `iot-backend-ami-v1` và dùng AMI này trong Launch Template `iot-backend-template`.
+3. Chọn loại instance `t3.micro`, gắn IAM instance profile, key pair và backend Security Group trong Launch Template.
+4. Cấu hình ổ đĩa gốc EBS `gp3`, 10 GiB, bật mã hóa bằng khóa AWS managed `aws/ebs`.
+5. Tạo Auto Scaling Group `iot-backend-asg` trên hai application subnet với `min/desired/max = 2/2/4`.
+6. Chờ hai instance chuyển sang **InService**, **Healthy** và vượt qua status checks.
 
-Ổ đĩa gốc EBS hiện ở trạng thái **In-use** với I/O bình thường. Volume EBS hiện tại chưa được mã hóa. Khi triển khai production, nên bật EBS encryption bằng AWS KMS để bảo vệ dữ liệu lưu trữ.
+Launch Template và ASG thay cho việc phụ thuộc vào một EC2 duy nhất. Không ghi lại hoặc đưa địa chỉ IP instance vào frontend hay firmware; điểm vào ổn định của backend là DNS của ALB.
 
-Ghi lại `<EC2_PUBLIC_IP>` nhưng không công khai khóa riêng, Instance ID hoặc thông tin key pair. Địa chỉ IP công khai có thể thay đổi sau khi dừng và khởi động lại EC2; Elastic IP mới chỉ là lựa chọn trong tương lai.
+![AMI và Launch Template của backend](/images/5-Workshop/5.4-aws-infrastructure/launch-template-ami.png)
+*Hình 4a. Launch Template phiên bản 1 dùng AMI riêng của FastAPI backend.*
 
-Trang EC2 Instances xác nhận loại instance, Availability Zone, trạng thái hoạt động và kết quả kiểm tra trạng thái.
+![ASG duy trì hai backend ở hai Availability Zone](/images/5-Workshop/5.4-aws-infrastructure/asg-capacity-instances.png)
+*Hình 4b. `iot-backend-asg` duy trì desired capacity bằng 2, giới hạn 2–4 và có hai instance Healthy/InService.*
 
-![Amazon EC2 instance chạy FastAPI backend](/images/5-Workshop/5.4-aws-infrastructure/ec2-instance-running.png)
-*Hình 4. Amazon EC2 instance `iot-backend-server` chạy FastAPI backend ở trạng thái Running và vượt qua toàn bộ status checks.*
+![Các volume EBS của backend được mã hóa](/images/5-Workshop/5.4-aws-infrastructure/ebs-encryption-kms.png)
+*Hình 4c. Các volume `gp3` 10 GiB mới của ASG được mã hóa bằng khóa AWS managed `aws/ebs`.*
+
+### Bước 5A - Tạo Target Group và Application Load Balancer
+
+1. Tạo target group `iot-backend-tg`, target type **Instance**, protocol/port `HTTP:8000`.
+2. Cấu hình health check tại `/api/health`.
+3. Tạo internet-facing Application Load Balancer `iot-backend-alb` trên hai application subnet.
+4. Tạo listener `HTTP:80` và forward 100% request tới `iot-backend-tg`.
+5. Gắn target group với ASG và xác minh cả hai target đều **Healthy**.
+
+![Application Load Balancer đang Active](/images/5-Workshop/5.4-aws-infrastructure/alb-overview.png)
+*Hình 5a. `iot-backend-alb` ở trạng thái Active và trải trên hai Availability Zone.*
+
+![ALB listener forward tới target group](/images/5-Workshop/5.4-aws-infrastructure/alb-listener-forwarding.png)
+*Hình 5b. Listener HTTP:80 forward toàn bộ request tới `iot-backend-tg`.*
+
+![Hai target backend Healthy](/images/5-Workshop/5.4-aws-infrastructure/target-group-healthy.png)
+*Hình 5c. Target group có hai target Healthy, mỗi target ở một Availability Zone.*
 
 ## Bước 6 - Tạo Amazon RDS for PostgreSQL
 
@@ -89,19 +132,28 @@ Trang EC2 Instances xác nhận loại instance, Availability Zone, trạng thá
 4. Chọn VPC của dự án, DB Subnet Group `rds-ec2-db-subnet-group-1` và các RDS Security Group đã triển khai.
 5. Giữ Internet access gateway ở trạng thái Disabled như cấu hình RDS thực tế.
 6. Lưu mật khẩu quản trị an toàn dưới dạng `<DB_PASSWORD>`; không đưa mật khẩu thật vào ảnh hoặc Git.
-7. Chỉ bật sao lưu, mã hóa và giám sát theo cấu hình đã được dự án phê duyệt.
-8. Chờ `iot-dashboard-db` chuyển sang **Available** tại `ap-southeast-1c` và lưu `<RDS_ENDPOINT>` ở nơi riêng tư.
+7. Bật Multi-AZ, automated backup với thời gian lưu 7 ngày và tạo manual snapshot trước thay đổi lớn.
+8. Chờ `iot-dashboard-db` chuyển sang **Available**; cấu hình đã kiểm chứng có primary tại `ap-southeast-1c` và standby tại `ap-southeast-1b`. Lưu `<RDS_ENDPOINT>` ở nơi riêng tư.
 
-Không tuyên bố đã triển khai Multi-AZ, read replica, High Availability, RDS Proxy, public endpoint hoặc IAM database authentication vì bằng chứng hiện có chưa xác nhận các tính năng này.
+Standby Multi-AZ phục vụ failover và không phải read replica để ứng dụng đọc dữ liệu. Workshop chưa triển khai RDS Proxy, public endpoint hoặc IAM database authentication.
 
 Trang Summary và Connectivity & security của RDS xác nhận PostgreSQL engine, DB class, DB Subnet Group, Availability Zone và trạng thái tắt Internet access gateway.
 
 ![Amazon RDS PostgreSQL ở trạng thái Available và sử dụng DB Subnet Group](/images/5-Workshop/5.4-aws-infrastructure/rds-postgresql-available.png)
 *Hình 6. Amazon RDS for PostgreSQL `iot-dashboard-db` ở trạng thái Available, sử dụng DB Subnet Group `rds-ec2-db-subnet-group-1` và tắt Internet access gateway.*
 
+![Primary và standby của RDS Multi-AZ](/images/5-Workshop/5.4-aws-infrastructure/rds-primary-standby-az.png)
+*Hình 6a. AWS CLI xác nhận Multi-AZ được bật, primary ở `ap-southeast-1c` và standby ở `ap-southeast-1b`.*
+
+![RDS automated backup được lưu 7 ngày](/images/5-Workshop/5.4-aws-infrastructure/rds-backup-retention.png)
+*Hình 6b. Automated backup được bật với retention period 7 ngày.*
+
+![Manual snapshot trước thay đổi hạ tầng](/images/5-Workshop/5.4-aws-infrastructure/rds-manual-snapshot.png)
+*Hình 6c. Manual snapshot hoàn tất và sẵn sàng phục hồi khi cần.*
+
 ## Bước 7 - Xác minh truy cập và mạng
 
-Kết nối từ Windows PowerShell:
+Nếu cần quản trị một instance cụ thể, kết nối từ Windows PowerShell bằng IP quản trị được cấp tạm thời:
 
 ```powershell
 ssh -i "$env:USERPROFILE\.ssh\<KEY_FILE>.pem" <EC2_USER>@<EC2_PUBLIC_IP>
@@ -116,9 +168,15 @@ nc -vz <RDS_ENDPOINT> 5432
 
 Nếu chưa có `nc`, hãy cài gói netcat phù hợp với bản phân phối Linux. Kết nối TCP thành công chỉ xác nhận route và Security Group hoạt động; kết quả này chưa chứng minh thông tin đăng nhập cơ sở dữ liệu là chính xác.
 
+Từ máy khách, kiểm tra health endpoint qua ALB:
+
+```powershell
+curl.exe -sS -i "http://<ALB_DNS_NAME>/api/health"
+```
+
 ## Kết quả mong đợi và bằng chứng
 
-Các hình trên cung cấp bằng chứng đã che thông tin nhạy cảm về trạng thái **Running** của EC2, IAM Role đã gắn, trạng thái **Available** của RDS, DB Subnet Group và quy tắc Security Group ở cả hai phía. Cần lưu riêng kết quả kiểm tra cổng từ EC2 tới RDS và thông tin chi tiết của volume EBS.
+Các hình trên cung cấp bằng chứng đã che thông tin nhạy cảm về AMI/Launch Template, ASG hai instance, EBS mã hóa, ALB và hai target Healthy, IAM Role đã gắn, RDS Multi-AZ, backup/snapshot và chuỗi Security Group. Cần lưu riêng kết quả kiểm tra cổng từ backend tới RDS và health check qua ALB.
 
 ## Xử lý sự cố
 
@@ -129,6 +187,7 @@ Các hình trên cung cấp bằng chứng đã che thông tin nhạy cảm về
 | RDS hết thời gian chờ | Endpoint/khu vực, route của DB subnet, nguồn trong RDS SG và network ACL |
 | RDS từ chối kết nối | Thông tin đăng nhập, đúng cổng và cơ sở dữ liệu đang ở trạng thái `Available` |
 | EC2 không gửi được metric | IAM instance profile đã gắn và kết nối HTTPS đi ra |
-| Trình duyệt không tới cổng 8000 | Địa chỉ bind, trạng thái dịch vụ, EC2 SG và mạng của máy khách |
+| Trình duyệt gọi API thất bại | CloudFront behavior `/api/*`, ALB listener, target health và backend log |
+| YOLO UNO không tới backend | DNS ALB trong firmware, Wi-Fi/DNS, ALB listener và target health |
 
 Tiếp theo: [triển khai FastAPI và kết nối PostgreSQL](../5.5-Backend-and-Database/).

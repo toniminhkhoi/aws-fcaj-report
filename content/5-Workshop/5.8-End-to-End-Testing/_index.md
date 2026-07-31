@@ -12,6 +12,9 @@ Validate each boundary independently, then correlate the complete telemetry and 
 
 This section combines a complete test matrix with browser, API, PostgreSQL, and physical-hardware evidence. Each item states what its evidence proves so that a single screenshot is not used to support conclusions beyond what is visible.
 
+![Dashboard, PostgreSQL command records, and physical hardware](/images/5-Workshop/5.8-validation/end-to-end-system-overview.png)
+*Figure 14a. End-to-end evidence combines the dashboard, database command state, and the physical YOLO UNO prototype; each layer is still validated separately below.*
+
 ## Step 1 - Establish the test protocol and validation strategy
 
 1. Record the date, tester, application commit ID, firmware build, AWS Region, and `device_id`.
@@ -23,7 +26,9 @@ This section combines a complete test matrix with browser, API, PostgreSQL, and 
 Correlate the command path across the following layers:
 
 ```text
-React + Vite UI
+React + Vite UI on CloudFront
+    -> CloudFront /api/* behavior
+    -> Application Load Balancer
     -> FastAPI command endpoint
     -> PostgreSQL commands table
     -> YOLO UNO command polling
@@ -50,6 +55,8 @@ No single screenshot proves this complete path. Frontend/API evidence confirms b
 | T10 | Verify the ACK lifecycle | A command from T05–T09 exists | Observe the ACK request and query the same command ID | The command changes from `Pending` to `Executed` | Figure 9 and the acknowledged command record | **Pass** |
 | T11 | Verify PostgreSQL persistence | A database session is available | Query telemetry and commands after API refresh | Records remain available and can be queried again | Figure 9 and the repeated SQL query | **Pass** |
 | T12 | Verify CloudWatch logs | CloudWatch Agent and log collection are configured | Generate a health or telemetry request | A corresponding backend event appears in the expected log stream | Backend log evidence in section 5.9 | **Pass** |
+| T13 | Verify the production browser route | CloudFront distribution is deployed | Open the CloudFront domain and inspect Fetch/XHR | The page loads from S3 and `/api/*` requests return HTTP 200 through the ALB origin | CloudFront/API evidence in sections 5.4 and 5.7 | **Pass** |
+| T14 | Verify backend target health | ALB and ASG are deployed | Inspect target group and call `/api/health` through ALB | Two targets in separate Availability Zones are Healthy and the health call returns HTTP 200 | Figures 5c and 8a | **Pass** |
 
 ## Step 3 - Validate frontend API requests
 
@@ -63,7 +70,7 @@ No single screenshot proves this complete path. Frontend/API evidence confirms b
 
 *Figure 15. Chrome DevTools confirms that the frontend requests to `latest`, `history`, and `commands` receive HTTP 200 responses from the FastAPI backend.*
 
-The screenshot shows telemetry on the dashboard and repeated XHR requests for `latest`, `history`, and `commands`. It confirms frontend-to-backend communication during periodic REST polling; it does not establish a fixed response-time guarantee.
+The screenshot shows telemetry on the dashboard and repeated XHR requests for `latest`, `history`, and `commands`. In production these requests use the CloudFront domain and `/api/*` behavior before reaching the ALB. It confirms frontend-to-backend communication during periodic REST polling; it does not establish a fixed response-time guarantee.
 
 ## Step 4 - Test fan control
 
@@ -130,6 +137,9 @@ LIMIT 6;
 
 A polling device may acknowledge a command quickly enough that a later query no longer shows `Pending`. Preserve the command POST response when it contains the initial state, then query the same command ID after ACK to confirm `Executed`.
 
+![The same command changes from Pending to Executed](/images/5-Workshop/5.8-validation/command-pending-executed.png)
+*Figure 18a. API and PostgreSQL evidence correlates one command ID before and after ACK, showing the transition from `Pending` to `Executed`.*
+
 The dashboard sends a command to FastAPI, and the backend stores it in PostgreSQL. YOLO UNO polls for the latest pending command, executes the corresponding actuator action, and calls the ACK endpoint. The backend then changes that command from `Pending` to `Executed`.
 
 [Figure 9 in section 5.5](../5.5-Backend-and-Database/) provides the PostgreSQL evidence for this layer. It shows recent commands for `device_id=room_01`, including `CURTAIN_OPEN`, `CURTAIN_CLOSE`, `MODE_AUTO`, and `LIGHT_OFF`, in the `Executed` state after acknowledgement.
@@ -138,7 +148,7 @@ The dashboard-to-hardware behavior is also available in the [Google Drive demons
 
 ## Expected Result
 
-Every T01–T12 row contains an observed **Actual/evidence** value and a **Pass**, **Fail**, or **Not Run** status. A passing end-to-end result correlates the appropriate device or command ID across the API, PostgreSQL, firmware, dashboard, physical actuator, and relevant logs.
+Every T01–T14 row contains an observed **Actual/evidence** value and a **Pass**, **Fail**, or **Not Run** status. A passing end-to-end result correlates the appropriate device or command ID across CloudFront/ALB, the API, PostgreSQL, firmware, dashboard, physical actuator, and relevant logs.
 
 The accepted results include HTTP 200 responses for `latest`, `history`, and `commands`; telemetry for `device_id=room_01`; physical fan, LED/light, and servo responses; ACK submission; and final command state `Executed`.
 
@@ -148,7 +158,7 @@ Do not use the test plan to invent latency, throughput, availability, or reliabi
 
 | Symptom | Check |
 | :--- | :--- |
-| `latest`, `history`, or `commands` does not return HTTP 200 | Check the Vite proxy/base URL, FastAPI route, backend service, and browser console |
+| `latest`, `history`, or `commands` does not return HTTP 200 | For production, check CloudFront `/api/*`, ALB target health, FastAPI route, backend log, and browser console; for local development, check the Vite proxy |
 | `Pending` is not visible | Preserve the command POST response, then query the same command ID after ACK |
 | The dashboard changes but the actuator does not respond | Confirm manual/automatic mode, device Wi-Fi, polling, command spelling, wiring, and power |
 | UI and PostgreSQL show different states | Compare the same command ID and refresh the newest database row after ACK |

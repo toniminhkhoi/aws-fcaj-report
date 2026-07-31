@@ -8,12 +8,14 @@ pre: " <b> 5.9. </b> "
 
 ## Overview and objectives
 
-Use native EC2/RDS metrics plus CloudWatch Agent guest metrics and backend logs. The EC2 IAM Role authorizes publishing; the CloudWatch Agent is separate software running on the instance.
+Use native ALB, ASG, EC2, and RDS metrics plus CloudWatch Agent guest metrics and backend logs. The EC2 IAM Role authorizes publishing; the CloudWatch Agent is separate software installed in the backend AMI and running on each ASG instance.
 
 ## Monitoring inventory
 
 | Source | Metric/log | Collection path |
 | :--- | :--- | :--- |
+| ALB | `UnHealthyHostCount`, `HTTPCode_Target_5XX_Count` | Native Application Load Balancer metrics |
+| ASG | `GroupInServiceInstances` | Native Auto Scaling group metric |
 | EC2 | `CPUUtilization` | Default EC2 metric |
 | EC2 guest OS | `mem_used_percent` | CloudWatch Agent configuration; Figure 19 does not prove a memory datapoint |
 | EC2 guest OS | `disk_used_percent` | CloudWatch Agent |
@@ -109,13 +111,14 @@ sudo tail -n 100 /opt/aws/amazon-cloudwatch-agent/logs/amazon-cloudwatch-agent.l
 
 ## Step 4 - Generate and inspect evidence
 
-1. Call `/api/health` and submit one valid telemetry request.
+1. Call `/api/health` through the ALB and submit one valid telemetry request.
 2. Open CloudWatch in the same region.
 3. Check log groups `/aws/ec2/aws-iot-dashboard/backend` and `/aws/ec2/aws-iot-dashboard/backend-error`.
 4. Open **Metrics → IoTDashboard/EC2** for guest memory/disk/CPU.
 5. Open **Metrics → EC2** for `CPUUtilization`.
 6. Open **Metrics → RDS** for `CPUUtilization` and `DatabaseConnections`.
-7. Set an appropriate time range and confirm recent timestamps.
+7. Open **Metrics → ApplicationELB/Auto Scaling** for target health, 5XX, and in-service instance count.
+8. Set an appropriate time range and confirm recent timestamps.
 
 ### Backend logs
 
@@ -125,31 +128,36 @@ The captured log stream `/aws/ec2/aws-iot-dashboard/backend` contains recent Fas
 
 *Figure 18. FastAPI backend access logs from EC2 displayed in Amazon CloudWatch Logs, including timestamps, requested endpoints, and HTTP status codes.*
 
-### EC2 and RDS metrics
+### Operations metrics for the current architecture
 
-The `ec2-rds-metrics` dashboard contains four visible widgets: EC2 `CPUUtilization`, EC2 `disk_used_percent`, RDS `CPUUtilization`, and RDS `DatabaseConnections`. The database-connections graph contains a datapoint with value `1` at the time of capture. Figure 19 does not demonstrate a memory datapoint.
+The current operations dashboard contains eight widgets: EC2 CPU, disk, and memory for both backend instances; ASG in-service capacity; RDS CPU and database connections; ALB unhealthy hosts; and ALB target 5XX errors. This evidence matches the deployed ALB/ASG architecture.
 
-![CloudWatch dashboard displaying EC2 and RDS metrics](/images/5-Workshop/5.9-cloudwatch/ec2-rds-metrics.png)
+![CloudWatch operations dashboard for ALB, ASG, EC2, and RDS](/images/5-Workshop/5.9-cloudwatch/operations-dashboard.png)
+*Figure 19. The eight-widget operations dashboard shows two EC2 series, ASG in-service capacity of 2, no unhealthy ALB targets during the selected range, RDS metrics, and the ALB target 5XX widget.*
 
-*Figure 19. The Amazon CloudWatch dashboard displaying EC2 and RDS operational metrics, including CPU utilization, disk usage, and database connections.*
+![ALB and ASG operational metrics](/images/5-Workshop/5.9-cloudwatch/alb-asg-metrics.png)
+*Figure 19a. CloudWatch graph configuration for ALB unhealthy hosts, ALB target 5XX errors, and ASG in-service instances.*
 
 ## Step 5 - Create and validate alarms
 
-The CloudWatch console confirms these five alarm configurations:
+The CloudWatch console confirms these eight alarm configurations:
 
 | Alarm name | Metric | Condition |
 | :--- | :--- | :--- |
 | `iot-dashboard-rds-high-connections` | `DatabaseConnections` | ≥10 for one datapoint within 5 minutes |
 | `iot-dashboard-rds-high-cpu` | `CPUUtilization` | ≥70% for one datapoint within 5 minutes |
 | `iot-dashboard-ec2-high-cpu` | `CPUUtilization` | ≥70% for one datapoint within 5 minutes |
+| `ASG-GroupInServiceInstances-Low` | `GroupInServiceInstances` | Fewer than 2 in-service instances during the evaluation window |
+| `ALB-HTTPCode-ELB-5XX` | ALB 5XX count | At least one 5XX datapoint during the evaluation window |
+| `ALB-UnHealthyHostCount` | `UnHealthyHostCount` | Greater than 0 during the evaluation window |
 | `iot-dashboard-ec2-high-disk` | `disk_used_percent` | ≥80% for one datapoint within 5 minutes |
 | `iot-dashboard-ec2-high-memory` | `mem_used_percent` | ≥80% for one datapoint within 5 minutes |
 
 Verify the deployed threshold, period, evaluation count, missing-data behavior, and actions instead of assuming that the runbook was applied. The root source README explicitly says SNS is not used; the backend README mentions SNS only as an optional extension, so do not claim an SNS topic/subscription is deployed.
 
-![Five CloudWatch Alarms monitoring EC2 and RDS](/images/5-Workshop/5.9-cloudwatch/cloudwatch-alarms.png)
+![Eight CloudWatch Alarms monitoring ALB, ASG, EC2, and RDS](/images/5-Workshop/5.9-cloudwatch/cloudwatch-alarms.png)
 
-*Figure 20. Five CloudWatch Alarms monitoring EC2 and RDS CPU utilization, disk usage, memory usage, and database connections. The OK and Insufficient data states reflect the available metric data at the time of capture.*
+*Figure 20. Eight CloudWatch Alarms monitor ALB, ASG, EC2, and RDS. The OK and Insufficient data states reflect the available metric data at the time of capture.*
 
 ### Alarm state interpretation
 
@@ -163,7 +171,7 @@ The `Actions` column displays `No actions`, meaning that no notification action 
 
 ## Expected Result
 
-CloudWatch shows recent backend access events, the four EC2/RDS dashboard widgets documented in Figure 19, and five named alarm configurations with explainable states. The evidence proves what is visible without claiming a memory datapoint, an SNS notification, or a second log group that is not shown.
+CloudWatch shows recent backend access events, the EC2/RDS and ALB/ASG operational widgets, and eight named alarm configurations with explainable states. The evidence proves what is visible without claiming an SNS notification or a second log group that is not shown.
 
 ## Troubleshooting
 
@@ -174,6 +182,7 @@ CloudWatch shows recent backend access events, the four EC2/RDS dashboard widget
 | No memory/disk metric | `IoTDashboard/EC2` namespace, dimensions, interval, config reload |
 | No backend log | Actual log path, read permission, new request, stream timestamp |
 | Alarm insufficient data | Metric/dimension/region mismatch or no recent datapoints |
+| ALB/ASG alarm is unexpected | Target group dimensions, load balancer dimensions, ASG metric collection, and selected time range |
 | RDS metric missing | Correct DB identifier, region, and graph time range |
 
 This project does not use AI Operations, GenAI Observability, Application Signals, resource discovery, or observability pipelines.

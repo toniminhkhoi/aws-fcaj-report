@@ -8,25 +8,39 @@ pre: " <b> 7. </b> "
 
 ### Overall Evaluation
 
-**1. Working Environment**  
-The working environment is professional; members of the FCAJ community are very friendly and open. In particular, the FCAJ seniors as well as fellow FCAJ members in my cohort were always ready to support and answer questions when my team and I faced difficulties in designing and using AWS services. Because of that help, I realized my mistakes earlier. Instead of having to pay a large amount of money [for cloud costs], that assistance helped me gain more knowledge with the only trade-off being the questions asked. The workspace is neat and comfortable, and the learning spirit of my peers motivated me to be more focused and determined with the goals I had set.
+The project provided a practical opportunity to connect programming, databases, networking, embedded systems, and AWS services in one end-to-end product. Instead of evaluating each component separately, the team had to make the dashboard, API, database, cloud infrastructure, and physical device work together under a shared data and command flow.
 
-However, I think that next time, if possible, there should be a fixed schedule so that team members can come to the office more easily instead of competing [for slots] as is currently the case. This would allow everyone in the group to access and exchange ideas directly more easily, as some members did not have time to get to know each other outside and could only interact online initially.
+### Learning Environment
 
-**2. Support from Mentor / Team Admin**  
-The Mentors are extremely dedicated and conscientious; not only is the quality high, but the number of Mentors is also significant, and they are ready to support us extensively. Regardless of the time—sometimes even at 2-3 AM—they still provided feedback so we could make edits in time for the deadline. Not stopping at support, they also shared useful knowledge accumulated through their work experience, which are invaluable lessons that FCAJ brought to me. What I like about them is that they spark curiosity regarding the mistakes I made during the learning and working process. Instead of giving the answer, they guided me to official documentation so I could find the answer myself and deeply ingrain those mistakes so as not to repeat them next time.
+The learning environment encouraged self-research and practical validation. Discussions with mentors and other participants helped me identify incomplete assumptions, especially in architecture, security, monitoring, and documentation. The most useful form of support was guidance toward official documentation and verification methods rather than receiving a complete answer immediately.
 
-**3. Relevance of Work to Academic Major**  
-The work I performed was like the missing puzzle piece from my studies at university. Developing products locally is different from developing a product that is more user-oriented, which requires handling more issues, especially regarding security as well as software consistency. Doing harder and more advanced tasks in my field of study has helped me no longer feel "afraid" of working with them. Thanks to this, I both consolidated my programming knowledge and learned DevOps skills and other soft skills such as teamwork, communication, etc., which has helped me develop significantly in the present and even for the future.
+### Mentor and Team Support
 
-**4. Learning & Skill Development Opportunities**  
-During the internship period from **15/06/2026** to **23/08/2026**, I learned many new skills, not only regarding my major but also other soft skills. I got to work with new people, with people not from the same major, thereby gaining different perspectives of each major as well as skills through sharing among group members. I attended many cool events hosted by seniors with extensive experience in large corporations, learning how they apply AI to work as well as other advanced programming skills, helping me better orient the career I am pursuing.
+Regular reviews helped the team narrow the project scope, correct technical descriptions, and improve the evidence included in the workshop. Team members divided responsibilities across infrastructure, backend, frontend, hardware, and documentation, then coordinated at integration points. This approach made individual ownership clearer, although integration work still required more frequent status updates.
 
-**5. Company Culture & Team Spirit**  
-The company culture is very positive; everyone supports each other enthusiastically with a primary spirit of learning and sharing knowledge. During work, everyone is extremely focused, but there are also times that are extremely fun. When deadlines approach, everyone strives together, supporting each other regardless of position; those who are finished help those who are not, and those who know help those who don't. As long as there is a problem, everyone will support solving that problem as quickly and effectively as possible. This helped me easily integrate with everyone, even just in the role of an intern.
+### Relevance to My Academic Background
 
----
+The project extended concepts learned at school into a deployed environment. Programming and database knowledge were still essential, but deployment introduced additional concerns such as security groups, IAM, health checks, backup, availability, monitoring, cloud cost, and handover documentation. This experience helped me understand the difference between a local demonstration and a system that can be operated and reviewed by others.
 
-### Additional Questions
+### Skills Developed
 
-The thing I am most satisfied with during the internship period is the spirit of the FCAJers, a spirit ready to share everything within their knowledge, leaving no one behind. Such a spirit helped me partly understand that FCAJ is not just a program, but an entire community eager to learn, ready to share new knowledge with interns—not just me, but many others who have not yet had access to it.
+- Designing and explaining an AWS architecture with clear traffic and security boundaries.
+- Validating an end-to-end IoT flow from telemetry ingestion to database storage and dashboard display.
+- Integrating hardware command polling and acknowledgement with backend command states.
+- Reading metrics and logs to investigate system behavior instead of relying only on application output.
+- Working with teammates through defined responsibilities, integration checkpoints, and shared evidence.
+- Writing a technical workshop that distinguishes implemented features, observed results, and future improvements.
+
+### Suggestions for Improvement
+
+- Establish a fixed weekly review schedule so all teams have predictable checkpoints.
+- Share the evaluation rubric and required evidence checklist at the beginning of the project.
+- Add short architecture, security, and AWS cost reviews before major infrastructure changes.
+- Reserve a dedicated integration rehearsal before the final documentation deadline.
+- Use a simple shared template for status updates, technical decisions, risks, and change history.
+
+### Personal Takeaway
+
+The most valuable lesson was learning to connect multiple technical layers and prove that they work together with concrete evidence. The project also showed me that a successful prototype still needs honest documentation of its limitations, such as HTTP origin traffic, WAF monitoring mode, limited authentication, and untested failover scenarios. These lessons provide a practical foundation for future study in cloud infrastructure, DevOps, and IoT systems.
+
+> This section is a personal reflection based on the project process. It does not quote mentors or represent an official evaluation by FCAJ.

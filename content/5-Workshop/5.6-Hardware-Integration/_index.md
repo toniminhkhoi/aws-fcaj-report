@@ -77,11 +77,11 @@ Use this secret shape:
 #pragma once
 constexpr char WIFI_SSID[] = "<YOUR_WIFI_SSID>";
 constexpr char WIFI_PASSWORD[] = "<YOUR_WIFI_PASSWORD>";
-constexpr char API_BASE_URL[] = "http://<EC2_PUBLIC_IP>:8000";
+constexpr char API_BASE_URL[] = "http://<ALB_DNS_NAME>";
 constexpr char DEVICE_ID[] = "room_01";
 ```
 
-Never publish the real Wi-Fi password. If EC2 is stopped and started, re-check `API_BASE_URL`.
+Never publish the real Wi-Fi password. The verified device route is direct HTTP to the ALB DNS name; do not place an EC2 instance IP or the CloudFront frontend domain in the firmware unless a separately tested device route is introduced.
 
 ## Step 3 - Validate sensors and actuators locally
 
@@ -116,6 +116,8 @@ The firmware serializes the exact camelCase aliases accepted by the backend:
 ```text
 YOLO UNO read → JSON serialize → POST /api/telemetry → check HTTP status → wait configured interval
 ```
+
+The ALB forwards these device requests to a Healthy FastAPI target on port 8000. The device does not select or depend on a specific ASG instance.
 
 On non-success status, log the response and retry later with bounded delays. Do not block actuator safety logic indefinitely.
 
@@ -195,7 +197,7 @@ PlatformIO compiles the `yolo_uno` environment successfully and creates `firmwar
 | Light value stuck at min/max | ADC pin capability, voltage range, wiring |
 | Board resets on actuator action | External supply, current, flyback protection, common ground |
 | Wi-Fi reconnect loop | SSID/password, signal, blocking delay, reconnect backoff |
-| HTTP timeout | Public IP, port 8000, EC2 SG, Uvicorn bind, client network |
+| HTTP timeout | ALB DNS, Wi-Fi/DNS, listener HTTP:80, target health, backend SG, Uvicorn bind |
 | Command repeats | Compare command IDs and separate actuator execution from ACK retry |
 | Command stays `Pending` | ACK URL/ID/body, HTTP response, backend log |
 | Unsupported command | Log and reject it; do not ACK it as executed |

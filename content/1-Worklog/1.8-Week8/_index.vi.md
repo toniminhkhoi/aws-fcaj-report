@@ -14,7 +14,7 @@ pre: " <b> 1.8. </b> "
 
 - Kiểm tra toàn bộ luồng telemetry và command với phần cứng thực tế.
 - Đối chiếu cùng dữ liệu hoặc command ID qua dashboard, API, RDS và firmware.
-- Thiết lập log, metric và alarm cho EC2/RDS.
+- Thiết lập log, metric và alarm cho ALB/ASG/EC2/RDS.
 - Hoàn thiện rà soát bảo mật, tài liệu song ngữ, video demo và nội dung bàn giao.
 
 ## Công việc đã thực hiện
@@ -24,14 +24,15 @@ pre: " <b> 1.8. </b> "
 | Chuẩn bị kiểm thử | Ghi phiên bản mã nguồn, firmware, Region AWS và điều kiện kiểm thử; xác nhận health check | Có baseline cấu hình để tái tạo và đối chiếu kết quả |
 | Kiểm thử telemetry | Gửi telemetry từ YOLO UNO, kiểm tra latest/history, PostgreSQL và dashboard; thực hiện thêm một request `curl` có kiểm soát | Dữ liệu `room_01` nhất quán; ảnh API/database chứng minh riêng luồng FastAPI → RDS |
 | Kiểm thử command và actuator | Tạo command, theo dõi cùng ID từ `Pending` đến `Executed`, kiểm tra quạt, đèn và rèm từ dashboard | Ma trận kiểm thử command/ACK đạt; video ghi lại phản ứng vật lý của actuator |
-| CloudWatch | Cấu hình CloudWatch Agent, backend log group, dashboard `ec2-rds-metrics` và năm alarm EC2/RDS | Có log tập trung, metric EC2/RDS và kết quả đánh giá alarm; trạng thái thiếu dữ liệu được ghi chú |
+| AWS edge và tính sẵn sàng | Bổ sung bằng chứng CloudFront/WAF/S3 private, ALB/target group/ASG, EBS mã hóa và RDS Multi-AZ/backup | Hai backend Healthy, route browser/thiết bị ổn định và bằng chứng primary/standby |
+| CloudWatch | Cấu hình CloudWatch Agent, backend log, dashboard `ec2-rds-metrics` và tám alarm ALB/ASG/EC2/RDS | Có log tập trung, metric vận hành và kết quả đánh giá alarm; trạng thái thiếu dữ liệu được ghi chú |
 | Rà soát vận hành | Kiểm tra IAM Role, Security Group, RDS public access, secrets, chi phí và các giới hạn hiện tại | Checklist bảo mật/chi phí và danh sách điểm cần tiếp tục hoàn thiện |
 | Tài liệu và bàn giao | Rà Workshop Anh–Việt, README, caption, test matrix, ảnh, video và checklist | Gói tài liệu cuối khớp với hệ thống đã triển khai và bằng chứng đã thu thập |
 ## Kết quả trong tuần
 
 - Các ca kiểm thử telemetry, history, command, polling, actuator và ACK trong ma trận đều đạt.
 - Phân biệt rõ bằng chứng API/database với bằng chứng phần cứng.
-- CloudWatch nhận backend log, hiển thị metric EC2/RDS và đánh giá năm alarm.
+- CloudWatch nhận backend log, hiển thị metric ALB/ASG/EC2/RDS và đánh giá tám alarm.
 - Hoàn thiện báo cáo song ngữ, Workshop, README, hướng dẫn vận hành và nội dung bàn giao.
 - Video demo chứng minh thao tác dashboard và phản ứng vật lý của thiết bị: [Xem video demo](https://drive.google.com/file/d/1T97dUY58hbT2ppxvg7ESR12Jg9BA828W/view?usp=sharing).
 
@@ -41,7 +42,7 @@ Trạng thái `Pending` tồn tại ngắn khi thiết bị polling nhanh, nên 
 
 ## Giới hạn hiện tại
 
-Mô hình hiện tại dùng HTTP chưa có TLS, API chưa có xác thực và vận hành trên một EC2 cùng một RDS. Các giới hạn này được ghi nhận để nhóm tiếp tục hoàn thiện hệ thống.
+CloudFront cung cấp viewer HTTPS, nhưng luồng ALB/thiết bị dùng HTTP; API authentication, WAF Block, notification action và diễn tập failover có kiểm soát chưa hoàn tất. Các giới hạn này được ghi nhận để tiếp tục cải tiến.
 
 ## Liên kết Workshop
 

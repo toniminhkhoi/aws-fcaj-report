@@ -12,6 +12,9 @@ Trước tiên, kiểm tra độc lập từng điểm kết nối, sau đó đ�
 
 Phần này kết hợp ma trận kiểm thử đầy đủ với bằng chứng từ trình duyệt, API, PostgreSQL và phần cứng vật lý. Mỗi bằng chứng đều được mô tả đúng phạm vi để tránh dùng một ảnh đơn lẻ cho những kết luận vượt quá nội dung thực sự hiển thị.
 
+![Dashboard, bản ghi lệnh PostgreSQL và phần cứng vật lý](/images/5-Workshop/5.8-validation/end-to-end-system-overview.png)
+*Hình 14a. Bằng chứng đầu cuối kết hợp dashboard, trạng thái lệnh trong cơ sở dữ liệu và mô hình YOLO UNO vật lý; từng lớp vẫn được kiểm tra riêng bên dưới.*
+
 ## Bước 1 - Thiết lập quy trình và chiến lược kiểm thử
 
 1. Ghi ngày kiểm thử, người thực hiện, mã commit của ứng dụng, phiên bản firmware, AWS Region và `device_id`.
@@ -23,7 +26,9 @@ Phần này kết hợp ma trận kiểm thử đầy đủ với bằng chứng
 Đối chiếu luồng lệnh qua các lớp sau:
 
 ```text
-Giao diện React + Vite
+Giao diện React + Vite trên CloudFront
+    -> CloudFront behavior /api/*
+    -> Application Load Balancer
     -> Endpoint lệnh của FastAPI
     -> Bảng commands trong PostgreSQL
     -> YOLO UNO thăm dò lệnh
@@ -50,6 +55,8 @@ Không có ảnh chụp đơn lẻ nào chứng minh được toàn bộ luồng
 | T10 | Xác minh vòng đời ACK | Có lệnh từ T05–T09 | Quan sát request ACK và truy vấn cùng ID lệnh | Lệnh chuyển từ `Pending` sang `Executed` | Hình 9 và bản ghi lệnh sau ACK | **Đạt** |
 | T11 | Xác minh dữ liệu trong PostgreSQL | Có phiên kết nối cơ sở dữ liệu | Truy vấn telemetry và lệnh sau khi tải lại API | Có thể truy vấn lại các bản ghi đã lưu | Hình 9 và kết quả truy vấn SQL lặp lại | **Đạt** |
 | T12 | Xác minh log CloudWatch | CloudWatch Agent và quá trình thu thập log đã được cấu hình | Tạo một health request hoặc telemetry request | Sự kiện backend tương ứng xuất hiện trong log stream dự kiến | Bằng chứng log backend trong mục 5.9 | **Đạt** |
+| T13 | Xác minh route production của trình duyệt | CloudFront distribution đã triển khai | Mở domain CloudFront và quan sát Fetch/XHR | Trang tải từ S3 và request `/api/*` trả HTTP 200 qua ALB origin | Bằng chứng CloudFront/API ở mục 5.4 và 5.7 | **Đạt** |
+| T14 | Xác minh target backend | ALB và ASG đã triển khai | Kiểm tra target group và gọi `/api/health` qua ALB | Hai target ở hai Availability Zone đều Healthy và health call trả HTTP 200 | Hình 5c và Hình 8a | **Đạt** |
 
 ## Bước 3 - Xác minh các request API từ frontend
 
@@ -63,7 +70,7 @@ Không có ảnh chụp đơn lẻ nào chứng minh được toàn bộ luồng
 
 *Hình 15. Chrome DevTools xác nhận các request `latest`, `history` và `commands` từ frontend nhận phản hồi HTTP 200 từ FastAPI backend.*
 
-Ảnh cho thấy telemetry trên dashboard cùng các request XHR lặp lại đến `latest`, `history` và `commands`. Bằng chứng này xác nhận frontend giao tiếp với backend trong quá trình thăm dò REST định kỳ; không dùng ảnh để khẳng định một mức độ trễ cố định.
+Ảnh cho thấy telemetry trên dashboard cùng các request XHR lặp lại đến `latest`, `history` và `commands`. Ở production, các request dùng domain CloudFront và behavior `/api/*` trước khi tới ALB. Bằng chứng này xác nhận frontend giao tiếp với backend trong quá trình thăm dò REST định kỳ; không dùng ảnh để khẳng định một mức độ trễ cố định.
 
 ## Bước 4 - Kiểm thử điều khiển quạt
 
@@ -130,6 +137,9 @@ LIMIT 6;
 
 Thiết bị có thể thăm dò và ACK nhanh đến mức truy vấn sau đó không còn thấy `Pending`. Vì vậy, cần lưu phản hồi POST tạo lệnh khi còn trạng thái ban đầu, rồi truy vấn cùng ID sau ACK để xác nhận `Executed`.
 
+![Cùng một lệnh chuyển từ Pending sang Executed](/images/5-Workshop/5.8-validation/command-pending-executed.png)
+*Hình 18a. Bằng chứng API và PostgreSQL đối chiếu cùng một ID lệnh trước và sau ACK, cho thấy trạng thái chuyển từ `Pending` sang `Executed`.*
+
 Dashboard gửi lệnh đến FastAPI và backend lưu lệnh vào PostgreSQL. YOLO UNO thăm dò lệnh đang chờ, thực thi thao tác tương ứng trên thiết bị chấp hành rồi gọi endpoint ACK. Sau đó, backend chuyển trạng thái lệnh từ `Pending` sang `Executed`.
 
 [Hình 9 trong mục 5.5](../5.5-Backend-and-Database/) là bằng chứng PostgreSQL cho lớp kiểm tra này. Ảnh hiển thị các lệnh gần nhất của `device_id=room_01`, gồm `CURTAIN_OPEN`, `CURTAIN_CLOSE`, `MODE_AUTO` và `LIGHT_OFF`, ở trạng thái `Executed` sau khi được xác nhận.
@@ -138,7 +148,7 @@ Có thể xem thêm quá trình dashboard điều khiển phần cứng trong [v
 
 ## Kết quả mong đợi
 
-Mỗi dòng T01–T12 có nội dung trong cột **Thực tế/bằng chứng** và trạng thái **Đạt**, **Không đạt** hoặc **Chưa chạy**. Một kết quả đầu cuối chỉ được xem là đạt khi đối chiếu được mã định danh thiết bị hoặc ID lệnh phù hợp qua API, PostgreSQL, firmware, dashboard, thiết bị chấp hành vật lý và log liên quan.
+Mỗi dòng T01–T14 có nội dung trong cột **Thực tế/bằng chứng** và trạng thái **Đạt**, **Không đạt** hoặc **Chưa chạy**. Một kết quả đầu cuối chỉ được xem là đạt khi đối chiếu được mã định danh thiết bị hoặc ID lệnh phù hợp qua CloudFront/ALB, API, PostgreSQL, firmware, dashboard, thiết bị chấp hành vật lý và log liên quan.
 
 Kết quả nghiệm thu gồm phản hồi HTTP 200 cho `latest`, `history` và `commands`; telemetry của `device_id=room_01`; phản ứng vật lý của quạt, đèn LED/đèn và servo; ACK sau thực thi; cùng trạng thái lệnh cuối là `Executed`.
 
@@ -148,7 +158,7 @@ Không dùng kế hoạch kiểm thử để tự tạo số liệu về độ t
 
 | Hiện tượng | Nội dung cần kiểm tra |
 | :--- | :--- |
-| `latest`, `history` hoặc `commands` không trả HTTP 200 | Kiểm tra Vite proxy/base URL, route FastAPI, dịch vụ backend và console của trình duyệt |
+| `latest`, `history` hoặc `commands` không trả HTTP 200 | Ở production, kiểm tra CloudFront `/api/*`, ALB target health, route FastAPI, backend log và browser console; ở local, kiểm tra Vite proxy |
 | Không thấy `Pending` | Lưu phản hồi POST tạo lệnh, sau đó truy vấn cùng ID lệnh sau ACK |
 | Dashboard thay đổi nhưng thiết bị chấp hành không phản ứng | Kiểm tra chế độ thủ công/tự động, Wi-Fi, quá trình thăm dò lệnh, chính tả tên lệnh, dây nối và nguồn điện |
 | Giao diện và PostgreSQL hiển thị khác trạng thái | Đối chiếu cùng một ID lệnh và tải lại bản ghi mới nhất sau ACK |

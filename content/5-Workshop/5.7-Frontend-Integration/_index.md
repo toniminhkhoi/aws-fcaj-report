@@ -8,7 +8,7 @@ pre: " <b> 5.7. </b> "
 
 ## Overview and objectives
 
-Run the React + Vite frontend locally, connect it to FastAPI on EC2 through HTTP REST, and display periodically refreshed telemetry, actuator controls, rule-based recommendations, and history for the sample room identified by `device_id = room_01`.
+Run the React + Vite frontend locally for development, then serve the production build from private Amazon S3 through CloudFront. The browser uses relative `/api/*` requests, which CloudFront forwards to the ALB, and displays periodically refreshed telemetry, actuator controls, rule-based recommendations, and history for `device_id = room_01`.
 
 ## Step 1 - Configure the React Frontend
 
@@ -21,7 +21,7 @@ npm install
 npm run dev
 ```
 
-Use the Node version required by `package.json` and keep the repository lockfile. The frontend runs locally outside AWS.
+Use the Node version required by `package.json` and keep the repository lockfile. `npm run dev` is the local development path; the deployed frontend is the Vite production build in private S3, accessible only through CloudFront OAC.
 
 ## Step 2 - Connect the Frontend to the FastAPI Backend
 
@@ -37,7 +37,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://<EC2_PUBLIC_IP>:8000",
+        target: "http://<ALB_DNS_NAME>",
         changeOrigin: true,
       },
     },
@@ -45,7 +45,7 @@ export default defineConfig({
 });
 ```
 
-Restart Vite after changing its configuration. If the project uses `VITE_API_BASE_URL`, store it in an ignored `.env.local` rather than duplicating the EC2 URL across components.
+Restart Vite after changing its configuration. This proxy applies only to local development. In production, keep `/api` relative so the browser uses the same CloudFront domain; do not hard-code an EC2 or ALB URL in React components. If the project uses `VITE_API_BASE_URL`, store the development value in an ignored `.env.local`.
 
 The main requests are:
 
@@ -57,6 +57,22 @@ POST /api/devices/room_01/commands
 ```
 
 The **LIVE AWS** badge must depend on a successful backend/API response, not only on the React page loading.
+
+Build and upload the frontend artifacts to the private S3 origin, then invalidate CloudFront when required:
+
+```powershell
+npm run build
+aws s3 sync .\dist "s3://<PRIVATE_FRONTEND_BUCKET>" --delete
+aws cloudfront create-invalidation --distribution-id <DISTRIBUTION_ID> --paths "/*"
+```
+
+The distribution uses the default behavior for the S3 frontend and a higher-priority `/api/*` behavior for the ALB origin with caching disabled.
+
+![CloudFront-hosted dashboard and successful API requests](/images/5-Workshop/5.7-frontend/cloudfront-dashboard-api-200.png)
+*Figure 12a. The dashboard loads over CloudFront HTTPS and browser requests to `latest`, `history`, and `commands` return HTTP 200 through `/api/*`.*
+
+![Latest and history API responses through CloudFront](/images/5-Workshop/5.7-frontend/latest-history.png)
+*Figure 12b. Browser DevTools shows the latest record and ordered history returned by the production `/api/*` route.*
 
 ## Step 3 - Display Live Telemetry
 
@@ -81,7 +97,7 @@ Disable a selected control while its request is in flight, prevent duplicate pen
 
 *Figure 13. The React + Vite dashboard displaying near-real-time telemetry and controls for the fan, light, and curtain for the sample room identified by `device_id = room_01`.*
 
-Figure 13 shows the locally running React + Vite interface, the EC2 FastAPI/RDS PostgreSQL/React Vite stack label, three **LIVE AWS** telemetry cards, and controls for the fan, light, curtain, and mode. The UI can display Manual Override or Auto according to its current state.
+Figure 13 shows the React + Vite interface, the EC2 FastAPI/RDS PostgreSQL/React Vite stack label, three **LIVE AWS** telemetry cards, and controls for the fan, light, curtain, and mode. The UI can display Manual Override or Auto according to its current state.
 
 ## Step 5 - Display Rule-Based Analysis and History
 
@@ -106,6 +122,8 @@ GET /api/devices/room_01/history
 ## Step 6 - Expected Results
 
 - The local React + Vite frontend loads successfully.
+- The production build loads through CloudFront from the private S3 origin.
+- Browser `/api/*` requests reach the ALB origin and return HTTP 200.
 - The **LIVE AWS** badge reflects a successful backend/API request.
 - Telemetry for `device_id = room_01` appears on the three cards.
 - Fan, light, curtain, and mode controls are rendered.

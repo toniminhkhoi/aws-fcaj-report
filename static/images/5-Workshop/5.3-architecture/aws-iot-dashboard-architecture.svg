@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title description">
+  <title id="title">AWS IoT Monitoring and Control Dashboard architecture</title>
+  <desc id="description">CloudFront and WAF serve a private S3 frontend and route API traffic to an Application Load Balancer. The load balancer distributes traffic to two FastAPI EC2 instances in an Auto Scaling Group. The backend uses RDS PostgreSQL Multi-AZ. YOLO UNO connects directly to the ALB. CloudWatch receives logs and metrics.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#334155"/></marker>
+    <style>
+      .title { font: 700 34px Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 18px Arial, sans-serif; fill: #475569; }
+      .section { font: 700 18px Arial, sans-serif; fill: #0f172a; }
+      .label { font: 700 17px Arial, sans-serif; fill: #0f172a; }
+      .detail { font: 400 14px Arial, sans-serif; fill: #334155; }
+      .small { font: 400 13px Arial, sans-serif; fill: #475569; }
+      .line { stroke: #334155; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #475569; stroke-width: 2.5; fill: none; stroke-dasharray: 8 7; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect width="1600" height="1000" fill="#f8fafc"/>
+  <text x="800" y="55" text-anchor="middle" class="title">AWS IoT Monitoring and Control Dashboard</text>
+  <text x="800" y="84" text-anchor="middle" class="subtitle">Production architecture in ap-southeast-1: CloudFront, ALB/ASG, RDS Multi-AZ, and CloudWatch</text>
+
+  <rect x="40" y="130" width="250" height="125" rx="18" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+  <text x="165" y="178" text-anchor="middle" class="label">Web browser</text>
+  <text x="165" y="205" text-anchor="middle" class="detail">HTTPS dashboard user</text>
+  <text x="165" y="228" text-anchor="middle" class="small">Static web and REST API</text>
+
+  <rect x="365" y="115" width="300" height="155" rx="18" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+  <text x="515" y="157" text-anchor="middle" class="label">AWS WAF + CloudFront</text>
+  <text x="515" y="185" text-anchor="middle" class="detail">Core protections enabled</text>
+  <text x="515" y="208" text-anchor="middle" class="detail">Managed rules in Count/Monitor mode</text>
+  <text x="515" y="236" text-anchor="middle" class="small">Default (*) and /api/* behaviors</text>
+
+  <rect x="745" y="115" width="300" height="155" rx="18" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+  <text x="895" y="158" text-anchor="middle" class="label">Private Amazon S3</text>
+  <text x="895" y="185" text-anchor="middle" class="detail">React + Vite production build</text>
+  <text x="895" y="210" text-anchor="middle" class="detail">Block Public Access + OAC</text>
+  <text x="895" y="237" text-anchor="middle" class="small">CloudFront default origin</text>
+
+  <rect x="35" y="560" width="255" height="150" rx="18" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+  <text x="162" y="605" text-anchor="middle" class="label">YOLO UNO / ESP32-S3</text>
+  <text x="162" y="634" text-anchor="middle" class="detail">Telemetry, polling, ACK</text>
+  <text x="162" y="659" text-anchor="middle" class="detail">Fan, light, curtain control</text>
+  <text x="162" y="685" text-anchor="middle" class="small">Direct HTTP to the ALB DNS</text>
+
+  <rect x="355" y="330" width="890" height="565" rx="24" fill="#eef2ff" stroke="#4f46e5" stroke-width="3"/>
+  <text x="390" y="370" class="section">Amazon VPC</text>
+  <text x="390" y="395" class="small">Application delivery across ap-southeast-1a and ap-southeast-1c; database Multi-AZ spans 1c and 1b</text>
+
+  <rect x="410" y="425" width="250" height="115" rx="16" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="535" y="467" text-anchor="middle" class="label">Internet-facing ALB</text>
+  <text x="535" y="493" text-anchor="middle" class="detail">HTTP listener :80</text>
+  <text x="535" y="518" text-anchor="middle" class="small">Forward to iot-backend-tg</text>
+
+  <rect x="725" y="410" width="460" height="235" rx="18" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+  <text x="955" y="445" text-anchor="middle" class="label">Auto Scaling Group: min 2 / desired 2 / max 4</text>
+  <rect x="755" y="475" width="185" height="130" rx="12" fill="#ffffff" stroke="#10b981" stroke-width="2"/>
+  <text x="847" y="512" text-anchor="middle" class="label">EC2 backend</text>
+  <text x="847" y="537" text-anchor="middle" class="detail">FastAPI / Uvicorn</text>
+  <text x="847" y="561" text-anchor="middle" class="small">ap-southeast-1a</text>
+  <text x="847" y="585" text-anchor="middle" class="small">EBS gp3, encrypted</text>
+  <rect x="970" y="475" width="185" height="130" rx="12" fill="#ffffff" stroke="#10b981" stroke-width="2"/>
+  <text x="1062" y="512" text-anchor="middle" class="label">EC2 backend</text>
+  <text x="1062" y="537" text-anchor="middle" class="detail">FastAPI / Uvicorn</text>
+  <text x="1062" y="561" text-anchor="middle" class="small">ap-southeast-1c</text>
+  <text x="1062" y="585" text-anchor="middle" class="small">EBS gp3, encrypted</text>
+  <text x="955" y="626" text-anchor="middle" class="small">Launch Template uses the backend AMI; target group health check: /api/health on :8000</text>
+
+  <rect x="725" y="695" width="460" height="150" rx="18" fill="#eff6ff" stroke="#0284c7" stroke-width="2"/>
+  <text x="955" y="733" text-anchor="middle" class="label">Amazon RDS for PostgreSQL Multi-AZ</text>
+  <rect x="760" y="758" width="180" height="60" rx="10" fill="#ffffff" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="850" y="784" text-anchor="middle" class="detail">Primary: ap-southeast-1c</text>
+  <text x="850" y="806" text-anchor="middle" class="small">Application endpoint</text>
+  <rect x="970" y="758" width="180" height="60" rx="10" fill="#ffffff" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="1060" y="784" text-anchor="middle" class="detail">Standby: ap-southeast-1b</text>
+  <text x="1060" y="806" text-anchor="middle" class="small">Failover only; not a reader</text>
+
+  <rect x="1300" y="390" width="255" height="170" rx="18" fill="#fdf2f8" stroke="#db2777" stroke-width="2"/>
+  <text x="1427" y="432" text-anchor="middle" class="label">Amazon CloudWatch</text>
+  <text x="1427" y="461" text-anchor="middle" class="detail">Backend logs and dashboards</text>
+  <text x="1427" y="486" text-anchor="middle" class="detail">EC2, RDS, ALB, ASG metrics</text>
+  <text x="1427" y="513" text-anchor="middle" class="small">Eight alarms; no actions attached</text>
+  <text x="1427" y="537" text-anchor="middle" class="small">IAM instance role + agent</text>
+
+  <line x1="290" y1="190" x2="365" y2="190" class="line"/>
+  <path d="M665 160 H745" class="line"/>
+  <text x="705" y="145" text-anchor="middle" class="small">Default (*)</text>
+  <path d="M515 270 V350 H535 V425" class="line"/>
+  <text x="590" y="325" class="small">/api/* over HTTPS</text>
+  <path d="M290 635 H410 V500" class="line"/>
+  <text x="308" y="610" class="small">HTTP: telemetry, polling, ACK</text>
+  <path d="M660 482 H725" class="line"/>
+  <path d="M955 645 V695" class="line"/>
+  <text x="975" y="677" class="small">PostgreSQL :5432 (backend SG only)</text>
+  <path d="M1185 520 H1300" class="dash"/>
+  <path d="M1185 770 H1255 V525 H1300" class="dash"/>
+  <text x="1218" y="492" class="small">logs and metrics</text>
+  <text x="1210" y="747" class="small">native RDS metrics</text>
+
+  <rect x="385" y="905" width="815" height="60" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="792" y="932" text-anchor="middle" class="detail">Security boundary: CloudFront OAC protects S3; WAF is monitoring; ALB accepts public HTTP:80; backend accepts ALB traffic on :8000; RDS accepts backend security-group traffic on :5432.</text>
+  <text x="792" y="954" text-anchor="middle" class="small">The documented CloudFront-to-ALB origin connection uses HTTP; user authentication and origin TLS are planned hardening items.</text>
+</svg>

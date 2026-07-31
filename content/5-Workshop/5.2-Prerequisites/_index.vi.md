@@ -8,17 +8,17 @@ pre: " <b> 5.2. </b> "
 
 ## Mục tiêu
 
-Chuẩn bị tài khoản AWS, công cụ trên máy cục bộ, phần cứng, thông tin truy cập và kiến thức nền trước khi tạo tài nguyên có tính phí. Workshop dùng **Asia Pacific (Singapore), `ap-southeast-1`** làm khu vực mặc định; trước khi bắt đầu, hãy xác nhận khu vực triển khai thực tế và bảo đảm EC2, RDS, VPC, CloudWatch đều nằm trong khu vực đó.
+Chuẩn bị tài khoản AWS, công cụ cục bộ, phần cứng, thông tin truy cập và kiến thức nền trước khi tạo tài nguyên có tính phí. Workshop dùng **Asia Pacific (Singapore), `ap-southeast-1`** làm khu vực mặc định; CloudFront/WAF là dịch vụ global, còn S3, ALB, ASG, EC2, RDS, VPC và CloudWatch phải bám đúng thiết kế khu vực đã ghi.
 
 ## Bước 1 - Xác minh quyền truy cập AWS
 
 - Tài khoản AWS có quyền xem thông tin thanh toán và đã bật MFA.
-- Quyền truy cập theo nguyên tắc đặc quyền tối thiểu cho EC2, EBS, RDS, VPC, Security Group, thao tác gắn IAM Role, CloudWatch và CloudWatch Alarms.
+- Quyền đặc quyền tối thiểu cho S3, CloudFront, WAF, Elastic Load Balancing, Auto Scaling, EC2/EBS, RDS, VPC/Security Group, thao tác gắn IAM Role, CloudWatch và alarm.
 - Có quyền gán IAM Role đã được phê duyệt cho EC2 (`iam:PassRole`). Workshop không yêu cầu `AdministratorAccess`.
 - Cặp khóa EC2 được lưu trên máy cục bộ; tuyệt đối không commit file `.pem` hoặc `.key`.
 - Biết địa chỉ IP công khai của quản trị viên để tạo rule SSH: `<ADMIN_IP>/32`.
 
-Trước khi cấp phát, hãy ghi lại khu vực, CIDR của VPC, CIDR của public subnet, hai DB subnet thuộc hai Availability Zone, tiền tố đặt tên tài nguyên và người chịu trách nhiệm dọn dẹp.
+Trước khi cấp phát, ghi lại khu vực, CIDR của VPC, hai application subnet, các DB subnet theo Availability Zone cần thiết, tiền tố đặt tên tài nguyên và người chịu trách nhiệm dọn dẹp.
 
 ## Bước 2 - Xác minh công cụ cục bộ và phiên bản
 
@@ -85,7 +85,8 @@ Sau này, người học có thể bổ sung Infrastructure as Code khi được
 - [ ] Có kho mã nguồn và file mẫu chứa thông tin bí mật đã được loại khỏi Git.
 - [ ] Đã phân công người dọn dẹp và nơi lưu bằng chứng.
 
-<!-- TODO IMAGE: /images/5-Workshop/5.2-prerequisites/development-tools-versions.png — Bằng chứng terminal hiển thị version Git, Python, Node.js, npm, PlatformIO và psql đã xác minh. -->
+![Phiên bản công cụ phát triển cục bộ đã xác minh](/images/5-Workshop/5.2-prerequisites/development-tools-versions.png)
+*Hình 2. Bằng chứng terminal cho phiên bản Git, Python, Node.js, npm và PlatformIO được dùng trong dự án.*
 
 ## Kết quả mong đợi
 

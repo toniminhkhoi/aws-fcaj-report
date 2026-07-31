@@ -6,13 +6,13 @@ chapter: false
 pre: " <b> 8.1. </b> "
 ---
 
-The application source code is maintained in a separate GitHub repository.
+The application source code is maintained in the project's GitHub repository.
 
 ## Main repository
 
 - **Repository:** [AWS IoT Monitoring and Control Dashboard](https://github.com/toniminhkhoi/aws-iot-dashboard)
 - **Handover branch:** `main`
-- **Access:** Public or otherwise accessible to the project reviewers
+- **Access at handover:** Public
 
 ## Main components
 
@@ -27,7 +27,7 @@ The application source code is maintained in a separate GitHub repository.
 
 ## Repository security
 
-The repository must not contain:
+The following files and values must not be committed to the repository:
 
 - `.env`
 - `secrets.h`
@@ -37,4 +37,4 @@ The repository must not contain:
 - SSH private keys
 - private credentials or tokens
 
-Template files such as `.env.example` and `secrets.example.h` may be committed, but they must not contain real secret values.
+Template files such as `.env.example` and `secrets.example.h` may be committed, but they must contain example values only. Real configuration files must be excluded through `.gitignore` and checked again before handover.

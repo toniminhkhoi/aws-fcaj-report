@@ -8,7 +8,7 @@ pre: " <b> 5.5. </b> "
 
 ## Overview and objectives
 
-Deploy the FastAPI backend in a Python virtual environment on Amazon EC2, manage it with `aws-iot-backend.service`, and connect it to the `iot_dashboard` database on Amazon RDS for PostgreSQL. The runbook uses `ec2-user`, `/home/ec2-user/aws-iot-dashboard/backend`, virtual environment `venv`, and Uvicorn entry point `main:app`.
+Deploy the FastAPI backend in a Python virtual environment on Amazon EC2, manage it with `aws-iot-backend.service`, and connect it to the `iot_dashboard` database on Amazon RDS for PostgreSQL. The runbook uses `ec2-user`, `/home/ec2-user/aws-iot-dashboard/backend`, virtual environment `venv`, and Uvicorn entry point `main:app`. Complete these steps on the source instance before creating the backend AMI, or apply the same release consistently through a new AMI and ASG instance refresh.
 
 ## Step 1 - Deploy the FastAPI Backend
 
@@ -97,6 +97,15 @@ curl http://127.0.0.1:8000/api/health
 
 Figure 8 shows that the unit was loaded by systemd, the service is `active (running)`, and Uvicorn is the main process. The health endpoint also returns valid JSON with `"status":"ok"`. Together, these observations provide evidence that the backend is deployed and can accept a local HTTP request. They do not establish High Availability or guarantee failure-free operation.
 
+After the ASG instances are registered, verify the same endpoint through the ALB:
+
+```powershell
+curl.exe -sS -i "http://<ALB_DNS_NAME>/api/health"
+```
+
+![Health check through the Application Load Balancer](/images/5-Workshop/5.5-backend-database/alb-health-check.png)
+*Figure 8a. The ALB endpoint returns HTTP 200 for `/api/health`; target-group evidence in section 5.4 confirms both registered backends are Healthy.*
+
 ## Step 4 - Connect EC2 to Amazon RDS
 
 From EC2, connect with SSL/TLS required:
@@ -104,6 +113,8 @@ From EC2, connect with SSL/TLS required:
 ```bash
 psql "host=<RDS_ENDPOINT> port=5432 dbname=iot_dashboard user=<DB_USER> sslmode=require"
 ```
+
+Use the RDS endpoint, not an Availability-Zone-specific host. During a Multi-AZ failover, AWS remaps this endpoint to the standby; the standby is not an application read replica.
 
 In `psql`, confirm the active database and connection information without exposing the password:
 
@@ -142,11 +153,15 @@ LIMIT 6;
 
 The screenshot confirms an SSL/TLS PostgreSQL session from EC2 to the `iot_dashboard` database. It lists the four application tables and recent command rows whose `device_id` is `room_01`. Examples include `CURTAIN_CLOSE`, `CURTAIN_OPEN`, `MODE_AUTO`, and `LIGHT_OFF`, all displayed in the `Executed` state. Database credentials are not shown.
 
+![Telemetry API response and matching PostgreSQL record](/images/5-Workshop/5.5-backend-database/telemetry-api-database.png)
+*Figure 9a. A telemetry POST and latest API response correlate with the same `telemetry_logs` record in PostgreSQL.*
+
 ## Step 6 - Expected Results
 
 - `aws-iot-backend.service` is enabled and `active (running)`.
 - Uvicorn is the main backend process.
 - `GET /api/health` returns JSON with status `ok`.
+- The ALB health request returns HTTP 200 and both ASG targets remain Healthy.
 - EC2 connects to Amazon RDS for PostgreSQL using SSL/TLS.
 - `commands`, `devices`, `sensor_readings`, and `telemetry_logs` appear in `psql`.
 - The query returns command records whose `device_id` is `room_01`.

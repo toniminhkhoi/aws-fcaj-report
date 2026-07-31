@@ -8,17 +8,17 @@ pre: " <b> 5.2. </b> "
 
 ## Objectives
 
-Prepare the AWS account, local tools, hardware, access material, and baseline knowledge before creating billable resources. The examples use Asia Pacific (Singapore), `ap-southeast-1`, as the workshop baseline; confirm the deployed project region and keep EC2, RDS, VPC, and CloudWatch in that same region.
+Prepare the AWS account, local tools, hardware, access material, and baseline knowledge before creating billable resources. The examples use Asia Pacific (Singapore), `ap-southeast-1`, as the workshop baseline; CloudFront/WAF are global services, while S3, ALB, ASG, EC2, RDS, VPC, and CloudWatch resources must match the documented regional design.
 
 ## Step 1 - Verify AWS access
 
 - An AWS account with billing visibility and MFA enabled.
-- Least-privilege access to EC2, EBS, RDS, VPC, Security Groups, IAM Role attachment, CloudWatch, and CloudWatch Alarms.
+- Least-privilege access to S3, CloudFront, WAF, Elastic Load Balancing, Auto Scaling, EC2/EBS, RDS, VPC/Security Groups, IAM Role attachment, CloudWatch, and alarms.
 - Permission to pass the approved EC2 IAM Role. AdministratorAccess is not a workshop requirement.
 - An EC2 key pair stored locally; never commit `.pem` or `.key` files.
 - A known administrator public IP for the SSH rule: `<ADMIN_IP>/32`.
 
-Before provisioning, record the region, VPC CIDR, public subnet CIDR, two DB subnets in different Availability Zones, resource-name prefix, and the person responsible for clean-up.
+Before provisioning, record the region, VPC CIDR, two application-subnet CIDRs, DB subnets across the required Availability Zones, resource-name prefix, and the person responsible for clean-up.
 
 ## Step 2 - Verify local tools and versions
 
@@ -85,7 +85,8 @@ Participants may add an approved Infrastructure as Code workflow later, but its 
 - [ ] Source repositories and ignored secret templates are available.
 - [ ] A clean-up owner and evidence location are assigned.
 
-<!-- TODO IMAGE: /images/5-Workshop/5.2-prerequisites/development-tools-versions.png — Terminal evidence showing the verified Git, Python, Node.js, npm, PlatformIO, and psql versions. -->
+![Verified local development tool versions](/images/5-Workshop/5.2-prerequisites/development-tools-versions.png)
+*Figure 2. Terminal evidence for the installed Git, Python, Node.js, npm, and PlatformIO versions used by the project.*
 
 ## Expected Result
 

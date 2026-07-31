@@ -8,22 +8,29 @@ pre: " <b> 5.3. </b> "
 
 ## Architecture
 
-![AWS IoT Monitoring and Control Dashboard architecture](/images/5-Workshop/5.3-architecture/aws-iot-dashboard-architecture.png)
+![AWS IoT Monitoring and Control Dashboard architecture](/images/2-Proposal/IoT_Dashboard_Architecture.png)
 
-*Figure 5-2. The architecture image copied from the application repository shows the service boundaries, EC2-to-RDS connection, device HTTP paths, and CloudWatch monitoring path.*
+*Figure 5-2. Current architecture: CloudFront/WAF with a private S3 origin, `/api/*` forwarding to ALB, two FastAPI instances in an ASG, RDS PostgreSQL Multi-AZ, and the direct device-to-ALB path.*
 
-The dashboard user, local React + Vite frontend, and YOLO UNO are outside AWS. Inside the AWS Cloud, the VPC contains a public subnet with EC2 and a DB Subnet Group with RDS. EBS is the EC2 root volume. The EC2 and RDS Security Groups control traffic. The IAM Role belongs to the AWS account, while CloudWatch is a regional service; neither is placed inside the VPC.
+The dashboard user and YOLO UNO are outside AWS. CloudFront distributes the React + Vite build from a private S3 bucket and forwards browser `/api/*` requests to the internet-facing ALB. YOLO UNO uses the ALB DNS name directly. Inside the VPC, the ALB routes to two FastAPI instances managed by an ASG in `ap-southeast-1a` and `ap-southeast-1c`; RDS PostgreSQL Multi-AZ uses a primary in `ap-southeast-1c` and standby in `ap-southeast-1b`. Each backend instance has an encrypted EBS root volume.
+
+![Browser, device, command, acknowledgement, and monitoring data flows](/images/5-Workshop/5.3-architecture/architecture-data-flows.svg)
+
+*Figure 5-3. The browser uses CloudFront, while YOLO UNO uses the ALB directly; both routes converge on the same FastAPI/RDS command and telemetry model.*
 
 ## Components and AWS service selection
 
 | Component/service | Responsibility and reason |
 | :--- | :--- |
-| React + Vite + TypeScript + Tailwind CSS | Local operator UI, telemetry views, controls, and rule-based recommendations |
-| Amazon EC2 | Full control of FastAPI, Python, Uvicorn, and `systemd` |
-| Amazon EBS | Persistent root volume attached to EC2 |
-| Amazon RDS for PostgreSQL | Managed relational persistence for telemetry and command state |
-| Amazon VPC and subnets | Network boundaries for EC2 and the DB Subnet Group |
-| Security Groups | Stateful allow rules for SSH/API and EC2-to-RDS traffic |
+| React + Vite + TypeScript + Tailwind CSS | Operator UI built to private S3 and distributed through CloudFront |
+| Amazon S3 + CloudFront + AWS WAF | Private static origin, HTTPS edge delivery, `/api/*` routing, and managed-rule monitoring |
+| Application Load Balancer + Target Group | Stable API entry point and `/api/health` checks for backend targets |
+| EC2 Auto Scaling Group | Maintains two FastAPI/Uvicorn instances and can scale from 2 to 4 |
+| Amazon EC2 | Full control of FastAPI, Python, Uvicorn, and `systemd` on each backend instance |
+| Amazon EBS | Encrypted persistent root volume attached to each EC2 instance |
+| Amazon RDS for PostgreSQL Multi-AZ | Managed relational persistence with primary/standby failover |
+| Amazon VPC and subnets | Network boundaries for ALB, ASG instances, and the DB Subnet Group |
+| Security Groups | Stateful allow rules for ALB-to-backend and backend-to-RDS traffic |
 | AWS IAM Role | Supplies temporary permission for EC2 to publish monitoring data |
 | CloudWatch Agent | Software on EC2 that reads guest metrics/log files |
 | Amazon CloudWatch/Alarms | Stores metrics/logs and evaluates thresholds |
@@ -54,6 +61,9 @@ Not every serverless service is required for this use case. The current system r
 | **AWS IAM Role** | Grants EC2 permission to publish monitoring data | Avoids storing AWS access keys on the instance or in source code | Policies must follow the principle of least privilege |
 | **Amazon CloudWatch** | Collects backend logs and infrastructure metrics | Centralizes operational data for troubleshooting and validation | Log ingestion, retention, and custom metrics may generate additional costs |
 | **CloudWatch Alarms** | Evaluates CPU, memory, disk, and database-connection thresholds | Provides visibility when configured operating thresholds are exceeded | Alarm usefulness depends on appropriate thresholds and evaluation periods |
+| **Amazon S3 and CloudFront** | Hosts and distributes the frontend and routes `/api/*` to ALB | Keeps the S3 origin private through OAC and provides the browser HTTPS endpoint | Cache/behavior changes require controlled deployment and invalidation |
+| **AWS WAF** | Applies three managed rule groups at the CloudFront edge | Provides visibility into common web threats before enabling enforcement | Current rules run in Count/Monitor mode, not blocking mode |
+| **Application Load Balancer and Auto Scaling** | Distributes API requests to two healthy FastAPI targets | Removes a single backend endpoint and maintains desired capacity across two AZs | Adds ALB/EC2 running cost and launch-template lifecycle management |
 
 ### Why Amazon EC2 Was Selected for the FastAPI Backend
 
@@ -103,14 +113,30 @@ CloudWatch centralizes:
 
 This demonstrates that the system supports both functional operation and infrastructure-level monitoring.
 
+### Why HTTP REST Was Selected Instead of MQTT
+
+HTTP REST was selected for the current `room_01` prototype because the project already uses FastAPI endpoints for telemetry, command polling, and acknowledgement. The same JSON contract can be tested directly with `curl`, PowerShell, browser DevTools, Uvicorn logs, and PostgreSQL queries. This makes each step of the end-to-end flow easy to demonstrate and troubleshoot without adding an MQTT broker, topics, subscriptions, device certificates, and separate message-processing components.
+
+The decision is a scope and simplicity trade-off, not a claim that HTTP is better than MQTT for every IoT system:
+
+| Criterion | HTTP REST in the current prototype | MQTT / AWS IoT Core when scaling |
+| :--- | :--- | :--- |
+| Integration | Reuses the existing FastAPI request/response API | Requires broker topics, policies, certificates, and subscribers |
+| Verification | HTTP status, JSON body, API log, and database row are easy to correlate | Requires inspecting publish/subscribe delivery and broker-side evidence |
+| Command delivery | Device periodically polls PostgreSQL-backed `Pending` commands and sends an ACK | Broker can push commands through subscribed topics |
+| Connectivity and bandwidth | Repeated polling creates more requests and protocol overhead | Persistent lightweight connections are usually more efficient for many devices |
+| Delivery guarantees | Application implements retry, command state, and ACK behavior | MQTT provides QoS levels and session features designed for messaging |
+| Current suitability | Adequate for one model room and a small command/telemetry workload | Preferable for larger fleets, intermittent links, lower bandwidth, or event-driven delivery |
+
+For a broader deployment, AWS IoT Core with MQTT should be evaluated together with per-device identity, certificate rotation, topic authorization, QoS, offline behavior, cost, and migration of the existing REST command lifecycle. MQTT remains a future option and is not described as implemented in this Workshop.
+
 ### Services Not Used in the Current Version
 
 | Service | Reason It Was Not Selected |
 | :--- | :--- |
 | **AWS Lambda** | The FastAPI backend is currently deployed as a continuously running EC2 service. Moving to Lambda would require a different deployment and database-connection model |
-| **Amazon API Gateway** | The frontend and YOLO UNO currently call the EC2 REST API directly. API Gateway would introduce another service layer that is not required for the current prototype |
+| **Amazon API Gateway** | Browser API requests use CloudFront `/api/*` to ALB, while YOLO UNO calls the ALB directly. API Gateway is not deployed |
 | **Amazon DynamoDB** | The project uses relational data structures and SQLAlchemy models designed for PostgreSQL |
-| **Amazon S3** | The runtime system does not currently require object storage, file uploads, or AWS-hosted static frontend assets |
 | **AWS IoT Core** | YOLO UNO currently communicates with FastAPI through HTTP REST APIs. MQTT and device certificates remain possible future improvements |
 | **Amazon SQS** | The implemented command path uses PostgreSQL `Pending` rows and device polling; no SQS queue, producer, or consumer is deployed |
 
@@ -122,9 +148,9 @@ The current architecture prioritizes direct implementation and observability rat
 
 - **Simplicity:** EC2 can host the existing FastAPI backend without splitting it into multiple Lambda functions.
 - **Managed services:** RDS reduces database-management work compared with installing PostgreSQL on EC2.
-- **Cost:** EC2 and RDS generate charges based on running time and should be stopped or deleted after the workshop.
+- **Cost:** CloudFront/WAF, S3, ALB, two EC2 instances with EBS, RDS Multi-AZ, and CloudWatch can generate charges and must be included in the clean-up plan.
 - **Learning value:** The architecture demonstrates Linux, systemd, REST APIs, PostgreSQL, IAM, Security Groups, and CloudWatch.
-- **Scalability:** The current system can support a small number of devices, but larger deployments would require authentication, HTTPS, load balancing, or an event-driven architecture.
+- **Scalability:** ALB and ASG provide backend horizontal scaling from 2 to 4 instances; larger device fleets still require authentication, HTTPS for the device route, and possibly an event-driven architecture.
 
 ## Verified API contract
 
@@ -145,8 +171,8 @@ Firmware supports `MODE_AUTO`, `MODE_MANUAL`, `FAN_ON`, `FAN_OFF`, `LIGHT_ON`, `
 
 ## Data flows
 
-1. **Telemetry:** YOLO UNO sends camelCase fields → Pydantic aliases map them to snake_case → SQLAlchemy writes `telemetry_logs` in RDS → latest/history API → dashboard.
-2. **Command:** dashboard → create command → backend writes `commands.state = "Pending"` → the route named `commands/latest` actually returns the oldest pending command first (FIFO) → hardware executes it.
+1. **Telemetry:** YOLO UNO sends camelCase fields to the ALB DNS endpoint → target group selects a healthy FastAPI instance → Pydantic maps fields to snake_case → SQLAlchemy writes `telemetry_logs` in RDS → CloudFront `/api/*` latest/history API → dashboard.
+2. **Command:** dashboard through CloudFront `/api/*` → ALB → backend writes `commands.state = "Pending"` → YOLO UNO polls the ALB route → the route named `commands/latest` returns the oldest pending command first (FIFO) → hardware executes it.
 3. **ACK:** device sends command ID → backend changes that command to `Executed` → later telemetry reports actuator state. The current ACK service looks up by command ID only; device ownership validation is a known hardening task.
 4. **Monitoring:** EC2 default metrics and agent data/logs → CloudWatch; RDS publishes service metrics; alarms evaluate configured thresholds.
 
@@ -160,12 +186,13 @@ The database models define `devices`, `telemetry_logs`, and `commands`. Telemetr
 
 | Source | Destination | Port | Rule |
 | :--- | :--- | :---: | :--- |
-| `<ADMIN_IP>/32` | EC2 Security Group | 22 | SSH administration only |
-| Demo clients | EC2 Security Group | 8000 | HTTP demo API; avoid `0.0.0.0/0` beyond the demo |
-| EC2 Security Group | RDS Security Group | 5432 | PostgreSQL only |
+| Internet / CloudFront origin traffic | ALB Security Group | 80 | Public API entry point in the verified deployment |
+| ALB Security Group | Backend Security Group | 8000 | FastAPI target traffic only |
+| `<ADMIN_IP>/32` | Backend Security Group | 22 | Restricted administration when SSH is required |
+| Backend Security Group | RDS Security Group | 5432 | PostgreSQL only |
 | EC2/RDS | CloudWatch | HTTPS | Outbound monitoring path |
 
-RDS should not be publicly accessible. Secrets stay in ignored local files; EC2 uses an IAM Role instead of hard-coded AWS keys. The current design does not claim HTTPS, authentication, HA, Multi-AZ, a load balancer, or rate limiting.
+RDS is not publicly accessible. Secrets stay in ignored local files; EC2 uses an IAM Role instead of hard-coded AWS keys. CloudFront provides viewer HTTPS, ALB/ASG provides backend availability, and RDS is Multi-AZ. The current evidence does not prove ALB HTTPS, application authentication, rate limiting, or WAF blocking mode.
 
 ### Security and IAM Table
 
@@ -175,7 +202,7 @@ RDS should not be publicly accessible. Secrets stay in ignored local files; EC2 
 | Database isolation | RDS private; 5432 accepts the EC2 Security Group only | RDS setting, subnet group, SG reference | Review NACL/routes and TLS verification |
 | AWS credentials | EC2 IAM Role with `CloudWatchAgentServerPolicy` for monitoring | Instance profile and attached policy | Replace broad managed permissions with reviewed resource-scoped policy where practical |
 | Application secrets | `.env` and `hardware/include/secrets.h` remain local and ignored | Redacted file locations and `git status` | Move production secrets to an approved managed secret service |
-| Public API | Direct HTTP port 8000 for supervised demo | EC2 SG and health request | Add HTTPS, authentication, authorization, and rate limiting before production |
+| Public API | CloudFront `/api/*` forwards to ALB HTTP 80; ALB forwards to backend port 8000 | CloudFront behavior, ALB listener, target health, and health request | Add ALB TLS/custom domain plus authentication, authorization, and rate limiting before production |
 | Database identity | Dedicated PostgreSQL user in `DATABASE_URL` | Redacted connection configuration | Restrict grants, rotate password, audit access |
 
 ### Principle of Least Privilege
@@ -184,20 +211,20 @@ Grant only the actions needed by each identity, limit network sources and destin
 
 ## Current Operational Model
 
-- One Amazon Linux EC2 instance runs persistent FastAPI/Uvicorn as `aws-iot-backend` under `systemd`.
-- One EBS root volume holds the operating system, source, virtual environment, and local log files.
-- One private RDS for PostgreSQL instance stores devices, telemetry, and command states.
-- A local React/Vite dashboard and one YOLO UNO device call the EC2 REST API through periodic HTTP polling.
-- CloudWatch Agent ships guest metrics and two backend log files; native EC2/RDS metrics and six documented alarms support operations.
-- Deployment, scaling decisions, recovery, and clean-up are manual runbook activities in the current version.
+- CloudFront serves the private-S3 React/Vite frontend and routes browser `/api/*` traffic to the ALB.
+- The ASG keeps two Amazon Linux FastAPI/Uvicorn instances in service across `ap-southeast-1a` and `ap-southeast-1c` with scaling limits of 2 to 4.
+- Each backend instance uses an encrypted gp3 EBS root volume and the `aws-iot-backend` systemd service.
+- Private RDS PostgreSQL Multi-AZ stores devices, telemetry, and command states; the standby supports failover, not reads.
+- YOLO UNO calls the ALB DNS endpoint directly through periodic HTTP polling and acknowledgement.
+- CloudWatch Agent and native AWS metrics feed backend logs, the operations dashboard, ALB/ASG metrics, and eight alarms; the verified alarms currently have no actions.
 
 ## Future Scalability Options and Current Limitations
 
-The `device_id` route structure and relational schema can support more rooms, but the present acceptance scope is `room_01`. A single EC2 endpoint and periodic HTTP polling are simple for a prototype but create a changing-public-IP risk, polling delay, and a single compute failure domain.
+The `device_id` route structure and relational schema can support more rooms, but the present acceptance scope is `room_01`. ALB/ASG removes the single compute endpoint, while periodic device polling still introduces delay and the direct device route still lacks verified TLS and authentication.
 
-Possible future options include a stable DNS/HTTPS endpoint, authentication and per-device authorization, a load balancer with multiple stateless backend instances, Auto Scaling, managed MQTT through AWS IoT Core, queue-based processing such as SQS, caching, read replicas, Multi-AZ database deployment, containers, and Infrastructure as Code. These require a new architecture, cost/security review, implementation, and tests.
+Possible future options include ALB HTTPS with a custom domain, authentication and per-device authorization, managed MQTT through AWS IoT Core, queue-based processing such as SQS, caching, read replicas, containers, and Infrastructure as Code. These require architecture, cost/security review, implementation, and tests.
 
-**Auto Scaling, Amazon SQS, and an event-driven architecture are not deployed in the current project.** They are future scalability options only.
+**Amazon SQS and an event-driven architecture are not deployed in the current project.** Auto Scaling is already implemented for the backend.
 
 ## Expected result and troubleshooting
 

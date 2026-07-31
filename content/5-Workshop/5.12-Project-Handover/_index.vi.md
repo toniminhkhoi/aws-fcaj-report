@@ -26,7 +26,7 @@ Repository chính chứa source code backend, frontend, firmware YOLO UNO, sơ �
 
 ## Quy trình khởi động
 
-Backend trên EC2 Linux Bash:
+Xác minh backend trên một instance của ASG (EC2 Linux Bash):
 
 ```bash
 sudo systemctl start aws-iot-backend
@@ -34,13 +34,22 @@ sudo systemctl status aws-iot-backend --no-pager
 curl -i http://127.0.0.1:8000/api/health
 ```
 
-Frontend trên Windows PowerShell:
+Xác minh dịch vụ từ bên ngoài:
+
+```powershell
+curl.exe -sS -i "http://<ALB_DNS_NAME>/api/health"
+curl.exe -sS -i "https://<CLOUDFRONT_DOMAIN>/api/health"
+```
+
+Luồng phát triển frontend cục bộ trên Windows PowerShell:
 
 ```powershell
 Set-Location .\aws-iot-dashboard\frontend
 npm install
 npm run dev
 ```
+
+Ở production, build rồi sync thư mục `dist` lên S3 private, tạo CloudFront invalidation khi cần và xác minh default behavior tới S3 cùng behavior `/api/*` tới ALB.
 
 Phần cứng trong terminal của PlatformIO:
 
@@ -52,7 +61,7 @@ pio device monitor --baud 115200
 
 ## Quy trình cập nhật phiên bản triển khai
 
-Trong EC2 Linux Bash:
+Luồng phát hành của ASG theo hướng immutable: xác minh thay đổi trên instance nguồn, tạo AMI/Launch Template version mới, cập nhật ASG, chạy instance refresh và kiểm tra target health trước khi bỏ phiên bản cũ. Các lệnh dưới đây vẫn được giữ làm quy trình xác minh trên instance nguồn:
 
 ```bash
 cd ~/aws-iot-dashboard
@@ -70,6 +79,14 @@ curl -i http://127.0.0.1:8000/api/health
 
 Trước khi cập nhật, cần rà soát các thay đổi về mô hình dữ liệu, lược đồ và ghi chú phát hành. `app.database.init_db` sử dụng `create_all` của SQLAlchemy, không phải công cụ quản lý migration; mọi thay đổi có nguy cơ làm mất dữ liệu hoặc gây mất tương thích phải tuân theo một quy trình riêng đã được phê duyệt. Hãy ghi lại mã commit trước và sau khi cập nhật, kèm phương án quay lui. Không dùng `git reset --hard` để xóa thay đổi cục bộ.
 
+Sau khi xác minh:
+
+1. Tạo AMI backend và Launch Template version có đánh số.
+2. Cập nhật `iot-backend-asg` sang template version mới.
+3. Chạy instance refresh và giữ AMI/template cũ để rollback.
+4. Xác nhận desired capacity 2, cả hai target Healthy, ALB health trả HTTP 200 và có log CloudWatch mới.
+5. Build/sync frontend lên S3 private và chỉ invalidate CloudFront khi frontend thay đổi.
+
 ## Kiểm tra cơ sở dữ liệu và CloudWatch
 
 Từ EC2 Linux Bash:
@@ -80,11 +97,11 @@ sudo systemctl status amazon-cloudwatch-agent --no-pager
 sudo tail -n 100 /opt/aws/amazon-cloudwatch-agent/logs/amazon-cloudwatch-agent.log
 ```
 
-Trong `psql`, chạy `\dt`, kiểm tra các bảng `devices`, `telemetry_logs`, `commands` và dùng truy vấn chỉ đọc để xác minh dữ liệu. Trong CloudWatch, hãy chọn đúng khu vực, kiểm tra các log group đã cấu hình, thời điểm có log gần nhất, metric tùy chỉnh `IoTDashboard/EC2`, metric CPU mặc định của EC2, CPU/số kết nối của RDS, cùng tên và trạng thái của năm alarm đã mô tả.
+Trong `psql`, chạy `\dt`, kiểm tra các bảng `devices`, `telemetry_logs`, `commands` và dùng truy vấn chỉ đọc để xác minh dữ liệu. Trong CloudWatch, chọn đúng khu vực, kiểm tra log stream của cả hai instance ASG, timestamp gần nhất, guest metrics, widget ALB/ASG/EC2/RDS và đủ tám alarm đã mô tả.
 
 ## Hạn chế đã biết
 
-Mô hình thử nghiệm hiện chỉ phục vụ một phòng và dùng HTTP trực tiếp qua cổng 8000 để minh họa. Địa chỉ IP công khai của EC2 có thể thay đổi; thiết bị kiểm tra lệnh theo chu kỳ; giá trị ánh sáng analog chưa được hiệu chuẩn. Hệ thống chưa triển khai HTTPS, xác thực route hoặc API key, High Availability, Multi-AZ, Load Balancer, giới hạn tần suất gọi API hay mô hình AI. Frontend vẫn có thể chuyển sang dữ liệu mô phỏng, báo thành công giả sau lỗi, lưu chế độ trên máy người dùng, gọi giá trị ánh sáng là Lux và ghi trực tiếp địa chỉ EC2. Backend chưa kiểm tra chặt danh sách lệnh hợp lệ và quyền sở hữu khi ACK. Các thông tin về GPIO, đường dẫn/lược đồ mã nguồn và ngưỡng alarm đã được ghi ở 5.5, 5.6 và 5.9, nhưng vẫn cần đối chiếu với bằng chứng từ môi trường đang chạy.
+Hệ thống hiện vẫn chỉ phục vụ một phòng, dùng REST polling và báo giá trị ánh sáng analog chưa hiệu chuẩn. CloudFront cung cấp HTTPS phía viewer, nhưng ALB origin và route trực tiếp của thiết bị dùng HTTP; API chưa có xác thực mạnh hoặc rate limiting, còn WAF managed rules vẫn ở Count/Monitor. ALB/ASG và RDS Multi-AZ đã triển khai nhưng chưa có bằng chứng diễn tập failover có kiểm soát. Frontend vẫn có thể dùng dữ liệu mô phỏng hoặc báo thành công sau lỗi, lưu mode cục bộ và gắn nhãn Lux cho giá trị chưa hiệu chuẩn; backend chưa kiểm tra chặt enum lệnh và quyền sở hữu ACK. Panel đề xuất là luật xác định trước, không phải mô hình AI/ML.
 
 ## Trách nhiệm nhóm
 
@@ -110,6 +127,7 @@ Bảng trên giữ nguyên nội dung phân công đã thống nhất và dẫn 
 | Tài liệu Workshop song ngữ | Hoàn thành |
 | Hướng dẫn triển khai backend và phần cứng | Hoàn thành |
 | Hướng dẫn kiểm thử và CloudWatch | Hoàn thành |
+| Bằng chứng vận hành CloudFront/WAF/S3, ALB/ASG và RDS Multi-AZ | Hoàn thành |
 | Hướng dẫn clean-up tài nguyên AWS | Hoàn thành |
 | Thông tin bí mật không được commit lên Git | Đã kiểm tra |
 
@@ -147,7 +165,7 @@ DATABASE_URL=postgresql://USERNAME:PASSWORD@RDS_ENDPOINT:5432/DATABASE_NAME
 ```cpp
 #define WIFI_SSID "YOUR_WIFI_SSID"
 #define WIFI_PASSWORD "YOUR_WIFI_PASSWORD"
-#define API_BASE_URL "http://YOUR_EC2_ADDRESS"
+#define API_BASE_URL "http://YOUR_ALB_DNS_NAME"
 ```
 
 Không được đưa giá trị thật vào các file mẫu.

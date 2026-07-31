@@ -14,7 +14,7 @@ pre: " <b> 1.8. </b> "
 
 - Test the complete telemetry and command flows with physical hardware.
 - Trace the same data or command ID across the dashboard, API, RDS, and firmware.
-- Establish logs, metrics, and alarms for EC2/RDS.
+- Establish logs, metrics, and alarms for ALB/ASG/EC2/RDS.
 - Complete the security review, bilingual documentation, demo video, and handover material.
 
 ## Work completed
@@ -24,14 +24,15 @@ pre: " <b> 1.8. </b> "
 | Test preparation | Recorded source, firmware, AWS Region, and test conditions and confirmed health | Reproducible baseline for comparing results |
 | Telemetry validation | Sent YOLO UNO telemetry, checked latest/history, PostgreSQL, and the dashboard, and ran one controlled `curl` request | Consistent `room_01` data; API/database image isolated FastAPI → RDS evidence |
 | Command and actuator validation | Created commands, followed the same ID from `Pending` to `Executed`, and tested fan, light, and curtain controls | Command/ACK matrix passed; video captured physical actuator responses |
-| CloudWatch | Configured CloudWatch Agent, the backend log group, `ec2-rds-metrics`, and five EC2/RDS alarms | Centralized logs, EC2/RDS metrics, and evaluated alarm states with missing-data notes |
+| AWS availability and edge | Added CloudFront/WAF/private S3, ALB/target group/ASG, encrypted EBS, and RDS Multi-AZ backup evidence | Two Healthy backends, stable browser/device routes, and primary/standby database evidence |
+| CloudWatch | Configured CloudWatch Agent, backend logs, `ec2-rds-metrics`, and eight ALB/ASG/EC2/RDS alarms | Centralized logs, operational metrics, and evaluated alarm states with missing-data notes |
 | Operational review | Reviewed the IAM Role, Security Groups, RDS public access, secrets, cost, and current limitations | Security/cost checklist and items for continued improvement |
 | Documentation and handover | Reviewed bilingual Workshop pages, READMEs, captions, test matrix, images, video, and checklists | Final package aligned with the deployed system and collected evidence |
 ## Weekly outcomes
 
 - All telemetry, history, command, polling, actuator, and ACK cases in the test matrix passed.
 - Clearly separated API/database evidence from physical hardware evidence.
-- CloudWatch received backend logs, displayed EC2/RDS metrics, and evaluated five alarms.
+- CloudWatch received backend logs, displayed ALB/ASG/EC2/RDS metrics, and evaluated eight alarms.
 - Completed the bilingual report, Workshop, READMEs, operating guidance, and handover material.
 - The demo video shows dashboard interaction and physical device response: [View the demo video](https://drive.google.com/file/d/1T97dUY58hbT2ppxvg7ESR12Jg9BA828W/view?usp=sharing).
 
@@ -41,7 +42,7 @@ The `Pending` state was short-lived when the device polled quickly, so the team 
 
 ## Current limitations
 
-The current model uses HTTP without TLS, has no API authentication, and runs on one EC2 instance with one RDS database. These limitations were recorded for continued system improvement.
+CloudFront provides viewer HTTPS, but the ALB/device path uses HTTP; API authentication, WAF blocking, notification actions, and a controlled failover drill remain incomplete. These limitations were recorded for continued improvement.
 
 ## Workshop references
 

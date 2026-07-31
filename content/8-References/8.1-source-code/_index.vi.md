@@ -6,13 +6,13 @@ chapter: false
 pre: " <b> 8.1. </b> "
 ---
 
-Source code của ứng dụng được quản lý trong một GitHub repository riêng.
+Mã nguồn của ứng dụng được quản lý trong repository GitHub của dự án.
 
 ## Repository chính
 
 - **Repository:** [AWS IoT Monitoring and Control Dashboard](https://github.com/toniminhkhoi/aws-iot-dashboard)
 - **Nhánh bàn giao:** `main`
-- **Quyền truy cập:** Công khai hoặc được cấp quyền phù hợp cho người chấm
+- **Quyền truy cập tại thời điểm bàn giao:** Công khai
 
 ## Thành phần chính
 
@@ -27,7 +27,7 @@ Source code của ứng dụng được quản lý trong một GitHub repository
 
 ## Bảo mật repository
 
-Repository không được chứa:
+Các tệp và giá trị sau không được commit lên repository:
 
 - `.env`
 - `secrets.h`
@@ -37,4 +37,4 @@ Repository không được chứa:
 - SSH private key
 - thông tin xác thực hoặc token riêng tư
 
-Các file mẫu như `.env.example` và `secrets.example.h` có thể được commit nhưng không được chứa giá trị thật.
+Các file mẫu như `.env.example` và `secrets.example.h` có thể được commit, nhưng chỉ được chứa giá trị minh họa. Tệp cấu hình thật phải được loại trừ bằng `.gitignore` và kiểm tra lại trước khi bàn giao.

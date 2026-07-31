@@ -8,7 +8,7 @@ pre: " <b> 5.7. </b> "
 
 ## Tổng quan và mục tiêu
 
-Chạy React + Vite frontend trên máy cục bộ, kết nối với FastAPI trên EC2 qua HTTP REST, đồng thời hiển thị telemetry được làm mới định kỳ, bảng điều khiển, đề xuất dựa trên luật và lịch sử của phòng mẫu có `device_id = room_01`.
+Chạy React + Vite frontend cục bộ khi phát triển, sau đó phân phối bản build production từ Amazon S3 private qua CloudFront. Trình duyệt dùng request tương đối `/api/*`, được CloudFront forward tới ALB, đồng thời hiển thị telemetry định kỳ, bảng điều khiển, đề xuất dựa trên luật và lịch sử của `device_id = room_01`.
 
 ## Bước 1 - Cấu hình React frontend
 
@@ -21,7 +21,7 @@ npm install
 npm run dev
 ```
 
-Sử dụng phiên bản Node theo `package.json` và giữ nguyên lockfile của repository. Frontend chạy cục bộ ngoài AWS.
+Sử dụng phiên bản Node theo `package.json` và giữ nguyên lockfile của repository. `npm run dev` là luồng phát triển cục bộ; frontend đã triển khai là bản build Vite trong S3 private, chỉ truy cập qua CloudFront OAC.
 
 ## Bước 2 - Kết nối frontend với FastAPI backend
 
@@ -37,7 +37,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://<EC2_PUBLIC_IP>:8000",
+        target: "http://<ALB_DNS_NAME>",
         changeOrigin: true,
       },
     },
@@ -45,7 +45,7 @@ export default defineConfig({
 });
 ```
 
-Khởi động lại Vite sau khi đổi cấu hình. Nếu dự án dùng `VITE_API_BASE_URL`, lưu biến trong `.env.local` đã được loại khỏi Git thay vì lặp URL EC2 trong nhiều component.
+Khởi động lại Vite sau khi đổi cấu hình. Proxy này chỉ dùng khi phát triển cục bộ. Ở production, giữ `/api` là đường dẫn tương đối để trình duyệt dùng cùng domain CloudFront; không hard-code URL EC2 hoặc ALB trong React component. Nếu dự án dùng `VITE_API_BASE_URL`, lưu giá trị development trong `.env.local` đã được loại khỏi Git.
 
 Các request chính gồm:
 
@@ -57,6 +57,22 @@ POST /api/devices/room_01/commands
 ```
 
 Badge **LIVE AWS** phải dựa trên phản hồi backend/API thành công, không chỉ dựa vào việc trang React đã tải.
+
+Build và tải artifact frontend lên S3 private, sau đó tạo CloudFront invalidation khi cần:
+
+```powershell
+npm run build
+aws s3 sync .\dist "s3://<PRIVATE_FRONTEND_BUCKET>" --delete
+aws cloudfront create-invalidation --distribution-id <DISTRIBUTION_ID> --paths "/*"
+```
+
+Distribution dùng default behavior cho frontend S3 và behavior `/api/*` có ưu tiên cao hơn cho ALB origin, đồng thời tắt cache API.
+
+![Dashboard qua CloudFront và các API request thành công](/images/5-Workshop/5.7-frontend/cloudfront-dashboard-api-200.png)
+*Hình 12a. Dashboard tải qua CloudFront HTTPS; các request `latest`, `history` và `commands` qua `/api/*` trả HTTP 200.*
+
+![Phản hồi latest và history qua CloudFront](/images/5-Workshop/5.7-frontend/latest-history.png)
+*Hình 12b. Browser DevTools hiển thị bản ghi mới nhất và lịch sử có thứ tự được trả về qua route production `/api/*`.*
 
 ## Bước 3 - Hiển thị telemetry gần thời gian thực
 
@@ -81,7 +97,7 @@ Vô hiệu hóa nút đang gửi request, tránh tạo command trùng đang ch�
 
 *Hình 13. React + Vite dashboard hiển thị telemetry gần thời gian thực và bảng điều khiển quạt, đèn và rèm cho phòng mẫu có `device_id = room_01`.*
 
-Hình 13 cho thấy giao diện React + Vite chạy cục bộ, nhãn stack EC2 FastAPI/RDS PostgreSQL/React Vite, ba telemetry card có badge **LIVE AWS**, cùng bảng điều khiển quạt, đèn, rèm và chế độ. UI có thể hiển thị Manual Override hoặc Auto tùy trạng thái hiện tại.
+Hình 13 cho thấy giao diện React + Vite, nhãn stack EC2 FastAPI/RDS PostgreSQL/React Vite, ba telemetry card có badge **LIVE AWS**, cùng bảng điều khiển quạt, đèn, rèm và chế độ. UI có thể hiển thị Manual Override hoặc Auto tùy trạng thái hiện tại.
 
 ## Bước 5 - Hiển thị phân tích dựa trên luật và lịch sử
 
@@ -106,6 +122,8 @@ GET /api/devices/room_01/history
 ## Bước 6 - Kết quả mong đợi
 
 - React + Vite frontend tải thành công trên máy cục bộ.
+- Bản build production tải qua CloudFront từ S3 private origin.
+- Request `/api/*` của trình duyệt tới ALB origin và trả HTTP 200.
 - Badge **LIVE AWS** phản ánh một request backend/API thành công.
 - Telemetry của `device_id = room_01` xuất hiện trên ba card.
 - Các nút quạt, đèn, rèm và chế độ được hiển thị.

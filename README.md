@@ -10,9 +10,9 @@ An AWS-based system for remote environmental monitoring and IoT device control, 
 
 ## 📋 Project Overview
 
-YOLO UNO collects temperature, humidity, and light readings, then sends telemetry over HTTP to a FastAPI backend running on Amazon EC2. The backend stores telemetry and command states in Amazon RDS for PostgreSQL. The React + Vite dashboard displays the latest readings and historical data, and allows operators to control the fan, light, and curtain.
+YOLO UNO collects temperature, humidity, and light readings, then sends telemetry over HTTP directly to the Application Load Balancer (ALB). The ALB forwards requests to a target group backed by two FastAPI instances in an Auto Scaling Group (ASG). The backend stores telemetry and command states in a Multi-AZ Amazon RDS for PostgreSQL instance.
 
-The device polls for pending commands, executes each command once, and sends an ACK so the backend can change its state from `Pending` to `Executed`. Amazon CloudWatch collects backend logs, monitors EC2 and RDS metrics, and evaluates the configured alarms.
+The React + Vite dashboard is built and stored in a private Amazon S3 bucket, served through Amazon CloudFront with Origin Access Control (OAC), and protected by AWS WAF in Count/Monitor mode. Browser requests to `/api/*` are routed by CloudFront to the ALB. The device polls for pending commands, executes each command once, and sends an ACK so the backend can change its state from `Pending` to `Executed`. Amazon CloudWatch collects backend logs, monitors ALB, ASG, EC2, and RDS metrics, and evaluates eight configured alarms.
 
 - **Report author:** Phạm Lê Minh Khôi
 - **Institution:** Ho Chi Minh City University of Technology (HCMUT) – Faculty of Computer Science and Engineering
@@ -23,48 +23,46 @@ The device polls for pending commands, executes each command once, and sends an 
 ## 🏛️ System Architecture
 
 ```text
-┌──────────────────────────────────────────┐
-│        React + Vite Dashboard            │
-│             (runs locally)               │
-└──────────────────────────────────────────┘
-                    │ REST API
-                    ▼
-┌──────────────────────────────────────────┐
-│        FastAPI Backend on EC2            │
-│         EBS · IAM Role · systemd         │
-└──────────────────────────────────────────┘
-          │                         │
-          ▼                         ▼
- Amazon RDS for              Amazon CloudWatch
-   PostgreSQL                 Logs · Metrics · Alarms
-          ▲
-          │ Telemetry · Polling · ACK
-          ▼
-┌──────────────────────────────────────────┐
-│       YOLO UNO / Python Simulator        │
-└──────────────────────────────────────────┘
+Browser ──HTTPS──> CloudFront + AWS WAF
+                      ├── Default (*) ──> Private S3 (React + Vite)
+                      └── /api/* ──────> ALB HTTP:80
+                                             │
+YOLO UNO / Simulator ──HTTP──────────────────┤
+                                             ▼
+                                  Target Group HTTP:8000
+                                             │
+                                  ASG: 2 EC2 instances
+                                  EBS · IAM Role · systemd
+                                             │
+                                             ▼
+                              RDS PostgreSQL Multi-AZ
+                              Primary 1c · Standby 1b
+
+CloudWatch monitors ALB, ASG, EC2, RDS, logs, and eight alarms.
 ```
 
 ### Main Components
 
-1. **YOLO UNO / Python Simulator:** Sends telemetry, retrieves pending commands, and returns acknowledgements. YOLO UNO is the primary device, while the simulator supports testing when physical hardware is unavailable.
-2. **Amazon EC2 and EBS:** Runs the FastAPI backend as a `systemd` service; EBS provides the EC2 root volume.
-3. **Amazon RDS for PostgreSQL:** Stores devices, telemetry history, and command lifecycle data.
-4. **React + Vite Dashboard:** Displays the latest readings and historical data, and sends device-control requests.
-5. **Amazon CloudWatch:** Collects logs, monitors EC2 and RDS metrics, and evaluates alarms.
-6. **Amazon VPC, Security Groups, and IAM Role:** Control network connectivity and monitoring permissions according to the principle of least privilege.
+1. **Amazon CloudFront, AWS WAF, and private S3:** Serve the React + Vite dashboard over HTTPS. The default behavior reads private S3 content through OAC, while `/api/*` forwards dynamic requests to the ALB. Three AWS managed WAF rule groups currently run in Count/Monitor mode.
+2. **Application Load Balancer, Target Group, and Auto Scaling Group:** Distribute HTTP requests to two healthy FastAPI targets across `ap-southeast-1a` and `ap-southeast-1c`. The ASG uses min/desired/max capacity `2/2/4`.
+3. **Amazon EC2 and encrypted EBS:** Run FastAPI/Uvicorn on port `8000` as a `systemd` service. The launch template uses a private AMI and encrypted 10 GiB gp3 root volumes with the AWS-managed `aws/ebs` KMS key.
+4. **Amazon RDS for PostgreSQL Multi-AZ:** Stores devices, telemetry history, and command lifecycle data. The primary is in `ap-southeast-1c`; the synchronous standby is in `ap-southeast-1b` and is not a read replica.
+5. **YOLO UNO / Python Simulator:** Sends telemetry, retrieves pending commands, and returns acknowledgements through the ALB DNS name over HTTP. The simulator supports testing when physical hardware is unavailable.
+6. **Amazon CloudWatch:** Collects backend logs, monitors ALB, ASG, EC2, and RDS metrics, and evaluates eight alarms. Alarm actions/SNS notifications are not configured.
+7. **Amazon VPC, Security Groups, and IAM Role:** Restrict ALB-to-backend traffic on port `8000`, backend-to-RDS traffic on port `5432`, administrative SSH, and CloudWatch Agent permissions.
 
-The implemented AWS services are **Amazon EC2, Amazon EBS, Amazon RDS for PostgreSQL, Amazon VPC, Security Groups, AWS IAM Role, Amazon CloudWatch, and CloudWatch Alarms**.
+The implemented AWS services are **Amazon S3, Amazon CloudFront, AWS WAF, Elastic Load Balancing, EC2 Auto Scaling, Amazon EC2, Amazon EBS, Amazon RDS for PostgreSQL Multi-AZ, Amazon VPC, Security Groups, AWS IAM, Amazon CloudWatch, and CloudWatch Alarms**.
 
-AWS IoT Core, Lambda, API Gateway, DynamoDB, S3, Auto Scaling, and Amazon SQS are not implemented in the current version.
+AWS IoT Core, Lambda, API Gateway, DynamoDB, Amazon SQS, Secrets Manager, and Amazon SNS are not implemented in the current version.
 
 ---
 
 ## 🔄 Main Workflows
 
-- **Telemetry:** YOLO UNO reads sensor values → sends an HTTP POST request to FastAPI → the backend stores the data in PostgreSQL → the dashboard retrieves the latest and historical readings.
-- **Device command:** An operator uses the dashboard → FastAPI creates a command in the `Pending` state → the device polls and executes the command → the device sends an ACK → the backend changes the state to `Executed`.
-- **Monitoring:** CloudWatch Agent sends EC2 operating-system logs and metrics; CloudWatch also monitors the default EC2 and RDS metrics.
+- **Browser telemetry:** Browser → HTTPS CloudFront/WAF → `/api/*` behavior → ALB → healthy FastAPI target → RDS PostgreSQL → response through the same path.
+- **Device telemetry:** YOLO UNO → HTTP ALB DNS → target group → FastAPI → RDS PostgreSQL.
+- **Device command:** An operator uses the dashboard → FastAPI creates a command in the `Pending` state → the device polls through the ALB and executes it → the device sends an ACK → the backend changes the state to `Executed`.
+- **Monitoring:** CloudWatch Agent sends backend logs and EC2 operating-system metrics; CloudWatch also monitors ALB, ASG, EC2, and RDS metrics through an operations dashboard and eight alarms.
 
 ---
 
@@ -87,7 +85,7 @@ Detailed contributions and individual reflections are provided in [section 5.11]
 - **Frontend:** React, Vite, TypeScript, and Tailwind CSS.
 - **Database:** PostgreSQL on Amazon RDS.
 - **Hardware:** YOLO UNO/ESP32-S3, PlatformIO, DHT20, analog light sensor, LCD1602, fan, light/relay, and servo.
-- **AWS:** EC2, EBS, RDS, VPC, Security Groups, IAM Role, CloudWatch, and CloudWatch Alarms.
+- **AWS:** S3, CloudFront, WAF, ALB, Target Groups, EC2 Auto Scaling, EC2, encrypted EBS, RDS PostgreSQL Multi-AZ, VPC, Security Groups, IAM Role, CloudWatch, and CloudWatch Alarms.
 - **Report:** Hugo and `hugo-theme-learn`.
 
 ---
@@ -125,10 +123,15 @@ hugo --minify
 ## 🔐 Security Notes
 
 - Do not commit `.env`, `.pem`, private keys, passwords, or `hardware/include/secrets.h`.
+- Keep the frontend S3 bucket private and allow reads only through CloudFront OAC.
+- Use HTTPS for viewers. The CloudFront-to-ALB origin and YOLO UNO-to-ALB paths currently use HTTP and are documented limitations.
+- Allow backend port `8000` only from the ALB Security Group.
 - Allow PostgreSQL connections to RDS only from the EC2 Security Group.
 - Restrict SSH access to the administrator's IP address.
 - Do not hard-code AWS access keys in source code.
 - Use an IAM Role for CloudWatch Agent permissions.
+- Keep EBS encryption enabled for all ASG instances.
+- Treat WAF Count/Monitor mode as observation only; requests are not blocked until rules are deliberately changed to Block mode.
 
 ---
 

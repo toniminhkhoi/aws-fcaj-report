@@ -26,7 +26,7 @@ The screenshot shows that the handover repository contains the source code for t
 
 ## Start procedures
 
-Backend on EC2 Linux Bash:
+Backend validation on one ASG instance (EC2 Linux Bash):
 
 ```bash
 sudo systemctl start aws-iot-backend
@@ -34,13 +34,22 @@ sudo systemctl status aws-iot-backend --no-pager
 curl -i http://127.0.0.1:8000/api/health
 ```
 
-Frontend on Windows PowerShell:
+External service validation:
+
+```powershell
+curl.exe -sS -i "http://<ALB_DNS_NAME>/api/health"
+curl.exe -sS -i "https://<CLOUDFRONT_DOMAIN>/api/health"
+```
+
+Frontend local-development path on Windows PowerShell:
 
 ```powershell
 Set-Location .\aws-iot-dashboard\frontend
 npm install
 npm run dev
 ```
+
+For production, build and sync `dist` to the private S3 bucket, create a CloudFront invalidation when needed, and verify the default S3 behavior plus `/api/*` ALB behavior.
 
 Hardware in a PlatformIO terminal:
 
@@ -52,7 +61,7 @@ pio device monitor --baud 115200
 
 ## Update deployment procedure
 
-In EC2 Linux Bash:
+The ASG release path is immutable: validate the change on a source instance, create a new AMI/Launch Template version, update the ASG, perform an instance refresh, and verify target health before retiring the previous version. The commands below remain the source-instance validation procedure:
 
 ```bash
 cd ~/aws-iot-dashboard
@@ -70,6 +79,14 @@ curl -i http://127.0.0.1:8000/api/health
 
 Review model/schema changes and release notes first. `app.database.init_db` uses SQLAlchemy `create_all`; it is not a migration engine, so destructive or incompatible schema changes require an explicit reviewed procedure. Record the previous/new commit and rollback procedure. Never discard local changes with `git reset --hard`.
 
+After validation:
+
+1. Create a versioned backend AMI and Launch Template version.
+2. Update `iot-backend-asg` to the new template version.
+3. Start an instance refresh and keep the previous AMI/template available for rollback.
+4. Confirm desired capacity 2, both targets Healthy, ALB health HTTP 200, and recent CloudWatch logs.
+5. Build/sync frontend artifacts to private S3 and invalidate CloudFront only when frontend files changed.
+
 ## Database and CloudWatch checks
 
 From EC2 Linux Bash:
@@ -80,11 +97,11 @@ sudo systemctl status amazon-cloudwatch-agent --no-pager
 sudo tail -n 100 /opt/aws/amazon-cloudwatch-agent/logs/amazon-cloudwatch-agent.log
 ```
 
-In `psql`, run `\dt`, inspect `devices`, `telemetry_logs`, and `commands`, and use read-only validation queries. In CloudWatch, verify region, both backend log groups, recent timestamps, `IoTDashboard/EC2` guest metrics, native EC2 CPU, RDS CPU/connections, and the six documented alarm names/states.
+In `psql`, run `\dt`, inspect `devices`, `telemetry_logs`, and `commands`, and use read-only validation queries. In CloudWatch, verify region, backend log streams for both ASG instances, recent timestamps, guest metrics, ALB/ASG/EC2/RDS widgets, and all eight documented alarm names/states.
 
 ## Known limitations
 
-The documented prototype uses one room, direct HTTP on port 8000 for demo, a changeable EC2 public IP, periodic polling, and an uncalibrated analog light value. It has no implemented HTTPS, route authentication/API-key enforcement, HA, Multi-AZ proof, load balancer, rate limiting, or AI model. The frontend can simulate data and success after failures, stores mode locally, mislabels light as Lux, and hard-codes an EC2 target; the backend lacks command enum validation and strict ACK ownership checks. GPIO values, source paths/schema, and proposed alarm thresholds are recorded in sections 5.5, 5.6, and 5.9, but deployment evidence must still confirm the running environment.
+The documented system still serves one room, uses periodic REST polling, and reports an uncalibrated analog light value. CloudFront provides viewer HTTPS, but the ALB origin and direct device route use HTTP; API routes have no strong client/device authentication or rate limiting, and WAF managed rules remain in Count/Monitor mode. ALB/ASG and RDS Multi-AZ are deployed, but no controlled failover drill is documented. The frontend can still simulate data or success after failures, stores mode locally, and labels an uncalibrated value as Lux; the backend lacks strict command enum and ACK ownership validation. The deterministic recommendation panel is not an AI/ML model.
 
 ## Team responsibilities
 
@@ -110,6 +127,7 @@ The table preserves the agreed assignment and points reviewers to contribution e
 | Bilingual Workshop documentation | Completed |
 | Backend and hardware deployment instructions | Completed |
 | Testing and CloudWatch instructions | Completed |
+| CloudFront/WAF/S3, ALB/ASG, and RDS Multi-AZ operating evidence | Completed |
 | AWS resource clean-up instructions | Completed |
 | Secrets and private credentials excluded from Git | Verified |
 
@@ -149,7 +167,7 @@ DATABASE_URL=postgresql://USERNAME:PASSWORD@RDS_ENDPOINT:5432/DATABASE_NAME
 ```cpp
 #define WIFI_SSID "YOUR_WIFI_SSID"
 #define WIFI_PASSWORD "YOUR_WIFI_PASSWORD"
-#define API_BASE_URL "http://YOUR_EC2_ADDRESS"
+#define API_BASE_URL "http://YOUR_ALB_DNS_NAME"
 ```
 
 > Removing a secret from the latest version does not necessarily remove it from the Git history. If a secret was previously committed, revoke or rotate the credential and clean the repository history when required.

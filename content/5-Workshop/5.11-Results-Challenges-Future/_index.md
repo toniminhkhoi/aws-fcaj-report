@@ -8,7 +8,7 @@ pre: " <b> 5.11. </b> "
 
 ## Overview
 
-This section summarizes the verified project outcomes, project-specific customizations, individual contributions, lessons learned, current limitations, and practical next steps. The conclusions are based on the source code, the T01–T12 test matrix, AWS screenshots, PostgreSQL records, dashboard captures, and the hardware demonstration.
+This section summarizes the verified project outcomes, project-specific customizations, individual contributions, lessons learned, current limitations, and practical next steps. The conclusions are based on the source code, the T01–T14 test matrix, AWS screenshots, PostgreSQL records, dashboard captures, and the hardware demonstration.
 
 ## Achieved Results
 
@@ -19,8 +19,11 @@ This section summarizes the verified project outcomes, project-specific customiz
 | Latest telemetry and ordered history on the dashboard | **Pass** | Dashboard cards, history charts, and HTTP 200 requests in sections [5.7](../5.7-Frontend-Integration/) and [5.8](../5.8-End-to-End-Testing/) |
 | Command creation and `Pending` → `Executed` lifecycle | **Pass** | Command ID, ACK response, and PostgreSQL state in sections [5.5](../5.5-Backend-and-Database/) and [5.8](../5.8-End-to-End-Testing/) |
 | Physical fan, light, and curtain control | **Pass** | Dashboard-to-hardware captures and the end-to-end demonstration video in [section 5.8](../5.8-End-to-End-Testing/) |
-| CloudWatch logs, metrics, and alarms | **Pass** | Backend logs, four dashboard widgets, and five alarm configurations in [section 5.9](../5.9-CloudWatch-Monitoring/) |
-| Complete end-to-end validation | **Pass** | All twelve test cases T01–T12 are recorded as Pass in the test matrix |
+| Private S3 frontend through CloudFront and WAF monitoring | **Pass** | S3 OAC, distribution origins/behaviors, WAF rules, and browser HTTP 200 evidence in sections [5.4](../5.4-AWS-Infrastructure-Setup/) and [5.7](../5.7-Frontend-Integration/) |
+| ALB/ASG backend availability | **Pass** | Active ALB, listener, two Healthy targets, and ASG capacity across two Availability Zones in [section 5.4](../5.4-AWS-Infrastructure-Setup/) |
+| RDS PostgreSQL Multi-AZ and backup controls | **Pass** | Primary/standby AZ output, seven-day retention, and manual snapshot in [section 5.4](../5.4-AWS-Infrastructure-Setup/) |
+| CloudWatch logs, metrics, and alarms | **Pass** | Backend logs, ALB/ASG/EC2/RDS widgets, and eight alarm configurations in [section 5.9](../5.9-CloudWatch-Monitoring/) |
+| Complete end-to-end validation | **Pass** | All fourteen test cases T01–T14 are recorded as Pass in the test matrix |
 
 The test scope covers the implemented Smart Room model identified by `device_id=room_01`. Results are reported only for the demonstrated environment and are not generalized beyond that scope.
 
@@ -33,8 +36,12 @@ The project is not an unchanged tutorial deployment. Its reviewed customizations
 - 8 firmware commands covering automatic/manual mode and direct fan, light, and curtain control;
 - firmware thresholds, GPIO mapping, LCD1602 output, reconnect timing, and ESP32 Preferences-based ACK recovery;
 - a React/Vite dashboard with telemetry charts, device controls, and rule-based operating recommendations;
+- a private S3 frontend delivered through CloudFront OAC, with a dedicated uncached `/api/*` behavior to the ALB;
+- three AWS managed WAF rule groups running in Count/Monitor mode;
+- an ALB and target group in front of an ASG maintaining two FastAPI instances across two Availability Zones;
 - a private RDS network path through Security Group reference rather than public database access;
-- project-specific CloudWatch metrics, backend log collection, and five alarm configurations; and
+- RDS PostgreSQL Multi-AZ with seven-day automated backup retention and a manual snapshot;
+- project-specific CloudWatch metrics, backend log collection, and eight alarm configurations; and
 - an evidence-based bilingual Workshop that connects implementation steps with screenshots, test records, and troubleshooting guidance.
 
 These customizations adapt the architecture to the implemented source code, the YOLO UNO hardware, and the Smart Room use case.
@@ -60,7 +67,7 @@ The linked Workshop sections provide evidence for each area of responsibility. T
 | Root Cause | The flow crosses VPC rules, IAM, Linux services, HTTP polling, electrical wiring, and asynchronous ACK state |
 | Solution | Use an EC2-to-RDS Security Group reference, EC2 IAM Role, systemd/CloudWatch checks, source-defined GPIOs, safe power, command IDs, and persistent ACK recovery |
 | Lesson Learned | Validate each boundary independently and correlate one command ID through API, database, serial output, actuator action, and monitoring |
-| Future Improvement | Add HTTPS and a stable endpoint, define infrastructure consistently, tighten IAM permissions, and improve sensor calibration and hardware test records |
+| Future Improvement | Add ALB origin HTTPS and a custom domain, define infrastructure as code, tighten IAM permissions, and improve sensor calibration and hardware test records |
 
 ### Ngô Minh Thuận
 
@@ -105,17 +112,20 @@ The linked Workshop sections provide evidence for each area of responsibility. T
 
 ## Current Limitations
 
-- The demonstration backend currently uses HTTP on port 8000 and an EC2 public address that may change after a stop/start cycle.
+- CloudFront provides viewer HTTPS, but the CloudFront-to-ALB/device-to-ALB path currently uses HTTP and no custom domain is documented.
 - API routes do not yet enforce strong client or device authentication.
+- The WAF managed rules are in Count/Monitor mode; blocking behavior has not been enabled and validated.
 - Command validation and ACK ownership checks should be tightened.
 - The frontend still needs stricter handling of simulated fallback and failed command requests.
 - The light value is based on an uncalibrated analog reading.
 - Two CloudWatch alarms showed `Insufficient data`, and no notification action was attached at the time of capture.
+- No controlled ALB/ASG or RDS Multi-AZ failover drill is documented.
 
 ## Future Improvements
 
-- Use a stable domain or endpoint for the deployed backend.
-- Add a reviewed reverse proxy, HTTPS, authentication, and stronger authorization.
+- Add a custom domain and ACM certificates; enable HTTPS to the ALB origin where appropriate.
+- Add authentication and stronger authorization for browser and device routes.
+- Move WAF managed rules from Count to Block only after staged testing and false-positive review.
 - Store application secrets in a managed secret solution.
 - Support more devices and rooms with ownership/authorization rules.
 - Add supported-command validation, device-bound ACK checks, and idempotency rules.
@@ -129,6 +139,6 @@ Each improvement should have an owner, an implementation plan, and test evidence
 
 ## Result
 
-The project achieved its intended Smart Room scope: telemetry is collected and stored, the dashboard presents current and historical data, commands control the three demonstrated actuators, ACK updates command state, and CloudWatch provides operational evidence. All T01–T12 test cases are recorded as Pass, while the limitations above define the next improvement priorities.
+The project achieved its intended Smart Room scope: CloudFront serves the private-S3 frontend, the ALB/ASG backend processes telemetry and commands, RDS Multi-AZ stores state, the dashboard controls the three demonstrated actuators, ACK updates command state, and CloudWatch provides operational evidence. All T01–T14 test cases are recorded as Pass, while the limitations above define the next improvement priorities.
 
 Next: [prepare the project handover](../5.12-Project-Handover/).

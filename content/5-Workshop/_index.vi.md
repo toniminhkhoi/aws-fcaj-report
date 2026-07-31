@@ -6,19 +6,19 @@ chapter: false
 pre: " <b> 5. </b> "
 ---
 
-Workshop này hướng dẫn xây dựng một Smart Room kết nối với AWS, được định danh bằng `device_id=room_01`. YOLO UNO thu thập nhiệt độ, độ ẩm và giá trị ánh sáng analog; backend FastAPI trên Amazon EC2 tiếp nhận request rồi lưu telemetry cùng trạng thái lệnh vào Amazon RDS for PostgreSQL; dashboard React hiển thị dữ liệu và gửi lệnh điều khiển. Sau khi thực thi lệnh, firmware gửi ACK để backend cập nhật trạng thái cuối.
+Workshop này hướng dẫn xây dựng Smart Room có `device_id=room_01`. CloudFront/WAF phân phối dashboard React từ S3 private và forward request browser `/api/*` tới ALB. ALB phân phối request tới hai FastAPI instance trong ASG; RDS PostgreSQL Multi-AZ lưu telemetry và trạng thái lệnh. YOLO UNO dùng trực tiếp ALB, thực thi lệnh rồi gửi ACK.
 
 ## Mục tiêu và kết quả đạt được
 
 Sau khi hoàn thành Workshop, người học có thể:
 
-- chuẩn bị các tài nguyên Amazon VPC, Security Group, Amazon EC2, Amazon EBS và Amazon RDS for PostgreSQL theo kiến trúc của dự án;
+- chuẩn bị CloudFront/WAF/S3 private, ALB/ASG/EC2/EBS, VPC/Security Group và RDS PostgreSQL Multi-AZ;
 - triển khai FastAPI trên EC2 dưới dạng dịch vụ `systemd` và xác minh kết nối cơ sở dữ liệu;
 - biên dịch và nạp firmware PlatformIO cho YOLO UNO;
 - thu thập telemetry và điều khiển quạt, đèn, rèm thông qua 8 lệnh firmware được hỗ trợ;
 - sử dụng dashboard React + Vite để xem dữ liệu hiện tại, theo dõi lịch sử và gửi lệnh điều khiển;
 - xác minh vòng đời lệnh từ `Pending` sang `Executed` thông qua ACK của thiết bị;
-- kiểm tra log backend, metric EC2/RDS và trạng thái alarm trên Amazon CloudWatch; và
+- kiểm tra log backend, metric ALB/ASG/EC2/RDS và trạng thái alarm trên Amazon CloudWatch; và
 - hoàn thành kiểm thử end-to-end, xử lý sự cố, dọn dẹp tài nguyên và bàn giao dự án.
 
 Kết quả cuối cùng là một mô hình Smart Room có thể tái triển khai cho `device_id=room_01`, đi kèm mã nguồn, hướng dẫn triển khai, kết quả kiểm thử, ảnh chụp AWS và video demo phần cứng.
@@ -40,17 +40,17 @@ Kết quả cuối cùng là một mô hình Smart Room có thể tái triển k
 
 ## Kiến trúc và luồng hoạt động
 
-![Kiến trúc AWS IoT Monitoring and Control Dashboard](/images/5-Workshop/5.3-architecture/aws-iot-dashboard-architecture.png)
+![Kiến trúc AWS IoT Monitoring and Control Dashboard](/images/2-Proposal/IoT_Dashboard_Architecture.png)
 
-*Hình 5-1. Kiến trúc dự án: dashboard React và YOLO UNO giao tiếp với backend FastAPI trên Amazon EC2; Amazon RDS for PostgreSQL lưu telemetry cùng dữ liệu lệnh; Amazon CloudWatch hỗ trợ giám sát vận hành.*
+*Hình 5-1. Kiến trúc hiện tại gồm CloudFront/WAF/S3 private, backend FastAPI qua ALB/ASG, RDS PostgreSQL Multi-AZ, YOLO UNO và CloudWatch.*
 
 Hệ thống hoạt động theo bốn luồng chính:
 
-1. YOLO UNO đọc cảm biến và gửi telemetry đến FastAPI qua HTTP.
+1. YOLO UNO đọc cảm biến và gửi telemetry trực tiếp qua ALB bằng HTTP.
 2. FastAPI kiểm tra dữ liệu rồi lưu telemetry vào Amazon RDS for PostgreSQL.
-3. Dashboard lấy dữ liệu hiện tại và lịch sử, tạo lệnh điều khiển và hiển thị trạng thái lệnh.
+3. Dashboard trên CloudFront dùng `/api/*` qua ALB để lấy dữ liệu và tạo lệnh.
 4. YOLO UNO thăm dò lệnh, điều khiển thiết bị chấp hành tương ứng và gửi ACK; CloudWatch thu thập log cùng metric vận hành.
 
-Môi trường AWS gồm **Amazon VPC, subnet, Security Group, Amazon EC2 với ổ đĩa gốc Amazon EBS, Amazon RDS for PostgreSQL, IAM Role gắn với EC2, Amazon CloudWatch và CloudWatch Alarms**.
+Môi trường AWS gồm **Amazon S3 private, CloudFront, AWS WAF, ALB, target group, ASG, hai EC2 với EBS mã hóa, RDS PostgreSQL Multi-AZ, VPC/Security Group, IAM, CloudWatch và tám alarm**.
 
 Bắt đầu từ [Tổng quan Workshop](5.1-Workshop-overview/).

@@ -8,7 +8,7 @@ pre: " <b> 5.11. </b> "
 
 ## Tổng quan
 
-Phần này tổng hợp các kết quả đã được xác minh, những điều chỉnh riêng của dự án, đóng góp của từng thành viên, bài học rút ra, giới hạn hiện tại và hướng cải tiến tiếp theo. Kết luận được đối chiếu từ mã nguồn, ma trận kiểm thử T01–T12, ảnh chụp AWS, bản ghi PostgreSQL, giao diện dashboard và video demo phần cứng.
+Phần này tổng hợp các kết quả đã được xác minh, những điều chỉnh riêng của dự án, đóng góp của từng thành viên, bài học rút ra, giới hạn hiện tại và hướng cải tiến tiếp theo. Kết luận được đối chiếu từ mã nguồn, ma trận kiểm thử T01–T14, ảnh chụp AWS, bản ghi PostgreSQL, giao diện dashboard và video demo phần cứng.
 
 ## Kết quả đạt được
 
@@ -19,8 +19,11 @@ Phần này tổng hợp các kết quả đã được xác minh, những đi�
 | Hiển thị dữ liệu mới nhất và lịch sử trên dashboard | **Đạt** | Các thẻ telemetry, biểu đồ lịch sử và request HTTP 200 trong mục [5.7](../5.7-Frontend-Integration/) và [5.8](../5.8-End-to-End-Testing/) |
 | Tạo lệnh và chuyển trạng thái `Pending` → `Executed` | **Đạt** | ID lệnh, phản hồi ACK và trạng thái PostgreSQL trong mục [5.5](../5.5-Backend-and-Database/) và [5.8](../5.8-End-to-End-Testing/) |
 | Điều khiển quạt, đèn và rèm vật lý | **Đạt** | Ảnh đối chiếu dashboard–phần cứng và video demo end-to-end trong [mục 5.8](../5.8-End-to-End-Testing/) |
-| Thu thập log, metric và cấu hình alarm trên CloudWatch | **Đạt** | Log backend, bốn widget giám sát và năm cấu hình alarm trong [mục 5.9](../5.9-CloudWatch-Monitoring/) |
-| Kiểm thử toàn bộ luồng end-to-end | **Đạt** | Cả 12 test case T01–T12 trong ma trận kiểm thử đều có trạng thái Đạt |
+| Frontend S3 private qua CloudFront và WAF monitoring | **Đạt** | S3 OAC, distribution origins/behaviors, WAF rules và browser HTTP 200 trong mục [5.4](../5.4-AWS-Infrastructure-Setup/) và [5.7](../5.7-Frontend-Integration/) |
+| Backend sẵn sàng qua ALB/ASG | **Đạt** | ALB Active, listener, hai target Healthy và ASG trên hai Availability Zone trong [mục 5.4](../5.4-AWS-Infrastructure-Setup/) |
+| RDS PostgreSQL Multi-AZ và backup | **Đạt** | Primary/standby AZ, retention 7 ngày và manual snapshot trong [mục 5.4](../5.4-AWS-Infrastructure-Setup/) |
+| Thu thập log, metric và cấu hình alarm trên CloudWatch | **Đạt** | Log backend, widget ALB/ASG/EC2/RDS và tám cấu hình alarm trong [mục 5.9](../5.9-CloudWatch-Monitoring/) |
+| Kiểm thử toàn bộ luồng end-to-end | **Đạt** | Cả 14 test case T01–T14 trong ma trận kiểm thử đều có trạng thái Đạt |
 
 Phạm vi kiểm thử là mô hình Smart Room đã triển khai với `device_id=room_01`. Các kết quả trên chỉ áp dụng cho môi trường đã được trình diễn và không được suy rộng ra ngoài phạm vi này.
 
@@ -33,8 +36,12 @@ Dự án không sao chép nguyên trạng một bài hướng dẫn có sẵn. N
 - 8 lệnh firmware cho chế độ tự động/thủ công cùng khả năng điều khiển trực tiếp quạt, đèn và rèm;
 - các ngưỡng điều khiển, sơ đồ GPIO, LCD1602, thời gian kết nối lại và cơ chế khôi phục ACK bằng ESP32 Preferences;
 - dashboard React/Vite có biểu đồ telemetry, bảng điều khiển thiết bị và các đề xuất vận hành dựa trên luật;
+- frontend S3 private được phân phối qua CloudFront OAC, với behavior `/api/*` không cache tới ALB;
+- ba AWS managed WAF rule group chạy ở Count/Monitor;
+- ALB/target group phía trước ASG duy trì hai FastAPI instance trên hai Availability Zone;
 - kết nối RDS riêng thông qua tham chiếu Security Group, không mở cơ sở dữ liệu công khai;
-- metric riêng trên CloudWatch, cơ chế thu thập log backend và năm cấu hình alarm; và
+- RDS PostgreSQL Multi-AZ với automated backup 7 ngày và manual snapshot;
+- metric riêng trên CloudWatch, cơ chế thu thập log backend và tám cấu hình alarm; và
 - Workshop song ngữ liên kết từng bước triển khai với ảnh chụp, kết quả kiểm thử và hướng dẫn xử lý sự cố.
 
 Những điều chỉnh này giúp kiến trúc bám sát mã nguồn, phần cứng YOLO UNO và bài toán Smart Room của nhóm.
@@ -60,7 +67,7 @@ Các mục Workshop được liên kết trong bảng là bằng chứng cho t�
 | Root Cause | Luồng xử lý đi qua nhiều lớp: quy tắc VPC, IAM, dịch vụ Linux, cơ chế thăm dò HTTP, đấu nối phần cứng và trạng thái ACK bất đồng bộ |
 | Solution | Dùng tham chiếu Security Group từ EC2 tới RDS, gắn EC2 IAM Role, kiểm tra `systemd` và CloudWatch, đối chiếu GPIO với mã nguồn, cấp nguồn an toàn, theo dõi ID lệnh và lưu trạng thái để gửi lại ACK |
 | Lesson Learned | Cần xác minh từng ranh giới độc lập và theo dõi cùng một ID lệnh qua API, cơ sở dữ liệu, cổng nối tiếp, thao tác vật lý và hệ thống giám sát |
-| Future Improvement | Bổ sung HTTPS và endpoint ổn định, chuẩn hóa cách định nghĩa hạ tầng, giới hạn quyền IAM chặt hơn, đồng thời cải thiện việc hiệu chuẩn cảm biến và lưu bằng chứng kiểm thử phần cứng |
+| Future Improvement | Bổ sung HTTPS phía ALB và custom domain, định nghĩa hạ tầng bằng mã, giới hạn quyền IAM chặt hơn, đồng thời cải thiện hiệu chuẩn cảm biến và bằng chứng kiểm thử phần cứng |
 
 ### Ngô Minh Thuận
 
@@ -105,17 +112,20 @@ Các mục Workshop được liên kết trong bảng là bằng chứng cho t�
 
 ## Giới hạn hiện tại
 
-- Backend demo đang dùng HTTP qua cổng 8000 và địa chỉ công khai của EC2 có thể thay đổi sau khi dừng rồi khởi động lại instance.
+- CloudFront cung cấp HTTPS phía viewer, nhưng luồng CloudFront/thiết bị tới ALB hiện dùng HTTP và chưa có custom domain được ghi nhận.
 - Các route API chưa áp dụng cơ chế xác thực mạnh cho máy khách và thiết bị.
+- Các WAF managed rule đang ở Count/Monitor; chưa bật và kiểm thử chế độ chặn.
 - Backend cần kiểm tra chặt hơn danh sách lệnh được hỗ trợ và quan hệ giữa ACK với thiết bị.
 - Frontend cần xử lý rõ ràng hơn khi chuyển sang dữ liệu mô phỏng hoặc khi request điều khiển thất bại.
 - Giá trị ánh sáng hiện dựa trên dữ liệu analog chưa được hiệu chuẩn.
 - Hai alarm CloudWatch ở trạng thái `Insufficient data`, đồng thời chưa có action thông báo tại thời điểm chụp.
+- Chưa có bằng chứng diễn tập failover có kiểm soát cho ALB/ASG hoặc RDS Multi-AZ.
 
 ## Cải tiến tương lai
 
-- Sử dụng domain hoặc endpoint ổn định cho backend đã triển khai.
-- Bổ sung reverse proxy phù hợp, HTTPS, xác thực và phân quyền chặt chẽ hơn.
+- Bổ sung custom domain và chứng chỉ ACM; bật HTTPS tới ALB origin khi phù hợp.
+- Bổ sung xác thực và phân quyền chặt chẽ cho route trình duyệt và thiết bị.
+- Chuyển WAF managed rules từ Count sang Block chỉ sau khi kiểm thử theo giai đoạn và rà false positive.
 - Lưu bí mật ứng dụng trong giải pháp quản lý bí mật phù hợp.
 - Hỗ trợ nhiều thiết bị/phòng với quy tắc sở hữu và phân quyền.
 - Bổ sung kiểm tra lệnh hợp lệ, ràng buộc ACK với thiết bị và quy tắc lũy đẳng.
@@ -129,6 +139,6 @@ Mỗi hạng mục cải tiến cần có người phụ trách, kế hoạch tr
 
 ## Kết quả
 
-Dự án đã hoàn thành phạm vi Smart Room đề ra: telemetry được thu thập và lưu trữ, dashboard hiển thị dữ liệu hiện tại cùng lịch sử, các lệnh điều khiển được thực thi trên ba thiết bị chấp hành, ACK cập nhật trạng thái lệnh và CloudWatch cung cấp bằng chứng vận hành. Cả T01–T12 đều được ghi nhận Đạt; các giới hạn nêu trên là cơ sở để xác định thứ tự ưu tiên cho giai đoạn cải tiến tiếp theo.
+Dự án đã hoàn thành phạm vi Smart Room đề ra: CloudFront phân phối frontend S3 private, backend ALB/ASG xử lý telemetry và lệnh, RDS Multi-AZ lưu trạng thái, dashboard điều khiển ba thiết bị chấp hành, ACK cập nhật trạng thái lệnh và CloudWatch cung cấp bằng chứng vận hành. Cả T01–T14 đều được ghi nhận Đạt; các giới hạn nêu trên là cơ sở ưu tiên cải tiến tiếp theo.
 
 Tiếp theo: [chuẩn bị bàn giao dự án](../5.12-Project-Handover/).

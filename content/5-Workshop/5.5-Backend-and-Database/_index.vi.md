@@ -8,7 +8,7 @@ pre: " <b> 5.5. </b> "
 
 ## Tổng quan và mục tiêu
 
-Triển khai FastAPI trong môi trường ảo Python trên Amazon EC2, quản lý backend bằng `aws-iot-backend.service` và kết nối tới database `iot_dashboard` trên Amazon RDS for PostgreSQL. Quy trình sử dụng tài khoản `ec2-user`, thư mục `/home/ec2-user/aws-iot-dashboard/backend`, môi trường ảo `venv` và điểm vào Uvicorn `main:app`.
+Triển khai FastAPI trong môi trường ảo Python trên Amazon EC2, quản lý backend bằng `aws-iot-backend.service` và kết nối tới database `iot_dashboard` trên Amazon RDS for PostgreSQL. Quy trình sử dụng tài khoản `ec2-user`, thư mục `/home/ec2-user/aws-iot-dashboard/backend`, môi trường ảo `venv` và điểm vào Uvicorn `main:app`. Hoàn tất các bước này trên instance nguồn trước khi tạo AMI backend, hoặc phát hành đồng nhất bằng AMI mới và ASG instance refresh.
 
 ## Bước 1 - Triển khai FastAPI backend
 
@@ -97,6 +97,15 @@ curl http://127.0.0.1:8000/api/health
 
 Hình 8 cho thấy unit đã được systemd nạp, dịch vụ ở trạng thái `active (running)` và Uvicorn là tiến trình chính. Endpoint kiểm tra cũng trả về JSON hợp lệ với `"status":"ok"`. Các dữ kiện này chứng minh backend đã được triển khai và có thể nhận HTTP request cục bộ; chúng không chứng minh High Availability hoặc hệ thống không thể gặp lỗi.
 
+Sau khi các instance của ASG được đăng ký, kiểm tra cùng endpoint qua ALB:
+
+```powershell
+curl.exe -sS -i "http://<ALB_DNS_NAME>/api/health"
+```
+
+![Kiểm tra health qua Application Load Balancer](/images/5-Workshop/5.5-backend-database/alb-health-check.png)
+*Hình 8a. Endpoint ALB trả HTTP 200 cho `/api/health`; bằng chứng target group ở mục 5.4 xác nhận cả hai backend đã đăng ký đều Healthy.*
+
 ## Bước 4 - Kết nối EC2 với Amazon RDS
 
 Từ EC2, kết nối và yêu cầu SSL/TLS:
@@ -104,6 +113,8 @@ Từ EC2, kết nối và yêu cầu SSL/TLS:
 ```bash
 psql "host=<RDS_ENDPOINT> port=5432 dbname=iot_dashboard user=<DB_USER> sslmode=require"
 ```
+
+Dùng endpoint của RDS, không dùng hostname gắn với một Availability Zone. Khi Multi-AZ failover, AWS ánh xạ lại endpoint này sang standby; standby không phải read replica cho ứng dụng.
 
 Trong `psql`, kiểm tra database và thông tin kết nối mà không hiển thị mật khẩu:
 
@@ -142,11 +153,15 @@ LIMIT 6;
 
 Ảnh xác nhận một phiên PostgreSQL dùng SSL/TLS từ EC2 tới database `iot_dashboard`. Bốn bảng ứng dụng và các command gần nhất có `device_id` là `room_01` được hiển thị. Các ví dụ gồm `CURTAIN_CLOSE`, `CURTAIN_OPEN`, `MODE_AUTO` và `LIGHT_OFF`, đều ở trạng thái `Executed`. Ảnh không hiển thị mật khẩu database.
 
+![Phản hồi telemetry API và bản ghi PostgreSQL tương ứng](/images/5-Workshop/5.5-backend-database/telemetry-api-database.png)
+*Hình 9a. Telemetry POST và latest API response đối chiếu được với cùng bản ghi `telemetry_logs` trong PostgreSQL.*
+
 ## Bước 6 - Kết quả mong đợi
 
 - `aws-iot-backend.service` đã được bật và ở trạng thái `active (running)`.
 - Uvicorn là tiến trình chính của backend.
 - `GET /api/health` trả JSON có trạng thái `ok`.
+- Health request qua ALB trả HTTP 200 và cả hai target của ASG duy trì Healthy.
 - EC2 kết nối được Amazon RDS for PostgreSQL bằng SSL/TLS.
 - `commands`, `devices`, `sensor_readings` và `telemetry_logs` xuất hiện trong `psql`.
 - Truy vấn trả về các command có `device_id` là `room_01`.
