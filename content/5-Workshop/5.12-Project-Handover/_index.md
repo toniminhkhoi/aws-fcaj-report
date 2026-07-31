@@ -49,13 +49,25 @@ npm install
 npm run dev
 ```
 
-For production, build and sync `dist` to the private S3 bucket, create a CloudFront invalidation when needed, and verify the default S3 behavior plus `/api/*` ALB behavior.
+For production, create the build, sync `dist` to the private S3 bucket, create a CloudFront invalidation, and verify the default S3 behavior plus the `/api/*` ALB behavior:
+
+```powershell
+Set-Location .\aws-iot-dashboard\frontend
+npm install
+npm run build
+aws s3 sync dist "s3://<FRONTEND_BUCKET>" --delete
+aws cloudfront create-invalidation `
+  --distribution-id "<CLOUDFRONT_DISTRIBUTION_ID>" `
+  --paths "/*"
+```
+
+Create an invalidation only when frontend content changes to avoid unnecessary operations and cost.
 
 Hardware in a PlatformIO terminal:
 
 ```bash
-pio run
-pio run --target upload
+pio run -e yolo_uno
+pio run -e yolo_uno --target upload
 pio device monitor --baud 115200
 ```
 
@@ -109,10 +121,10 @@ The documented system still serves one room, uses periodic REST polling, and rep
 | :--- | :--- | :--- |
 | **Pham Le Minh Khoi** | AWS architecture, VPC, Security Groups, IAM Role, EC2, RDS, CloudWatch, DevOps, YOLO UNO hardware, sensors, actuators, telemetry, command polling, ACK | [5.3 architecture](../5.3-Architecture-and-Service-Design/), [5.4 AWS](../5.4-AWS-Infrastructure-Setup/), [5.6 hardware](../5.6-Hardware-Integration/), [5.9 monitoring](../5.9-CloudWatch-Monitoring/) |
 | **Ngo Minh Thuan** | FastAPI backend, endpoints, Pydantic schemas, SQLAlchemy models, PostgreSQL integration, telemetry processing, command lifecycle, ACK processing | [5.3 API/data](../5.3-Architecture-and-Service-Design/), [5.5 backend/database](../5.5-Backend-and-Database/), [5.8 validation](../5.8-End-to-End-Testing/) |
-| **Thuong Dinh Hung** | React + Vite frontend, dashboard UI, telemetry visualization, controls, overall integration, debugging, demo video recording/editing | [5.7 frontend](../5.7-Frontend-Integration/), [5.8 integration evidence](../5.8-End-to-End-Testing/), demo link recorded in repository structure |
-| **Le Bao Khanh** | Documentation, proposal, blogs, weekly worklog, event reports, Workshop, bilingual review, navigation, screenshots, quality assurance | [5.1 rubric/output](../5.1-Workshop-overview/), [5.11 documentation/customization](../5.11-Results-Challenges-Future/), bilingual Workshop and Hugo QA |
+| **Thuong Dinh Hung** | React + Vite frontend, dashboard UI, telemetry visualization, controls, overall integration, debugging, demo video recording/editing | [5.7 frontend](../5.7-Frontend-Integration/), [5.8 integration evidence](../5.8-End-to-End-Testing/), [demo video]({{% relref "8-References/8.2-demo-video/_index.md" %}}) |
+| **Le Bao Khanh** | Documentation, proposal, blogs, weekly worklog, event reports, Workshop, bilingual review, navigation, screenshots, quality assurance | [5.1 rubric/output](../5.1-Workshop-overview/), [5.11 documentation/customization](../5.11-Results-Challenges-Future/), bilingual Workshop and internal links |
 
-The table preserves the agreed assignment and points reviewers to contribution evidence. It does not replace the separate [individual reflections in section 5.11](../5.11-Results-Challenges-Future/); each member must review and sign off both ownership and reflection before final submission.
+The table summarizes the contribution scope currently recorded in the Workshop and points reviewers to related evidence. It does not replace the separate [individual reflections in section 5.11](../5.11-Results-Challenges-Future/); each member must review and confirm both the recorded responsibilities and reflection before final submission.
 
 ## Final Handover Checklist
 
@@ -125,11 +137,12 @@ The table preserves the agreed assignment and points reviewers to contribution e
 | Architecture diagram and hardware wiring documentation | Completed |
 | End-to-end demo video | Completed |
 | Bilingual Workshop documentation | Completed |
-| Backend and hardware deployment instructions | Completed |
+| Backend, frontend, and hardware deployment instructions | Completed |
 | Testing and CloudWatch instructions | Completed |
 | CloudFront/WAF/S3, ALB/ASG, and RDS Multi-AZ operating evidence | Completed |
 | AWS resource clean-up instructions | Completed |
-| Secrets and private credentials excluded from Git | Verified |
+| Real secret files are not tracked by Git | Verified |
+| Credential values and Git history | Final review required before submission |
 
 ### Secret Verification
 
@@ -206,6 +219,8 @@ Check whether sensitive files are currently tracked:
 git ls-files | grep -E '(^|/)\.env$|secrets\.h$|\.pem$'
 ```
 
+If the command returns no output, the listed sensitive files are not tracked in the current version. This result does not replace reviewing credential values in configuration files, source code, and Git history.
+
 Notes:
 
 - Do not publish command output containing real credentials.
@@ -221,6 +236,7 @@ The final project handover package includes:
 - GitHub source code repository.
 - End-to-end demo video.
 - Backend deployment documentation.
+- Frontend build and deployment documentation.
 - YOLO UNO firmware instructions.
 - Bilingual Workshop documentation.
 - AWS architecture diagram.

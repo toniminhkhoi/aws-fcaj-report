@@ -49,13 +49,25 @@ npm install
 npm run dev
 ```
 
-Ở production, build rồi sync thư mục `dist` lên S3 private, tạo CloudFront invalidation khi cần và xác minh default behavior tới S3 cùng behavior `/api/*` tới ALB.
+Ở production, tạo bản build, đồng bộ thư mục `dist` lên S3 private, tạo CloudFront invalidation và xác minh default behavior tới S3 cùng behavior `/api/*` tới ALB:
+
+```powershell
+Set-Location .\aws-iot-dashboard\frontend
+npm install
+npm run build
+aws s3 sync dist "s3://<FRONTEND_BUCKET>" --delete
+aws cloudfront create-invalidation `
+  --distribution-id "<CLOUDFRONT_DISTRIBUTION_ID>" `
+  --paths "/*"
+```
+
+Chỉ tạo invalidation khi nội dung frontend thay đổi để tránh thao tác và chi phí không cần thiết.
 
 Phần cứng trong terminal của PlatformIO:
 
 ```bash
-pio run
-pio run --target upload
+pio run -e yolo_uno
+pio run -e yolo_uno --target upload
 pio device monitor --baud 115200
 ```
 
@@ -109,10 +121,10 @@ Hệ thống hiện vẫn chỉ phục vụ một phòng, dùng REST polling và
 | :--- | :--- | :--- |
 | **Phạm Lê Minh Khôi** | Kiến trúc AWS; VPC, Security Group, IAM Role, EC2, RDS và CloudWatch; DevOps; phần cứng YOLO UNO; cảm biến, thiết bị chấp hành, telemetry, cơ chế thăm dò lệnh và ACK | [5.3 kiến trúc](../5.3-Architecture-and-Service-Design/), [5.4 AWS](../5.4-AWS-Infrastructure-Setup/), [5.6 phần cứng](../5.6-Hardware-Integration/), [5.9 giám sát](../5.9-CloudWatch-Monitoring/) |
 | **Ngô Minh Thuận** | Backend FastAPI; endpoint, lược đồ Pydantic, mô hình SQLAlchemy, tích hợp PostgreSQL, xử lý telemetry, vòng đời lệnh và ACK | [5.3 API/dữ liệu](../5.3-Architecture-and-Service-Design/), [5.5 backend/cơ sở dữ liệu](../5.5-Backend-and-Database/), [5.8 kiểm thử](../5.8-End-to-End-Testing/) |
-| **Thượng Đình Hưng** | Frontend React + Vite; giao diện dashboard, trực quan hóa telemetry, chức năng điều khiển, tích hợp tổng thể, xử lý lỗi và quay/dựng video minh họa | [5.7 frontend](../5.7-Frontend-Integration/), [5.8 bằng chứng tích hợp](../5.8-End-to-End-Testing/), liên kết video trong phần cấu trúc kho mã nguồn |
-| **Lê Bảo Khánh** | Tài liệu, proposal, blog, nhật ký công việc hằng tuần, báo cáo sự kiện, Workshop, rà soát song ngữ, điều hướng, ảnh chụp màn hình và bảo đảm chất lượng | [5.1 tiêu chí/kết quả](../5.1-Workshop-overview/), [5.11 tài liệu/điều chỉnh](../5.11-Results-Challenges-Future/), Workshop song ngữ và kết quả kiểm tra Hugo |
+| **Thượng Đình Hưng** | Frontend React + Vite; giao diện dashboard, trực quan hóa telemetry, chức năng điều khiển, tích hợp tổng thể, xử lý lỗi và quay/dựng video minh họa | [5.7 frontend](../5.7-Frontend-Integration/), [5.8 bằng chứng tích hợp](../5.8-End-to-End-Testing/), [video demo]({{% relref "8-References/8.2-demo-video/_index.vi.md" %}}) |
+| **Lê Bảo Khánh** | Tài liệu, proposal, blog, nhật ký công việc hằng tuần, báo cáo sự kiện, Workshop, rà soát song ngữ, điều hướng, ảnh chụp màn hình và bảo đảm chất lượng | [5.1 tiêu chí/kết quả](../5.1-Workshop-overview/), [5.11 tài liệu/điều chỉnh](../5.11-Results-Challenges-Future/), Workshop song ngữ và các liên kết nội bộ |
 
-Bảng trên giữ nguyên nội dung phân công đã thống nhất và dẫn người chấm tới bằng chứng đóng góp tương ứng. Bảng này không thay thế [phần nhìn lại riêng của từng thành viên ở mục 5.11](../5.11-Results-Challenges-Future/). Trước khi nộp, mỗi thành viên cần rà soát và xác nhận cả phạm vi phụ trách lẫn phần nhìn lại của mình.
+Bảng trên tóm tắt phạm vi đóng góp đang được ghi nhận trong Workshop và dẫn tới các bằng chứng liên quan. Bảng này không thay thế [phần nhìn lại riêng của từng thành viên ở mục 5.11](../5.11-Results-Challenges-Future/). Trước khi nộp, mỗi thành viên cần rà soát và xác nhận phạm vi phụ trách cũng như phần nhìn lại của mình.
 
 ## Checklist bàn giao cuối cùng
 
@@ -125,11 +137,12 @@ Bảng trên giữ nguyên nội dung phân công đã thống nhất và dẫn 
 | Sơ đồ kiến trúc và tài liệu đấu nối phần cứng | Hoàn thành |
 | Video demo end-to-end | Hoàn thành |
 | Tài liệu Workshop song ngữ | Hoàn thành |
-| Hướng dẫn triển khai backend và phần cứng | Hoàn thành |
+| Hướng dẫn triển khai backend, frontend và phần cứng | Hoàn thành |
 | Hướng dẫn kiểm thử và CloudWatch | Hoàn thành |
 | Bằng chứng vận hành CloudFront/WAF/S3, ALB/ASG và RDS Multi-AZ | Hoàn thành |
 | Hướng dẫn clean-up tài nguyên AWS | Hoàn thành |
-| Thông tin bí mật không được commit lên Git | Đã kiểm tra |
+| File secret thật không được Git theo dõi | Đã kiểm tra |
+| Giá trị credential và lịch sử Git | Cần rà soát lần cuối trước khi nộp |
 
 ### Kiểm tra thông tin bí mật
 
@@ -206,6 +219,8 @@ Kiểm tra riêng các file không nên được Git theo dõi:
 git ls-files | grep -E '(^|/)\.env$|secrets\.h$|\.pem$'
 ```
 
+Nếu lệnh không trả về kết quả, các file nhạy cảm nêu trên không được theo dõi trong phiên bản hiện tại. Kết quả này không thay thế việc kiểm tra giá trị credential trong các file cấu hình, mã nguồn và lịch sử Git.
+
 Lưu ý:
 
 - Không chèn output có chứa password hoặc credential vào Workshop.
@@ -221,6 +236,7 @@ Gói bàn giao cuối cùng của dự án gồm:
 - GitHub repository chứa source code.
 - Video demo end-to-end.
 - Tài liệu triển khai backend.
+- Tài liệu build và triển khai frontend.
 - Hướng dẫn firmware YOLO UNO.
 - Workshop song ngữ.
 - Sơ đồ kiến trúc AWS.
