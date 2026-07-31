@@ -28,7 +28,7 @@ pre: " <b> 1.3. </b> "
 
 - Prepared EC2, EBS, RDS, IAM, and Security Groups for application deployment.
 - Kept RDS private and did not expose PostgreSQL to `0.0.0.0/0`.
-- Collected sanitized evidence for EC2, RDS, the IAM Role, and Security Group rules.
+- Collected evidence for EC2, RDS, the IAM Role, and Security Group rules. The images contain no passwords or access keys; selected resource identifiers and endpoints still require a final redaction decision before public release.
 
 ## Challenges and lessons learned
 

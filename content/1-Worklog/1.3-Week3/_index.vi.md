@@ -28,7 +28,7 @@ pre: " <b> 1.3. </b> "
 
 - EC2, EBS, RDS, IAM Role và các Security Group đã sẵn sàng cho bước triển khai ứng dụng.
 - RDS được giữ trong mạng riêng và không mở PostgreSQL cho `0.0.0.0/0`.
-- Thu thập ảnh bằng chứng về EC2, RDS, IAM Role và quy tắc Security Group sau khi che thông tin nhạy cảm.
+- Thu thập ảnh bằng chứng về EC2, RDS, IAM Role và quy tắc Security Group. Ảnh không chứa mật khẩu hoặc access key; một số định danh tài nguyên và endpoint vẫn cần được cân nhắc che trước khi công khai.
 
 ## Khó khăn và bài học
 

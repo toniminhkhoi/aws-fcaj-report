@@ -13,7 +13,7 @@ pre: " <b> 1.8. </b> "
 ## Objectives
 
 - Test the complete telemetry and command flows with physical hardware.
-- Trace the same data or command ID across the dashboard, API, RDS, and firmware.
+- Use the dashboard action as the starting point, then trace the same data or command ID through DevTools/API, RDS, and firmware.
 - Establish logs, metrics, and alarms for ALB/ASG/EC2/RDS.
 - Complete the security review, bilingual documentation, demo video, and handover material.
 
@@ -23,7 +23,7 @@ pre: " <b> 1.8. </b> "
 | :--- | :--- | :--- |
 | Test preparation | Recorded source, firmware, AWS Region, and test conditions and confirmed health | Reproducible baseline for comparing results |
 | Telemetry validation | Sent YOLO UNO telemetry, checked latest/history, PostgreSQL, and the dashboard, and ran one controlled `curl` request | Consistent `room_01` data; API/database image isolated FastAPI → RDS evidence |
-| Command and actuator validation | Created commands, followed the same ID from `Pending` to `Executed`, and tested fan, light, and curtain controls | Command/ACK matrix passed; video captured physical actuator responses |
+| Command and actuator validation | Created commands from the dashboard, obtained IDs from API/DevTools responses, followed them from `Pending` to `Executed` in the backend/RDS, and tested fan, light, and curtain controls | Command/ACK matrix passed; video captured physical actuator responses |
 | AWS availability and edge | Added CloudFront/WAF/private S3, ALB/target group/ASG, encrypted EBS, and RDS Multi-AZ backup evidence | Two Healthy backends, stable browser/device routes, and primary/standby database evidence |
 | CloudWatch | Configured CloudWatch Agent, backend logs, `ec2-rds-metrics`, and eight ALB/ASG/EC2/RDS alarms | Centralized logs, operational metrics, and evaluated alarm states with missing-data notes |
 | Operational review | Reviewed the IAM Role, Security Groups, RDS public access, secrets, cost, and current limitations | Security/cost checklist and items for continued improvement |
@@ -38,7 +38,7 @@ pre: " <b> 1.8. </b> "
 
 ## Challenges, resolution, and lessons learned
 
-The `Pending` state was short-lived when the device polled quickly, so the team followed the same command ID before and after ACK. For CloudWatch, `Insufficient data` required checking the agent, namespace, dimensions, and IAM instead of treating it as normal. I learned that every Pass result needs aligned criteria, actual behavior, and evidence, and that documentation must distinguish implemented work from future options.
+The `Pending` state was short-lived when the device polled quickly, so the team followed the same command ID before and after ACK. CloudWatch alarms in `Insufficient data` were recorded as missing metric evidence rather than a passing state; the agent, namespace, dimensions, and IAM are the main troubleshooting points. I learned that every Pass result needs aligned criteria, actual behavior, and evidence, and that documentation must distinguish implemented work from future options.
 
 ## Current limitations
 

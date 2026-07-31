@@ -13,23 +13,23 @@ pre: " <b> 1.7. </b> "
 
 - Display latest telemetry, history, and backend status.
 - Provide controls for the fan, light, and curtain.
-- Track a command from submission until backend acknowledgement.
+- Submit commands from the dashboard, inspect backend responses, and identify the missing ACK-tracking behavior.
 
 ## Work completed
 
 | Workstream | Work completed | Result/Evidence |
 | :--- | :--- | :--- |
 | Frontend setup | Prepared React, Vite, TypeScript, Tailwind CSS, and required dependencies | Dashboard ran reliably in the local environment |
-| API connectivity | Used a Vite proxy for relative `/api` requests and centralized the backend URL | Frontend reached EC2 without duplicating the URL across components |
+| API connectivity | Used relative `/api` paths; the Vite proxy targeted the ALB during development, while the CloudFront `/api/*` behavior handled production routing | Components did not hard-code the backend URL, and development and production paths were documented separately |
 | Telemetry display | Connected health, latest, and history and built telemetry cards and charts | Displayed latest data, history, and connection status |
-| Device controls | Built fan, light, curtain, and Auto/Manual controls and displayed command ID/state | UI sent valid commands and exposed backend responses for tracking |
-| Data and label review | Distinguished real/simulated data and reviewed the description of light values | Simulated data was identifiable and raw ADC values were not presented as Lux |
-| Integration and debugging | Used DevTools Network to inspect routes, payloads, responses, duplicate requests, and `Pending` state | Resolved frontend–backend issues before end-to-end validation |
+| Device controls | Built fan, light, curtain, and Auto/Manual controls and inspected command-creation requests | UI submitted commands to the backend but did not retain the command ID or track `Pending`/`Executed` state |
+| Data and label review | Reviewed the simulated fallback and the description of light values | Identified that fallback data was not explicitly labelled and raw light values were still presented as Lux; recorded both for correction |
+| Integration and debugging | Used DevTools Network to inspect routes, payloads, responses, duplicate requests, and API-failure behavior | Verified the production route and found that fallback behavior could report a false success when the backend did not respond |
 ## Weekly outcomes
 
 - Displayed latest and historical `room_01` data.
-- Created commands that could be traced through the backend.
-- Documented remaining limitations: the UI mode was local state, and simulated data could not be used as operational evidence.
+- Created commands while the API was available; command IDs and ACK state had to be verified through DevTools, the API, or PostgreSQL rather than the UI itself.
+- Documented remaining limitations: UI mode was local state, fallback data was not labelled, and a failed command request could still appear successful.
 
 ## Challenges and lessons learned
 

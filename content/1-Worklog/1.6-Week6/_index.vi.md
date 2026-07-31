@@ -19,7 +19,7 @@ pre: " <b> 1.6. </b> "
 
 | Hạng mục | Công việc đã thực hiện | Kết quả/Bằng chứng |
 | :--- | :--- | :--- |
-| Đấu nối và an toàn nguồn | Đối chiếu GPIO trong `hardware/src/main.cpp`, nối DHT20, cảm biến ánh sáng, quạt, đèn/relay, servo, LCD1602 và kiểm tra mass/nguồn | Sơ đồ đấu nối bám theo firmware; quạt và servo không lấy dòng trực tiếp từ GPIO |
+| Đấu nối và an toàn nguồn | Đối chiếu GPIO trong `hardware/src/main.cpp`, nối DHT20, cảm biến ánh sáng, quạt, đèn/relay, servo, LCD1602 và kiểm tra mass/nguồn | Bảng đấu nối bám theo firmware; quạt và servo không lấy dòng trực tiếp từ GPIO |
 | Môi trường firmware | Cấu hình PlatformIO, board ESP32-S3 và `secrets.h` cục bộ | Wi-Fi credential và backend URL không được đưa vào Git |
 | Cảm biến và hiển thị | Đọc DHT20, giá trị ánh sáng analog và cập nhật LCD1602 | Serial Monitor/LCD hiển thị được dữ liệu cảm biến và trạng thái |
 | Điều khiển actuator | Kiểm tra quạt, đèn/relay và servo tại góc đóng 0°/mở 90° | Các thiết bị chấp hành phản hồi đúng logic firmware |

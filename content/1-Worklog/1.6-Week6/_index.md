@@ -19,7 +19,7 @@ pre: " <b> 1.6. </b> "
 
 | Workstream | Work completed | Result/Evidence |
 | :--- | :--- | :--- |
-| Wiring and power safety | Reviewed GPIO definitions in `hardware/src/main.cpp`, connected the DHT20, light sensor, fan, light/relay, servo, and LCD1602, and checked common ground/power | Wiring followed the firmware; the fan and servo were not powered directly from GPIO |
+| Wiring and power safety | Reviewed GPIO definitions in `hardware/src/main.cpp`, connected the DHT20, light sensor, fan, light/relay, servo, and LCD1602, and checked common ground/power | The verified wiring table followed the firmware; the fan and servo were not powered directly from GPIO |
 | Firmware environment | Configured PlatformIO, the ESP32-S3 board definition, and local `secrets.h` | Kept Wi-Fi credentials and the backend URL out of Git |
 | Sensors and display | Read DHT20 and raw analog light values and updated the LCD1602 | Serial Monitor/LCD displayed sensor data and state |
 | Actuator control | Tested the fan, light/relay, and servo at 0° closed/90° open | Actuators responded according to firmware logic |

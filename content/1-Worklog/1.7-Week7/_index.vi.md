@@ -13,23 +13,23 @@ pre: " <b> 1.7. </b> "
 
 - Hiển thị telemetry mới nhất, lịch sử và trạng thái backend.
 - Tạo bảng điều khiển quạt, đèn và rèm.
-- Theo dõi command từ lúc gửi đến khi backend ghi nhận ACK.
+- Gửi command từ dashboard, kiểm tra phản hồi backend và xác định phần còn thiếu trong việc theo dõi ACK.
 
 ## Công việc đã thực hiện
 
 | Hạng mục | Công việc đã thực hiện | Kết quả/Bằng chứng |
 | :--- | :--- | :--- |
 | Chuẩn bị frontend | Thiết lập React, Vite, TypeScript, Tailwind CSS và các dependencies cần thiết | Dashboard chạy ổn định trên môi trường cục bộ |
-| Cấu hình kết nối API | Dùng Vite proxy cho đường dẫn tương đối `/api` và tập trung backend URL trong cấu hình | Frontend kết nối EC2 mà không lặp URL trong nhiều component |
+| Cấu hình kết nối API | Dùng đường dẫn tương đối `/api`; Vite proxy trỏ đến ALB trong môi trường phát triển, còn CloudFront behavior `/api/*` xử lý route production | Các component không hard-code backend URL; đường đi development và production được phân biệt rõ |
 | Hiển thị telemetry | Kết nối health, latest và history; xây dựng telemetry card và biểu đồ | Dashboard hiển thị dữ liệu mới nhất, lịch sử và trạng thái kết nối |
-| Điều khiển thiết bị | Xây dựng nút quạt, đèn, rèm và chế độ Auto/Manual; hiển thị command ID/trạng thái | UI gửi đúng command và cho phép theo dõi phản hồi backend |
-| Rà dữ liệu và nhãn | Phân biệt dữ liệu thật/mô phỏng và kiểm tra cách mô tả giá trị ánh sáng | Dữ liệu mô phỏng được nhận diện; giá trị ADC không bị ghi nhầm thành Lux |
-| Tích hợp và sửa lỗi | Dùng DevTools Network kiểm tra route, payload, response, request trùng và trạng thái `Pending` | Checklist tích hợp và các lỗi frontend–backend được xử lý trước kiểm thử end-to-end |
+| Điều khiển thiết bị | Xây dựng nút quạt, đèn, rèm và chế độ Auto/Manual; kiểm tra request tạo command | UI gửi command đến backend, nhưng chưa lưu command ID hoặc theo dõi trạng thái `Pending`/`Executed` |
+| Rà dữ liệu và nhãn | Kiểm tra fallback mô phỏng và cách mô tả giá trị ánh sáng | Xác định fallback chưa có nhãn rõ ràng và dữ liệu ánh sáng thô vẫn được hiển thị với đơn vị Lux; ghi nhận để khắc phục |
+| Tích hợp và sửa lỗi | Dùng DevTools Network kiểm tra route, payload, response, request trùng và hành vi khi API lỗi | Xác minh route production hoạt động; phát hiện cơ chế fallback có thể trả kết quả thành công giả khi backend không phản hồi |
 ## Kết quả tuần
 
 - Dashboard hiển thị dữ liệu mới nhất và lịch sử của `room_01`.
-- Bảng điều khiển tạo command có thể truy vết qua backend.
-- Ghi nhận các hạn chế cần tiếp tục xử lý: chế độ trên UI còn mang tính cục bộ và không được dùng dữ liệu mô phỏng làm bằng chứng vận hành.
+- Bảng điều khiển tạo command khi API khả dụng; command ID và trạng thái ACK phải được đối chiếu bằng DevTools/API/PostgreSQL thay vì trực tiếp trên UI.
+- Ghi nhận các hạn chế cần tiếp tục xử lý: chế độ trên UI còn mang tính cục bộ, fallback mô phỏng chưa gắn nhãn và thao tác lỗi vẫn có thể hiển thị thành công.
 
 ## Khó khăn và bài học
 
