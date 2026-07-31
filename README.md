@@ -88,6 +88,7 @@ Detailed contributions and individual reflections are provided in [section 5.11]
 - `content/5-Workshop/`: Bilingual AWS IoT Dashboard Workshop.
 - `content/6-Self-evaluation/`: Self-evaluation.
 - `content/7-Feedback/`: Feedback.
+- `content/8-References/`: Source code, demo video, project documents, and official technical references.
 
 The backend, frontend, and firmware source code are maintained in the `aws-iot-dashboard` application repository. This repository contains the internship report and Workshop.
 
@@ -121,6 +122,17 @@ hugo --minify
 - Use an IAM Role for CloudWatch Agent permissions.
 - Keep EBS encryption enabled for all ASG instances.
 - Treat WAF Count/Monitor mode as observation only; requests are not blocked until rules are deliberately changed to Block mode.
+
+---
+
+## 8. 📚 References
+
+The complete reference collection is available in [section 8 - References](content/8-References/_index.md):
+
+- **Source code:** [AWS IoT Monitoring and Control Dashboard](https://github.com/toniminhkhoi/aws-iot-dashboard) and the [source-code handover notes](content/8-References/8.1-source-code/_index.md).
+- **Demonstration:** [End-to-end demo video](https://drive.google.com/file/d/1T97dUY58hbT2ppxvg7ESR12Jg9BA828W/view?usp=sharing) and its [coverage description](content/8-References/8.2-demo-video/_index.md).
+- **Project documents:** Backend, frontend, firmware, architecture, Workshop, and clean-up guides listed in [section 8.3](content/8-References/8.3-project-documents/_index.md).
+- **Official documentation:** AWS services, FastAPI, React, Vite, PostgreSQL, PlatformIO, and YOLO UNO references collected in [section 8.4](content/8-References/8.4-related-links/_index.md).
 
 ---
 

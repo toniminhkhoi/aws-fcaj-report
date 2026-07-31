@@ -88,6 +88,7 @@ Chi tiết đóng góp và phần nhìn lại riêng của từng thành viên �
 - `content/5-Workshop/`: Workshop AWS IoT Dashboard bằng tiếng Anh và tiếng Việt.
 - `content/6-Self-evaluation/`: Tự đánh giá.
 - `content/7-Feedback/`: Phản hồi.
+- `content/8-References/`: Mã nguồn, video demo, tài liệu dự án và tài liệu kỹ thuật chính thức.
 
 Mã nguồn backend, frontend và firmware được quản lý trong kho ứng dụng `aws-iot-dashboard`; kho hiện tại chứa báo cáo thực tập và Workshop.
 
@@ -121,6 +122,17 @@ hugo --minify
 - Dùng IAM Role cho quyền của CloudWatch Agent.
 - Bật mã hóa EBS cho mọi instance của ASG.
 - Xem WAF Count/Monitor là chế độ quan sát; yêu cầu chưa bị chặn cho đến khi chủ động chuyển rule sang Block.
+
+---
+
+## 8. 📚 Tài liệu tham khảo
+
+Danh sách tài liệu đầy đủ được tổng hợp tại [phần 8 - Tài liệu tham khảo](content/8-References/_index.vi.md):
+
+- **Mã nguồn:** [AWS IoT Monitoring and Control Dashboard](https://github.com/toniminhkhoi/aws-iot-dashboard) và [ghi chú bàn giao mã nguồn](content/8-References/8.1-source-code/_index.vi.md).
+- **Video minh họa:** [Video demo end-to-end](https://drive.google.com/file/d/1T97dUY58hbT2ppxvg7ESR12Jg9BA828W/view?usp=sharing) và [mô tả phạm vi video](content/8-References/8.2-demo-video/_index.vi.md).
+- **Tài liệu dự án:** Hướng dẫn backend, frontend, firmware, sơ đồ kiến trúc, Workshop và clean-up được liệt kê tại [mục 8.3](content/8-References/8.3-project-documents/_index.vi.md).
+- **Tài liệu chính thức:** Tài liệu AWS, FastAPI, React, Vite, PostgreSQL, PlatformIO và YOLO UNO được tổng hợp tại [mục 8.4](content/8-References/8.4-related-links/_index.vi.md).
 
 ---
 
