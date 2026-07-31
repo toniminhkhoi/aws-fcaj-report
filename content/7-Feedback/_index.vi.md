@@ -8,37 +8,45 @@ pre: " <b> 7. </b> "
 
 ### Đánh giá chung
 
-Đối với em, dự án là cơ hội để kết nối kiến thức lập trình, cơ sở dữ liệu, mạng máy tính, hệ thống nhúng và AWS trong một sản phẩm hoàn chỉnh. Khó khăn lớn nhất không nằm ở từng thành phần riêng lẻ mà ở việc làm cho dashboard, API, cơ sở dữ liệu, hạ tầng cloud và thiết bị thật hoạt động thống nhất với nhau.
+**1. Môi trường học tập và làm việc**
 
-### Môi trường học tập
+Trong thời gian tham gia chương trình, em cảm nhận được môi trường học tập khá chuyên nghiệp nhưng vẫn gần gũi. Các anh chị khóa trước và các bạn cùng khóa luôn cởi mở, sẵn sàng trao đổi khi nhóm em gặp khó khăn trong quá trình thiết kế kiến trúc hoặc sử dụng các dịch vụ AWS. Những góp ý đúng lúc giúp em phát hiện sớm nhiều cấu hình chưa hợp lý, tránh mất thêm thời gian và hạn chế các chi phí AWS không cần thiết.
 
-Trong quá trình thực hiện, em được khuyến khích tự tìm hiểu và kiểm chứng bằng thực hành. Những lần trao đổi với mentor và các bạn giúp em nhận ra nhiều điểm còn thiếu, đặc biệt ở phần kiến trúc, bảo mật, giám sát và cách trình bày tài liệu. Em thấy cách hỗ trợ hiệu quả nhất là gợi ý tài liệu chính thức và hướng kiểm tra để em tự tìm câu trả lời, thay vì đưa sẵn đáp án.
+Không gian làm việc thoải mái và tinh thần học hỏi của mọi người cũng tạo động lực để em tập trung hơn vào mục tiêu của dự án. Tuy nhiên, em nghĩ chương trình có thể sắp xếp lịch làm việc trực tiếp cố định hơn cho từng nhóm. Khi các thành viên có thể gặp nhau thường xuyên, việc làm quen, trao đổi và xử lý các vấn đề tích hợp sẽ thuận lợi hơn so với chỉ liên lạc trực tuyến.
 
-### Sự hỗ trợ của mentor và nhóm
+**2. Sự hỗ trợ của mentor và team admin**
 
-Các lần rà soát giúp nhóm điều chỉnh phạm vi, sửa những mô tả chưa chính xác và bổ sung minh chứng cho workshop. Nhóm phân chia công việc theo hạ tầng, backend, frontend, phần cứng và tài liệu, sau đó cùng kiểm tra ở các điểm tích hợp. Nhờ vậy, mỗi thành viên biết rõ phần việc được giao hơn. Tuy nhiên, em nghĩ nhóm vẫn nên cập nhật tiến độ thường xuyên hơn để phát hiện sớm các vấn đề khi ghép các thành phần lại với nhau.
+Điều em trân trọng nhất là sự tận tâm của các mentor và team admin. Vào những giai đoạn sát deadline, nhóm vẫn nhận được phản hồi để kịp thời điều chỉnh kiến trúc, bổ sung minh chứng và sửa những nội dung chưa chính xác trong workshop. Bên cạnh việc hỗ trợ xử lý vấn đề, các anh còn chia sẻ kinh nghiệm thực tế và chỉ ra những rủi ro mà một người mới làm AWS thường dễ bỏ qua.
 
-### Mức độ phù hợp với chuyên ngành
+Em đặc biệt thích cách mentor hướng dẫn nhóm tìm câu trả lời. Thay vì đưa ra đáp án hoàn chỉnh, các anh thường gợi ý tài liệu chính thức, đặt thêm câu hỏi và yêu cầu nhóm tự kiểm chứng. Cách hướng dẫn này đôi khi khiến em mất nhiều thời gian hơn lúc đầu, nhưng giúp em hiểu rõ nguyên nhân của lỗi và nhớ lâu hơn sau khi tự giải quyết được vấn đề.
 
-Dự án khá phù hợp với chuyên ngành của em vì vẫn sử dụng kiến thức lập trình, cơ sở dữ liệu và mạng máy tính đã học. Khi đưa hệ thống lên AWS, em còn phải tìm hiểu thêm về security group, IAM, health check, sao lưu, tính sẵn sàng, giám sát, chi phí và tài liệu bàn giao. Qua đó, em hiểu rõ hơn sự khác nhau giữa một bài chạy thử trên máy cá nhân và một hệ thống có thể được người khác kiểm tra, vận hành.
+**3. Sự phù hợp với chuyên ngành**
 
-### Kỹ năng đã phát triển
+Dự án khá phù hợp với chuyên ngành của em vì sử dụng kiến thức về lập trình, cơ sở dữ liệu, mạng máy tính và hệ thống nhúng. Trước đây, phần lớn sản phẩm em thực hiện chỉ chạy trên máy cá nhân. Với dự án này, em phải suy nghĩ thêm về cách triển khai cho người dùng, bảo mật luồng truy cập, tính ổn định, giám sát, sao lưu và khả năng bàn giao cho người khác vận hành.
 
-- Em biết cách thiết kế và giải thích kiến trúc AWS với luồng truy cập và ranh giới bảo mật rõ ràng hơn.
-- Em có thể kiểm tra luồng IoT từ lúc nhận telemetry, lưu vào cơ sở dữ liệu đến khi hiển thị trên dashboard.
-- Em hiểu cách phần cứng lấy lệnh, thực thi và gửi xác nhận để backend cập nhật trạng thái.
-- Em biết sử dụng metric và log để tìm hiểu hoạt động của hệ thống thay vì chỉ nhìn kết quả trên giao diện.
-- Em cải thiện kỹ năng phối hợp nhóm thông qua việc phân chia trách nhiệm và kiểm tra tại các mốc tích hợp.
-- Em học được cách viết workshop kỹ thuật, phân biệt rõ nội dung đã triển khai, kết quả quan sát được và hướng cải tiến.
+Quá trình làm việc với AWS giúp em củng cố kiến thức lập trình và cơ sở dữ liệu, đồng thời tiếp cận gần hơn với Cloud, DevOps và vận hành hệ thống. Em cũng bớt e ngại khi phải làm việc với một kiến trúc có nhiều thành phần, vì đã hiểu cách chia nhỏ vấn đề và kiểm tra từng lớp của hệ thống.
 
-### Đề xuất cải thiện
+**4. Cơ hội học hỏi và phát triển kỹ năng**
 
-- Theo em, nên có lịch rà soát cố định hằng tuần để các nhóm dễ sắp xếp và theo dõi tiến độ.
-- Tiêu chí đánh giá và checklist minh chứng nên được chia sẻ sớm để nhóm chuẩn bị đúng ngay từ đầu.
-- Trước những thay đổi hạ tầng lớn, nhóm nên dành thời gian rà lại kiến trúc, bảo mật và chi phí AWS.
-- Nên có một buổi chạy thử tích hợp riêng trước hạn hoàn thiện tài liệu để tránh sửa gấp vào những ngày cuối.
-- Nhóm có thể dùng một mẫu cập nhật ngắn gồm tiến độ, khó khăn, quyết định kỹ thuật và thay đổi mới nhất.
+Ngoài kiến thức kỹ thuật, em còn học được cách làm việc với những thành viên có thế mạnh khác nhau. Nhóm phân chia công việc theo backend, frontend, hạ tầng AWS, phần cứng và tài liệu, sau đó phối hợp tại các điểm tích hợp. Qua những lần ghép hệ thống và xử lý lỗi, em nhận ra việc cập nhật tiến độ, thống nhất dữ liệu và ghi lại thay đổi cũng quan trọng không kém việc hoàn thành phần code của từng người.
 
-### Điều đọng lại
+Em cũng có cơ hội lắng nghe những chia sẻ về kinh nghiệm làm việc, cách sử dụng AI và định hướng phát triển nghề nghiệp. Những nội dung này giúp em nhìn rõ hơn các kỹ năng còn thiếu và có thêm định hướng để tiếp tục học về hạ tầng cloud, DevOps và IoT.
 
-Điều em học được nhiều nhất là cách kết nối nhiều lớp kỹ thuật và dùng minh chứng cụ thể để xác nhận chúng đang hoạt động cùng nhau. Em cũng hiểu rằng một nguyên mẫu chạy thành công vẫn cần trình bày trung thực các giới hạn, chẳng hạn kết nối HTTP đến origin, WAF mới ở chế độ giám sát, cơ chế xác thực còn đơn giản và kịch bản failover chưa được thử nghiệm thực tế. Những kinh nghiệm này giúp em có định hướng rõ hơn để tiếp tục học về hạ tầng cloud, DevOps và hệ thống IoT.
+**5. Tinh thần cộng đồng và đồng đội**
+
+Tinh thần em cảm nhận rõ nhất trong cộng đồng FCAJ là sự sẵn sàng chia sẻ. Khi một thành viên gặp khó khăn, những người đã hoàn thành phần việc hoặc có kinh nghiệm hơn thường chủ động hỗ trợ. Trong giai đoạn gần deadline, mọi người cùng rà soát, góp ý và giúp nhau hoàn thiện sản phẩm thay vì chỉ tập trung vào phần việc cá nhân.
+
+Nhờ môi trường đó, em có thể hòa nhập với nhóm và tự tin trao đổi hơn. Em cũng hiểu rằng làm việc nhóm không chỉ là phân chia nhiệm vụ, mà còn là chủ động báo cáo khó khăn, hỗ trợ các điểm tích hợp và cùng chịu trách nhiệm cho kết quả cuối cùng.
+
+---
+
+### Điều em hài lòng nhất
+
+Điều em hài lòng nhất trong quá trình tham gia chương trình là tinh thần học hỏi và chia sẻ của cộng đồng FCAJ. Mọi người sẵn sàng chia sẻ trong phạm vi kiến thức và kinh nghiệm hiện có, đồng thời khuyến khích các bạn tự nghiên cứu để tiến bộ. Đối với em, FCAJ không chỉ là nơi hoàn thành một dự án thực tập mà còn là môi trường giúp em học cách làm việc nghiêm túc, biết đặt câu hỏi và chủ động hỗ trợ những người cùng nhóm.
+
+### Đề xuất của em
+
+- Có lịch làm việc hoặc lịch rà soát cố định để các thành viên dễ sắp xếp thời gian gặp trực tiếp.
+- Chia sẻ tiêu chí đánh giá và checklist minh chứng sớm để nhóm chuẩn bị đúng ngay từ đầu.
+- Có một buổi kiểm tra tích hợp trước hạn nộp để nhóm kịp xử lý các lỗi giữa backend, frontend, hạ tầng và phần cứng.
+- Duy trì cách mentor định hướng bằng câu hỏi và tài liệu chính thức, đồng thời có thêm các mốc ngắn để kiểm tra tiến độ của từng nhóm.
